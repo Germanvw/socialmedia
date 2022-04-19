@@ -1,0 +1,35 @@
+:root {
+  --text: #000;
+  --text-white: #fff;
+  --text-grey: #a5a3a9;
+  --text-blue: #4d77ff;
+
+  // Background
+  --bg-primary: #f9f9f9;
+  --bg-secondary: #ffffff;
+
+  // Button
+  --btn-bg-primary: var(--text-blue);
+  --btn-bg-secondary: var(--text-white);
+  --btn-primary: var(--text-white);
+  --btn-secondary: var(--text);
+}
+
+:root [data-theme="dark"] {
+  // Background
+  --bg-primary: #f9f9f9;
+  --bg-secondary: #ffffff;
+
+  // Button
+  --btn-bg-primary: #4d77ff;
+  --btn-bg-secondary: #ffffff;
+  --btn-primary: #ffffff;
+  --btn-secondary: #000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito Sans", sans-serif;
+}

@@ -1,0 +1,93 @@
+.main-site {
+  background: var(--bg-secondary);
+  .sidebar {
+    height: 100vh;
+    padding: 2.5em;
+  }
+  .body {
+    background: var(--bg-primary);
+  }
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .profile-info-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+    .username {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--text);
+    }
+    .adress {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-grey);
+    }
+  }
+  .profile-info-meta {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 1.5em 0em;
+    .meta-counter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      p {
+        font-size: 1.1em;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .label {
+        font-size: 0.8em;
+        font-weight: 600;
+        color: var(--text-grey);
+      }
+    }
+  }
+}
+.navigation-sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 2.5em 0;
+  .navigation-item {
+    padding: 0.5em;
+    a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+    svg {
+      margin-right: 1em;
+    }
+    .active {
+      color: var(--text-blue);
+      svg {
+        margin-right: 1.5em;
+        path {
+          fill: var(--text-blue);
+        }
+      }
+    }
+  }
+}
+
+.contacts-sidebar {
+  .header {
+    margin-bottom: 1em;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+}
