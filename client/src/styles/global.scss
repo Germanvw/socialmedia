@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito Sans", sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.link-view-all {
+  margin: 0.5em 0;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  color: var(--text-blue);
+  &:hover {
+    color: var(--text-grey);
+  }
+}

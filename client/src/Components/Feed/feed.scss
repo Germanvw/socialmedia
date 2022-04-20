@@ -1,0 +1,50 @@
+.feed-list {
+}
+
+.feed-item {
+  border-radius: 1em;
+  background: var(--bg-secondary);
+  padding: 1em;
+  margin: 1em 0;
+  .post-text {
+    font-weight: 400;
+    color: var(--text-2);
+  }
+  .hashtags {
+    display: flex;
+    flex-direction: row;
+    padding: 1em 0;
+    p {
+      color: var(--text-blue);
+      margin-right: 0.4rem;
+    }
+  }
+  .post-meta {
+    display: flex;
+    flex-direction: row;
+    .labels {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      .label {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        margin: 0 0.3em;
+        span {
+          padding-left: 0.5em;
+          display: flex;
+          align-items: center;
+          color: var(--text-grey3);
+        }
+      }
+    }
+  }
+}
+
+.bold {
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--text);
+}

@@ -1,7 +1,10 @@
 :root {
   --text: #000;
+  --text-2: #4a4754;
   --text-white: #fff;
   --text-grey: #a5a3a9;
+  --text-grey2: #e8e8ea;
+  --text-grey3: #4a494b;
   --text-blue: #4d77ff;
 
   // Background
@@ -25,11 +28,4 @@
   --btn-bg-secondary: #ffffff;
   --btn-primary: #ffffff;
   --btn-secondary: #000;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Nunito Sans", sans-serif;
 }

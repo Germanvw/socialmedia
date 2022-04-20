@@ -1,13 +1,13 @@
-import { NavigationSidebar } from "./NavigationSidebar";
+import { SideMenu } from "./SideMenu";
 import { ProfileInfo } from "./ProfileInfo";
-import { ContactList } from "../../Contacts/ContactList";
-import "./../styles.scss";
+import { ContactList } from "../../Contacts/Contact/ContactList";
 import { UserDataProps } from "../../../constants/users";
+import "./../styles.scss";
 
 export const Sidebar = ({ userData }: { userData: UserDataProps }) => (
   <div className="sidebar">
     <ProfileInfo userData={userData} />
-    <NavigationSidebar />
+    <SideMenu />
     <ContactList />
   </div>
 );

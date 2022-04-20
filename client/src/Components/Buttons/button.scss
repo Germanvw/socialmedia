@@ -1,10 +1,13 @@
 button {
   cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  border: none;
 }
 
 .btn-chat {
   background: none;
-  border: none;
   svg {
     height: 1.2em;
   }
@@ -13,4 +16,13 @@ button {
       height: 1.5em;
     }
   }
+}
+
+.btn-create-post {
+  color: var(--text-white);
+  background: linear-gradient(254.81deg, #1a50ff 8.13%, #d96ff8 92.46%);
+  padding: 0.5em 1em;
+  font-size: 0.9rem;
+  border-radius: 1em;
+  max-width: 13em;
 }

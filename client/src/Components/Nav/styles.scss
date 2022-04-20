@@ -1,7 +1,7 @@
 .main-site {
   background: var(--bg-secondary);
   .sidebar {
-    height: 100vh;
+    min-height: 100vh;
     padding: 2.5em;
   }
   .body {
@@ -89,5 +89,25 @@
     margin-bottom: 1em;
     font-weight: 700;
     font-size: 1rem;
+  }
+}
+
+.navigation-user {
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  border-radius: 1.1em;
+  border: 1px solid var(--text-grey2);
+  svg {
+    margin: 1em 1em;
+  }
+  input {
+    padding: 1em 0.7em;
+    border: none;
+    outline: none;
+    margin-right: 1em;
+    height: 2em;
+    width: 100%;
+    color: var(--text-grey3);
   }
 }

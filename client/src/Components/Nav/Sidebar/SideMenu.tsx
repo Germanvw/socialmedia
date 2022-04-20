@@ -122,7 +122,7 @@ const navigationOptions = [
     ),
   },
 ];
-export const NavigationSidebar = () => {
+export const SideMenu = () => {
   return (
     <div className="navigation-sidebar">
       {navigationOptions.map(({ link, name, svg }, index) => (
