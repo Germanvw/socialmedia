@@ -1,6 +1,6 @@
 import './button.scss';
 
-export const FriendRequestButton = ({ uid }: { uid: string }) => {
+export const FriendRequestButton = ({ id }: { id: string }) => {
   const handleFriendRequest = () => {};
   return (
     <button className='btn-chat' onClick={handleFriendRequest}>

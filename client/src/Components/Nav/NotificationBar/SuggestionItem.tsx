@@ -1,14 +1,15 @@
-import { FriendRequestButton } from "../../Buttons/FriendRequestButton";
-import { TUserProp } from "../../Contacts/Contact/ContactItem";
-import { UserHeader } from "../../Contacts/UserHeader";
+import { FriendRequestButton } from '../../Buttons/FriendRequestButton';
+import { UserHeader } from '../../Contacts/UserHeader';
+import { FriendItemProps } from '../../../Interfaces/UserInterfaces';
 
-import "../../Contacts/contact.scss";
+import '../../Contacts/contact.scss';
 
-export const SuggestionItem = ({ contact }: { contact: TUserProp }) => {
+export const SuggestionItem = ({ user }: { user: FriendItemProps }) => {
+  const locationLabel = user.province + user.country.code;
   return (
-    <div className="contact-item">
-      <UserHeader user={contact} label={contact.adress} />
-      <FriendRequestButton uid={contact.uid} />
+    <div className='contact-item'>
+      <UserHeader user={user} label={locationLabel} />
+      <FriendRequestButton id={user.id.toString()} />
     </div>
   );
 };

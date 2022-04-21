@@ -1,4 +1,4 @@
-import { Homepage } from "../Pages/Homepage";
+import { Homepage } from '../Pages/Homepage';
 import {
   Login,
   Register,
@@ -7,7 +7,7 @@ import {
   Chat,
   Favorites,
   Settings,
-} from "../Pages";
+} from '../Pages';
 interface Route {
   path: string;
   name: string;
@@ -20,51 +20,44 @@ export interface uidProps {
   isAuth?: boolean;
 }
 
-export const publicRoutes: Route[] = [
-  {
-    name: "Homepage",
-    path: "/",
-    Component: Homepage,
-  },
-];
-
 export const tokenRoutes: Route[] = [
   {
-    name: "Profile",
-    path: "/profile",
+    name: 'Profile',
+    path: '/profile',
     Component: Profile,
   },
   {
-    name: "Favorites",
-    path: "/favorites",
+    name: 'Favorites',
+    path: '/favorites',
     Component: Favorites,
   },
   {
-    name: "Chat",
-    path: "/chat",
+    name: 'Chat',
+    path: '/chat',
     Component: Chat,
   },
   {
-    name: "Settings",
-    path: "/settings",
+    name: 'Settings',
+    path: '/settings',
     Component: Settings,
   },
+  { name: 'Homepage', path: '/', Component: Homepage },
 ];
 
 export const noTokenRoutes: Route[] = [
   {
-    name: "Login",
-    path: "/login",
+    name: 'Login',
+    path: '/login',
     Component: Login,
   },
   {
-    name: "Register",
-    path: "/register",
+    name: 'Register',
+    path: '/register',
     Component: Register,
   },
   {
-    name: "Restore Password",
-    path: "/restore-password",
+    name: 'Restore Password',
+    path: '/restore-password',
     Component: RestorePassword,
   },
 ];

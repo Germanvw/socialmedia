@@ -1,11 +1,14 @@
 import { Request, Response } from 'express';
-import { queryFetchUserAll, queryFetchUserSingle } from './querys';
+import {
+  queryFetchUserAllWithoutPassword,
+  queryFetchUserSingle,
+} from './querys';
 
 const con = require('../db/db');
 
 export const fetchUserAll = (_: Request, res: Response) => {
   try {
-    con.query(queryFetchUserAll, (err: any, results: any) => {
+    con.query(queryFetchUserAllWithoutPassword, (err: any, results: any) => {
       if (results) {
         return res.status(200).json({ ok: true, users: results });
       } else {

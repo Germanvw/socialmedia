@@ -22,7 +22,6 @@ const login = async (user: { email: string; password: string }) => {
 };
 
 const refreshToken = async () => {
-  console.log('executed');
   const req = await fetchToken(`auth`, {});
   const answ = await req.json();
   if (answ.ok) {

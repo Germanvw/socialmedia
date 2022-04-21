@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { PrivateRoutes } from './PrivateRoutes';
 import { PublicRoutes } from './PublicRoutes';
-import { noTokenRoutes, publicRoutes, tokenRoutes } from './routes';
+import { noTokenRoutes, tokenRoutes } from './routes';
 import { useAppSelector, useAppDispatch } from '../Hooks/useRedux';
 import { useEffect } from 'react';
 import { startRefreshToken } from '../Redux/Slices/authSlice';
@@ -29,9 +29,6 @@ export const AppRouter = () => {
               <Route key={path} path={path} element={<Component />} />
             ))}
           </Route>
-          {publicRoutes.map(({ Component, path }) => (
-            <Route key={path} path={path} element={<Component />} />
-          ))}
         </Routes>
       </div>
     </BrowserRouter>

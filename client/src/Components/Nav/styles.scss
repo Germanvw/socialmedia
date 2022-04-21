@@ -23,22 +23,37 @@
       height: 80px;
       border-radius: 50%;
     }
+    a {
+      margin: 0em;
+    }
     .username {
+      margin-top: 0.5em;
       font-size: 1.2rem;
       font-weight: bold;
       color: var(--text);
     }
-    .adress {
+    .adress,
+    .username-profile {
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-grey);
+    }
+    .username-profile {
+      font-size: 1em;
+      margin-bottom: 0.3em;
+    }
+    .center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
   }
   .profile-info-meta {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    margin: 1.5em 0em;
+    margin: 1em 0em;
     .meta-counter {
       display: flex;
       flex-direction: column;

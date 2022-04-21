@@ -1,13 +1,12 @@
 import { SideMenu } from './SideMenu';
-import { SidebarHeader } from './SidebarHeader';
 import { ContactList } from '../../Contacts/Contact/ContactList';
-import { UserDataProps } from '../../../constants/users';
+import { SidebarHeader } from './SidebarHeader';
 import '../styles.scss';
 
-export function Sidebar({ userData }: { userData: UserDataProps }) {
+export function Sidebar() {
   return (
     <div className='sidebar'>
-      <SidebarHeader userData={userData} />
+      <SidebarHeader />
       <SideMenu />
       <ContactList />
     </div>

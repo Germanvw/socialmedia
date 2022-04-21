@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { RegisterUser } from '../../Interfaces/UserInterfaces';
 import { authServices } from '../Services/authServices';
-
 const initialState = {
   loading: false,
   refreshing: true,
@@ -9,45 +8,9 @@ const initialState = {
   user: null,
 };
 
-export const startRegister = createAsyncThunk(
-  'auth/register',
-  async (user: RegisterUser, thunkAPI) => {
-    try {
-      return await authServices.register(user);
-    } catch (err: any) {
-      const message = err.toString().split(':')[1];
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-export const startLogin = createAsyncThunk(
-  'auth/login',
-  async (user: { email: string; password: string }, thunkAPI) => {
-    try {
-      return await authServices.login(user);
-    } catch (err: any) {
-      const message = err.toString().split(':')[1];
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-export const startRefreshToken = createAsyncThunk(
-  'auth/refreshToken',
-  async (_, thunkAPI) => {
-    try {
-      return await authServices.refreshToken();
-    } catch (err: any) {
-      const message = err.toString().split(':')[1];
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: 'auth',
-  initialState: initialState,
+  initialState,
   reducers: {
     logout: (state) => {
       state.loading = false;
@@ -96,6 +59,39 @@ const authSlice = createSlice({
       );
   },
 });
+export const startRegister = createAsyncThunk(
+  'auth/register',
+  async (user: RegisterUser, thunkAPI) => {
+    try {
+      return await authServices.register(user);
+    } catch (err: any) {
+      const message = err.toString().split(': ')[1];
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
+export const startLogin = createAsyncThunk(
+  'auth/login',
+  async (user: { email: string; password: string }, thunkAPI) => {
+    try {
+      return await authServices.login(user);
+    } catch (err: any) {
+      const message = err.toString().split(': ')[1];
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const startRefreshToken = createAsyncThunk(
+  'auth/refreshToken',
+  async (_, thunkAPI) => {
+    try {
+      return await authServices.refreshToken();
+    } catch (err: any) {
+      const message = err.toString().split(': ')[1];
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 export const authActions = authSlice.actions;
-export default authSlice;

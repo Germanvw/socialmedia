@@ -1,25 +1,17 @@
+import { FriendItemProps } from '../../../Interfaces/UserInterfaces';
 import { ChatButton } from '../../Buttons/ChatButton';
 import { UserHeader } from '../UserHeader';
 
 import './../contact.scss';
 
-export type TUserProp = {
-  uid: string;
-  name: string;
-  username: string;
-  image: string;
-  adress: string;
-  data: {
-    posts: number;
-    followers: number;
-    following: number;
-  };
-};
-export const ContactItem = ({ contact }: { contact: TUserProp }) => {
+export const ContactItem = ({ friend }: { friend: FriendItemProps }) => {
   return (
     <div className='contact-item'>
-      <UserHeader user={contact} label={contact.adress} />
-      <ChatButton uid={contact.uid} />
+      <UserHeader
+        user={friend}
+        label={`${friend.province}, ${friend.country.code}`}
+      />
+      <ChatButton id={friend.id.toString()} />
     </div>
   );
 };

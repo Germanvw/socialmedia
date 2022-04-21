@@ -26,6 +26,20 @@ interface MetaDataProps {
   friends: number;
 }
 
+export interface FriendItemProps {
+  id: number;
+  username: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  image: string;
+  age: number;
+  province: string;
+  metaData: MetaDataProps;
+  country: CountryProps;
+  gender: GenderProps;
+}
+
 export interface UserDataProps {
   id: number;
   username: string;
@@ -40,6 +54,8 @@ export interface UserDataProps {
   gender: GenderProps;
   active: ActiveProps;
 }
+
+export interface FriendItemProps extends Omit<UserDataProps, 'active'> {}
 
 export interface RegisterUser {
   username: string;
