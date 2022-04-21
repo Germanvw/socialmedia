@@ -3,11 +3,7 @@ const baseUrl = process.env.REACT_APP_API;
 export const fetchNoToken = (endpoint: string, data: any, method = 'GET') => {
   const url = `${baseUrl}/${endpoint}`;
   if (method === 'GET') {
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        return data;
-      });
+    return fetch(url);
   } else {
     return fetch(url, {
       method,

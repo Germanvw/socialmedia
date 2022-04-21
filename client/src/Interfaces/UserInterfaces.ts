@@ -1,3 +1,7 @@
+export interface UserPropRoute {
+  user: UserDataProps | null;
+}
+
 interface CountryProps {
   id: number;
   name: string;
@@ -35,4 +39,16 @@ export interface UserDataProps {
   country: CountryProps;
   gender: GenderProps;
   active: ActiveProps;
+}
+
+export interface RegisterUser {
+  username: string;
+  email: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  age: number;
+  province: string;
+  country: number;
+  gender: number;
 }

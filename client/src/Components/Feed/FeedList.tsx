@@ -1,4 +1,4 @@
-import { FeedItem } from './FeedItem';
+// import { FeedItem } from './FeedItem';
 import './feed.scss';
 
 export const FeedList = () => {

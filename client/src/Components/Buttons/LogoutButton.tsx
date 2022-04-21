@@ -1,11 +1,11 @@
-import { useDispatch } from 'react-redux';
-import { actions } from '../../Redux';
+import { useAppDispatch } from '../../Hooks/useRedux';
+import { authActions } from '../../Redux/Slices/authSlice';
 
 export const LogoutButton = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleLogout = () => {
-    dispatch(actions.authLogout());
+    dispatch(authActions.logout());
   };
 
   return (

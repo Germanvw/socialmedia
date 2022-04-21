@@ -7,17 +7,16 @@ export const validJWT = (req: any, res: Response, next: NextFunction) => {
   const token = req.header('x-token');
   if (!token) {
     return res.status(401).json({
-      status: false,
+      ok: false,
     });
   }
-
   try {
     const { user } = jwt.verify(token, process.env.PRIVATE_KEY);
     // Save user to req.user
     req.user = user;
   } catch (err) {
     return res.status(401).json({
-      status: false,
+      ok: false,
       msg: 'Invalid token',
     });
   }

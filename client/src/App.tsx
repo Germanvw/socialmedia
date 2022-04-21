@@ -1,6 +1,6 @@
 import { AppRouter } from './Router/AppRouter';
 import { Provider } from 'react-redux';
-import store from './Redux/index';
+import { store } from './Redux/index';
 
 import './styles/variables.scss';
 import './styles/global.scss';

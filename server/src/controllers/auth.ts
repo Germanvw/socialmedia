@@ -25,9 +25,11 @@ export const authLogin = (req: any, res: Response) => {
             // Create JWT
             const token = await createJWT(userFound);
 
-            return res
-              .status(200)
-              .json({ ok: true, user: { ...userFound }, token });
+            return res.status(200).json({
+              ok: true,
+              user: { ...userFound },
+              token,
+            });
           } else {
             return res
               .status(400)
@@ -49,8 +51,8 @@ export const authRegister = (req: any, res: Response) => {
   const {
     username,
     email,
-    password,
     firstname,
+    password,
     lastname,
     age,
     country,
@@ -94,6 +96,16 @@ export const authRegister = (req: any, res: Response) => {
       }
     });
   } catch (error) {
+    return res.status(500).json({ ok: false, msg: 'Error on request' });
+  }
+};
+
+export const renewToken = async (req: any, res: any) => {
+  const { user } = req;
+  try {
+    const token = await createJWT(user);
+    return res.json({ ok: true, user, token });
+  } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }
 };
