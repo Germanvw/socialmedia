@@ -1,4 +1,4 @@
-import { UserDataProps } from './users';
+import { UserDataProps } from './UserInterfaces';
 
 interface PostCommentProps {
   id: number;
@@ -13,7 +13,7 @@ interface PostLikeProps {
   user_id: number;
 }
 
-interface PostProps {
+export interface PostProps {
   id: number;
   text: string;
   image?: string;

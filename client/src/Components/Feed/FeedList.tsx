@@ -1,14 +1,13 @@
-import { feedList } from "../../constants/feeds";
-import "./feed.scss";
-import { FeedItem } from "./FeedItem";
+import { FeedItem } from './FeedItem';
+import './feed.scss';
 
 export const FeedList = () => {
   return (
-    <div className="feed-list">
+    <div className='feed-list'>
       <h1>Feeds</h1>
-      {feedList.map((feed) => (
+      {/* {feedList.map((feed: any) => (
         <FeedItem key={feed.id} feed={feed} />
-      ))}
+      ))} */}
     </div>
   );
 };

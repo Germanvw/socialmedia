@@ -1,12 +1,12 @@
-import { NotificationBar } from "../../Components/Nav/NotificationBar/NotificationBar";
-import { Sidebar } from "../../Components/Nav/Sidebar/Sidebar";
-import { userData } from "../../constants/users";
+import { NotificationBar } from '../../Components/Nav/NotificationBar/NotificationBar';
+import { Sidebar } from '../../Components/Nav/Sidebar/Sidebar';
+import { userData } from '../../constants/users';
 
 export const Profile = () => {
   return (
-    <div className="main-site">
+    <div className='main-site'>
       <Sidebar userData={userData} />
-      <div className="body">profile</div>
+      <div className='body'>profile</div>
       <NotificationBar />
     </div>
   );

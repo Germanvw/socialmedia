@@ -26,3 +26,23 @@ button {
   border-radius: 1em;
   max-width: 13em;
 }
+
+.btn-logout {
+  margin: 0.3em;
+  background: none;
+  width: 100px;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  svg {
+    margin-right: 1em;
+  }
+  &:hover {
+    background: var(--text-blue);
+    color: var(--text-white);
+    svg {
+      path {
+        fill: var(--text-white);
+      }
+    }
+  }
+}

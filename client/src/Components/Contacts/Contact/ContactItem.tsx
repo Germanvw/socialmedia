@@ -1,7 +1,7 @@
-import { ChatButton } from "../../Buttons/ChatButton";
-import { UserHeader } from "../UserHeader";
+import { ChatButton } from '../../Buttons/ChatButton';
+import { UserHeader } from '../UserHeader';
 
-import "./../contact.scss";
+import './../contact.scss';
 
 export type TUserProp = {
   uid: string;
@@ -17,7 +17,7 @@ export type TUserProp = {
 };
 export const ContactItem = ({ contact }: { contact: TUserProp }) => {
   return (
-    <div className="contact-item">
+    <div className='contact-item'>
       <UserHeader user={contact} label={contact.adress} />
       <ChatButton uid={contact.uid} />
     </div>
