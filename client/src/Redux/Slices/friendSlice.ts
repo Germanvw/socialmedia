@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { fetchNoToken, fetchToken } from '../../Hooks/useFetch';
+import { fetchNoToken } from '../../Hooks/useFetch';
 import { friendServices } from '../Services/friendServices';
 
 const initialState = {
@@ -41,17 +41,16 @@ export const friendSlice = createSlice({
       .addMatcher(
         isAnyOf(startAddFriend.fulfilled),
         (state: any, action: any) => {
-          console.log(action);
           state.loading = false;
-          state.friendRequestList = state.friendRequestList.filter(
-            (object: any) => object.user.id !== action.payload.user.id
-          );
           state.friendList.push({ user: action.payload.user });
         }
       )
       .addMatcher(
         isAnyOf(startFriendRequestResponse.fulfilled),
         (state: any, action: any) => {
+          state.friendRequestList = state.friendRequestList.filter(
+            (object: any) => object.user.id !== action.payload.friend
+          );
           state.loading = false;
         }
       )
@@ -86,7 +85,9 @@ export const startFriendRequestResponse = createAsyncThunk(
   async (response: { id: number; response: number }, thunkAPI) => {
     try {
       const answ = await friendServices.friendRequestResponse(response);
-      thunkAPI.dispatch(startAddFriend(answ.friend));
+      if (answ.response === 1) {
+        thunkAPI.dispatch(startAddFriend(answ.friend));
+      }
       return answ;
     } catch (err: any) {
       const message = err.toString().split(': ')[1];

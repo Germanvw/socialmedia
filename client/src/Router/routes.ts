@@ -8,6 +8,8 @@ import {
   Favorites,
   Settings,
 } from '../Pages';
+import { ProfileId } from '../Pages/Private/ProfileId';
+import { Post } from '../Pages/Private/Post';
 interface Route {
   path: string;
   name: string;
@@ -22,9 +24,19 @@ export interface uidProps {
 
 export const tokenRoutes: Route[] = [
   {
+    name: 'Post',
+    path: '/post/:id',
+    Component: Post,
+  },
+  {
     name: 'Profile',
     path: '/profile',
     Component: Profile,
+  },
+  {
+    name: 'Profile',
+    path: '/profile/:id',
+    Component: ProfileId,
   },
   {
     name: 'Favorites',

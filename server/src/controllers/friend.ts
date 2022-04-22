@@ -83,7 +83,6 @@ export const responseFriendRequest = (req: any, res: Response) => {
                       ? 'Friend Request Accepted'
                       : 'Friend Request Rejected';
                   // Add friend
-                  console.log(answ);
                   return res
                     .status(200)
                     .json({ ok: true, msg, response, friend: answ.id });
@@ -169,7 +168,6 @@ export const removeFriend = (req: any, res: Response) => {
   const { id } = req.user;
   const { user2 } = req.body;
   try {
-    console.log(queryRemoveFriend, [id, user2, user2, id]);
     con.query(
       queryRemoveFriend,
       [id, user2, user2, id],

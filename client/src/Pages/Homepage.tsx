@@ -9,14 +9,17 @@ import {
   startFetchFriends,
 } from '../Redux/Slices/friendSlice';
 import { useAppDispatch, useAppSelector } from '../Hooks/useRedux';
+import { startFetchAllPosts } from '../Redux/Slices/postSlice';
 import './homepage.scss';
 
 export const Homepage = () => {
+  const { postList } = useAppSelector((state) => state.posts);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(startFetchFriends());
     dispatch(startFetchFriendRequest());
+    dispatch(startFetchAllPosts());
   }, [dispatch]);
 
   return (
@@ -29,7 +32,7 @@ export const Homepage = () => {
             <CreatePost />
           </div>
         </div>
-        <FeedList />
+        <FeedList posts={postList} />
       </div>
       <NotificationBar />
     </div>

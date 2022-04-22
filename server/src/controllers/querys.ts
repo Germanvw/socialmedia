@@ -46,3 +46,13 @@ export const queryAddFriend: string =
 
 export const queryRemoveFriend: string =
   'UPDATE FRIEND_LIST AS FL SET FL.active = 0 WHERE ((FL.user1 = (?) and FL.user2 = (?)) or (FL.user1= (?) and FL.user2= (?)))';
+
+// posts
+export const queryFetchAllPosts: string =
+  "SELECT P.id, P.text, P.image,P.likes,P.comments, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 ORDER BY p.created_at DESC";
+
+export const queryFetchAllPostsByUser: string =
+  "SELECT P.id, P.text, P.image,P.comments,P.likes, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 AND P.user = (?) ORDER BY p.created_at DESC";
+
+export const queryFetchPostById: string =
+  "SELECT P.id, P.text, P.image,P.likes,P.comments, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 AND P.id = (?) ORDER BY p.created_at DESC";

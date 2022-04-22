@@ -15,20 +15,25 @@ export const FriendRequestItem = ({
 }) => {
   const { id } = requestData;
   const dispatch = useAppDispatch();
-  const handleAcceptFriendRequet = () => {
-    dispatch(startFriendRequestResponse({ id, response: 1 }));
-  };
-  const handleDeclineFriendRequest = () => {
-    // dispatch(startFriendRequestResponse(id,0))
-  };
+
   return (
     <div className='friend-request-item'>
       <UserHeader user={user} label='Friend Request Recived' />
       <div className='buttons'>
-        <button className='btn-text-blue' onClick={handleAcceptFriendRequet}>
+        <button
+          className='btn-text-blue'
+          onClick={() =>
+            dispatch(startFriendRequestResponse({ id, response: 1 }))
+          }
+        >
           Accept
         </button>
-        <button className='btn-text-grey' onClick={handleAcceptFriendRequet}>
+        <button
+          className='btn-text-grey'
+          onClick={() =>
+            dispatch(startFriendRequestResponse({ id, response: 0 }))
+          }
+        >
           Decline
         </button>
       </div>

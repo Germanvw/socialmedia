@@ -3,7 +3,6 @@ import { fetchToken } from '../../Hooks/useFetch';
 const fetchFriendRequest = async () => {
   const req = await fetchToken('friend/req', {});
   const answ = await req.json();
-  console.log(answ);
   if (answ.ok) {
     return answ;
   } else {
@@ -28,7 +27,6 @@ const friendRequestResponse = async (resp: {
   const req = await fetchToken(`friend/req/${id}`, { response }, 'PUT');
   const answ = await req.json();
   if (answ.ok) {
-    console.log(answ);
     return answ;
   } else {
     throw new Error(answ.msg);

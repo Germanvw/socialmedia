@@ -1,0 +1,42 @@
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #e7edfe;
+  .login-container {
+    padding: 2em;
+    background: var(--bg-secondary);
+    .redirect {
+      margin: 1em 0;
+      display: flex;
+      justify-content: flex-end;
+      font-size: 0.8rem;
+      color: var(--text-blue);
+      font-weight: 600;
+    }
+    .submit-form {
+      margin: 1em 0;
+      display: flex;
+      justify-content: center;
+      padding: 0.5em 0;
+      width: 100%;
+      background: var(--text-blue);
+      color: var(--text-white);
+      &:hover {
+        background: rgb(35, 96, 187);
+      }
+    }
+    .error-auth {
+      min-height: 1.2em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      p {
+        font-size: 0.9rem;
+        color: red;
+      }
+    }
+  }
+}
