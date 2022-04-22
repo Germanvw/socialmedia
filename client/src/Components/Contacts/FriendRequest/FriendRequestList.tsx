@@ -3,6 +3,11 @@ import { useAppSelector } from '../../../Hooks/useRedux';
 import { FriendItemProps } from '../../../Interfaces/UserInterfaces';
 import { FriendRequestItem } from './FriendRequestItem';
 
+export interface RequestDataProp {
+  id: number;
+  state: { state: number; name: 'PENDING' | 'ACCEPTED' | 'DECLINED' };
+}
+
 export const FriendRequestList = () => {
   const { friendRequestList } = useAppSelector((state) => state.friend);
 
@@ -17,9 +22,21 @@ export const FriendRequestList = () => {
       </div>
       {friendRequestList
         .slice(0, showAmount)
-        .map(({ user }: { user: FriendItemProps }, index) => (
-          <FriendRequestItem user={user} key={index} />
-        ))}
+        .map(
+          (
+            {
+              user,
+              requestData,
+            }: { user: FriendItemProps; requestData: RequestDataProp },
+            index
+          ) => (
+            <FriendRequestItem
+              user={user}
+              requestData={requestData}
+              key={index}
+            />
+          )
+        )}
       {friendRequestList.length > showAmount && (
         <Link to='#' className='link-view-all'>
           View All

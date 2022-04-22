@@ -26,11 +26,11 @@ export const fetchUserSingle = (req: Request, res: Response) => {
       queryFetchUserSingle,
       [req.params.id],
       (err: any, results: any) => {
-        if (results) {
-          return res.status(400).json({ ok: true, user: results });
+        if (results.length > 0) {
+          return res.status(200).json({ ok: true, user: results[0] });
         } else {
           return res
-            .status(200)
+            .status(400)
             .json({ ok: false, msg: 'User not found.', err });
         }
       }

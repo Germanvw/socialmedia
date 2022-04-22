@@ -6,6 +6,7 @@ import { FriendItemProps } from '../../../Interfaces/UserInterfaces';
 export const ContactList = () => {
   const { friendList } = useAppSelector((state) => state.friend);
   const showAmount = 5;
+  console.log(friendList);
   return (
     <div className='contacts-sidebar'>
       <p className='header'>Contacts</p>

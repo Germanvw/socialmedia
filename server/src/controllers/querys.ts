@@ -35,7 +35,7 @@ export const queryResponseFriendRequest: string =
   'UPDATE FRIEND_REQUEST AS FR SET FR.accepted = (?) WHERE FR.id = (?)';
 
 export const queryFetchFriendRequestReceived: string =
-  "SELECT JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image,'age',U.age,'province',U.province,'country',JSON_OBJECT('id',C.id,'name',C.name,'code',C.code),'gender',JSON_OBJECT('id',G.id,'name',G.name),'metaData',JSON_OBJECT('friends',U.friends,'posts',U.posts,'likes',U.likes)) AS user FROM FRIEND_REQUEST AS FR INNER JOIN USER AS U ON U.id=FR.sender INNER JOIN COUNTRY AS C ON C.id=U.country INNER JOIN GENDER AS G ON G.id=U.GENDER WHERE FR.receiver = (?) AND FR.active = 1";
+  "SELECT JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image,'age',U.age,'province',U.province,'country',JSON_OBJECT('id',C.id,'name',C.name,'code',C.code),'gender',JSON_OBJECT('id',G.id,'name',G.name),'metaData',JSON_OBJECT('friends',U.friends,'posts',U.posts,'likes',U.likes)) AS user, JSON_OBJECT('id',FR.id,'state',JSON_OBJECT('state',FR.accepted,'name',AC.name)) as requestData FROM FRIEND_REQUEST AS FR INNER JOIN USER AS U ON U.id=FR.sender INNER JOIN COUNTRY AS C ON C.id=U.country INNER JOIN GENDER AS G ON G.id=U.GENDER INNER JOIN ACCEPTED AS AC ON AC.id=FR.accepted WHERE FR.receiver = (?) AND FR.active = 1 AND FR.accepted= 2";
 
 // Friend list
 export const queryGetFriendList: string =

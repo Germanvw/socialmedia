@@ -82,7 +82,11 @@ export const responseFriendRequest = (req: any, res: Response) => {
                     response === 1
                       ? 'Friend Request Accepted'
                       : 'Friend Request Rejected';
-                  return res.status(400).json({ ok: true, msg });
+                  // Add friend
+                  console.log(answ);
+                  return res
+                    .status(200)
+                    .json({ ok: true, msg, response, friend: answ.id });
                 } else {
                   return res
                     .status(400)
@@ -116,12 +120,10 @@ export const fetchFriendRequestReceived = (req: any, res: Response) => {
   const { id } = req.user;
   try {
     con.query(queryFetchFriendRequestReceived, [id], (_: any, results: any) => {
-      return res
-        .status(200)
-        .json({
-          ok: true,
-          friendRequestList: results.length > 0 ? results : [],
-        });
+      return res.status(200).json({
+        ok: true,
+        friendRequestList: results.length > 0 ? results : [],
+      });
     });
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
@@ -150,7 +152,9 @@ export const addFriend = (req: any, res: Response) => {
       [id, user2, user2, id],
       (_: any, results: any) => {
         if (results) {
-          return res.status(200).json({ ok: true, msg: 'Friend added' });
+          return res
+            .status(200)
+            .json({ ok: true, msg: 'Friend added', friend: user2 });
         } else {
           return res.status(400).json({ ok: false, msg: 'Error on request' });
         }

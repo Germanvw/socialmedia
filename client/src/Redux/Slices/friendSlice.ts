@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { fetchNoToken, fetchToken } from '../../Hooks/useFetch';
 import { friendServices } from '../Services/friendServices';
 
 const initialState = {
@@ -6,7 +7,6 @@ const initialState = {
   friendList: [],
   friendRequestList: [],
 };
-
 export const friendSlice = createSlice({
   name: 'friend',
   initialState,
@@ -14,7 +14,12 @@ export const friendSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        isAnyOf(startFetchFriends.pending, startFetchFriendRequest.pending),
+        isAnyOf(
+          startAddFriend.pending,
+          startRemoveFriend.pending,
+          startFetchFriends.pending,
+          startFetchFriendRequest.pending
+        ),
         (state: any) => {
           state.loading = true;
         }
@@ -32,6 +37,34 @@ export const friendSlice = createSlice({
           state.friendRequestList = action.payload.friendRequestList;
           state.loading = false;
         }
+      )
+      .addMatcher(
+        isAnyOf(startAddFriend.fulfilled),
+        (state: any, action: any) => {
+          console.log(action);
+          state.loading = false;
+          state.friendRequestList = state.friendRequestList.filter(
+            (object: any) => object.user.id !== action.payload.user.id
+          );
+          state.friendList.push({ user: action.payload.user });
+        }
+      )
+      .addMatcher(
+        isAnyOf(startFriendRequestResponse.fulfilled),
+        (state: any, action: any) => {
+          state.loading = false;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          startFetchFriends.rejected,
+          startFetchFriendRequest.rejected,
+          startAddFriend.rejected,
+          startRemoveFriend.rejected
+        ),
+        (state: any) => {
+          state.loading = false;
+        }
       );
   },
 });
@@ -41,6 +74,46 @@ export const startFetchFriendRequest = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       return await friendServices.fetchFriendRequest();
+    } catch (err: any) {
+      const message = err.toString().split(': ')[1];
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const startFriendRequestResponse = createAsyncThunk(
+  'friend/startFriendRequestResponse',
+  async (response: { id: number; response: number }, thunkAPI) => {
+    try {
+      const answ = await friendServices.friendRequestResponse(response);
+      thunkAPI.dispatch(startAddFriend(answ.friend));
+      return answ;
+    } catch (err: any) {
+      const message = err.toString().split(': ')[1];
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const startAddFriend = createAsyncThunk(
+  'friend/startAddFriend',
+  async (id: number, thunkAPI) => {
+    try {
+      const answ = await friendServices.addFriend(id);
+      const user = await fetchNoToken(`users/${answ.friend}`, {});
+      return await user.json();
+    } catch (err: any) {
+      const message = err.toString().split(': ')[1];
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const startRemoveFriend = createAsyncThunk(
+  'friend/startRemoveFriend',
+  async (id: number, thunkAPI) => {
+    try {
+      // return await friendServices.removeFriend(id);
     } catch (err: any) {
       const message = err.toString().split(': ')[1];
       return thunkAPI.rejectWithValue(message);
