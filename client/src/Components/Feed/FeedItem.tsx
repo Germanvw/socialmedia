@@ -4,7 +4,7 @@ import { UserHeader } from '../Contacts/UserHeader';
 import './feed.scss';
 
 export const FeedItem = ({ feed }: { feed: any }) => {
-  const { id, image, text, likes, comments } = feed;
+  const { id, image, text, likes, comments, created_at } = feed;
   const sliceText = (text: string) => {
     if (text.length >= 197) {
       return (
@@ -30,6 +30,7 @@ export const FeedItem = ({ feed }: { feed: any }) => {
       </div>
       <Link to={`/post/${id}`}>
         <p className='post-text'>{sliceText(text)}</p>
+        <p className='date'>{new Date(created_at).toLocaleDateString()}</p>
       </Link>
       <div className='hashtags'>
         {/* {post.hashtags &&

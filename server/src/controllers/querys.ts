@@ -1,3 +1,5 @@
+import e from 'express';
+
 export const queryFetchUserAllWithoutPassword: string =
   "SELECT U.id, U.username, U.email, U.firstname, U.lastname,U.image,U.age,U.province, JSON_OBJECT('posts',U.posts,'likes',U.likes,'friends',U.friends) as metaData, JSON_OBJECT('id',C.id,'name',C.name,'code',C.code) AS country, JSON_OBJECT('id',G.id,'name',G.name) AS gender, JSON_OBJECT('id',ACT.id,'name',ACT.name) AS active FROM USER AS U INNER JOIN COUNTRY AS C ON C.id=U.country INNER JOIN GENDER AS G ON G.id=U.gender INNER JOIN active as ACT ON ACT.id=U.active WHERE U.ACTIVE = 1";
 
@@ -49,10 +51,27 @@ export const queryRemoveFriend: string =
 
 // posts
 export const queryFetchAllPosts: string =
-  "SELECT P.id, P.text, P.image,P.likes,P.comments, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 ORDER BY p.created_at DESC";
+  "SELECT P.id, P.text, P.image,P.likes,P.comments,P.created_at, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 ORDER BY p.created_at DESC";
 
 export const queryFetchAllPostsByUser: string =
-  "SELECT P.id, P.text, P.image,P.comments,P.likes, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 AND P.user = (?) ORDER BY p.created_at DESC";
+  "SELECT P.id, P.text, P.image,P.comments,P.likes,P.created_at, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 AND P.user = (?) ORDER BY p.created_at DESC";
 
 export const queryFetchPostById: string =
-  "SELECT P.id, P.text, P.image,P.likes,P.comments, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 AND P.id = (?) ORDER BY p.created_at DESC";
+  "SELECT P.id, P.text, P.image,P.likes,P.comments,P.created_at, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM POST AS P INNER JOIN USER AS U ON P.user=U.id WHERE P.active = 1 AND P.id = (?) ORDER BY p.created_at DESC";
+
+export const queryFetchCommentsByPost: string =
+  "SELECT PC.id, PC.post_id, PC.user_id,PC.comment,PC.created_at, JSON_OBJECT('id',U.id,'username',U.username,'firstname',U.firstname,'lastname',U.lastname,'image',U.image) as user FROM post_comment AS PC INNER JOIN USER as U ON U.id = PC.user_id WHERE PC.post_id = 1 ORDER BY PC.created_at DESC;";
+
+export const queryInsertComment: string =
+  'INSERT INTO POST_COMMENT (post_id,user_id,comment) VALUES (?,?,?);';
+
+export const queryGetUserLikeByPost: string =
+  'SELECT * FROM LIKE_COMMENT AS LC WHERE LC.user_id = (?) AND post_id = (?)';
+export const queryGetLikeByPost: string =
+  'SELECT * FROM LIKE_COMMENT AS LC WHERE POST_id = (?) ';
+
+export const queryInsertLikePost: string =
+  'INSERT INTO LIKE_COMMENT (post_id,user_id) VALUES (?,?)';
+
+export const queryDeleteLikePost: string =
+  'DELETE FROM LIKE_COMMENT AS LC WHERE LC.user_id = (?) AND LC.post_id = (?)';
