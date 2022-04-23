@@ -12,7 +12,7 @@ export const queryFetchFriendRequestRecived: string =
   queryConstructor + ' 2 AND FR.active = 1';
 
 export const queryFetchFriendRequestAlreadyExistPending: string =
-  queryConstructor + ' (?) AND FR.accepted = 2';
+  queryConstructor + ' 2';
 
 export const querySendFriendRequest: string =
   'INSERT INTO FRIEND_REQUEST (sender,receiver) VALUES (?,?)';
@@ -25,6 +25,9 @@ export const queryFetchFriendRequestReceived: string =
   ", JSON_OBJECT('id',FR.id,'state',JSON_OBJECT('state',FR.accepted,'name',AC.name)) as requestData FROM FRIEND_REQUEST AS FR INNER JOIN USER AS U ON U.id=FR.sender INNER JOIN COUNTRY AS C ON C.id=U.country INNER JOIN GENDER AS G ON G.id=U.GENDER INNER JOIN ACCEPTED AS AC ON AC.id=FR.accepted WHERE FR.receiver = (?) AND FR.active = 1 AND FR.accepted= 2";
 
 // Friend_List
+export const queryCheckAlreadyYourFriend: string =
+  'SELECT * FROM FRIEND_LIST AS FL WHERE FL.user1 = (?) AND FL.user2 = (?) AND FL.active = 1;';
+
 export const queryGetFriendList: string =
   queryConstructor2 +
   ' FROM FRIEND_LIST AS FL INNER JOIN USER AS U ON U.id=FL.user2 INNER JOIN COUNTRY AS C ON C.id=U.country INNER JOIN GENDER AS G ON G.id=U.GENDER WHERE FL.user1 = (?) AND FL.active = 1';

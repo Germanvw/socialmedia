@@ -1,6 +1,8 @@
 import { Response } from 'express';
+import { resourceLimits } from 'worker_threads';
 import {
   queryAddFriend,
+  queryCheckAlreadyYourFriend,
   queryFetchFriendRequestAlreadyExistPending,
   queryFetchFriendRequestReceived,
   queryFetchFriendRequestSingle,
@@ -24,35 +26,46 @@ export const createFriendRequest = (req: any, res: Response) => {
       });
     }
     // Validate that the user is not already a friend
-
-    // Validate that the user does not already have a pending friend request from this user.
     con.query(
-      queryFetchFriendRequestAlreadyExistPending,
-      [receiverID, user.id],
-      (_: any, results: any) => {
+      queryCheckAlreadyYourFriend,
+      [user.id, receiverID],
+      (results: any[]) => {
         if (results.length > 0) {
           return res.status(400).json({
             ok: false,
-            msg: 'You already have a pending friend request to this user.',
+            msg: 'The user is already your friend.',
           });
-        } else {
-          con.query(
-            querySendFriendRequest,
-            [user.id, receiverID],
-            (err: any, results: any) => {
-              if (results) {
-                return res
-                  .status(400)
-                  .json({ ok: true, msg: 'Friend request sended.' });
-              } else {
-                // Add friend
-                return res
-                  .status(200)
-                  .json({ ok: false, msg: 'Friend request error.', err });
-              }
-            }
-          );
         }
+        con.query(
+          queryFetchFriendRequestAlreadyExistPending,
+          [receiverID, user.id],
+          (results: any[]) => {
+            console.log(results);
+            if (results.length > 0) {
+              return res.status(400).json({
+                ok: false,
+                msg: 'You already have a pending friend request to this user.',
+              });
+            } else {
+              con.query(
+                querySendFriendRequest,
+                [user.id, receiverID],
+                (err: any, results: any[]) => {
+                  if (results) {
+                    return res
+                      .status(201)
+                      .json({ ok: true, msg: 'Friend request sended.' });
+                  } else {
+                    // Add friend
+                    return res
+                      .status(400)
+                      .json({ ok: false, msg: 'Friend request error.', err });
+                  }
+                }
+              );
+            }
+          }
+        );
       }
     );
   } catch (err) {
@@ -66,52 +79,56 @@ export const responseFriendRequest = (req: any, res: Response) => {
   const { response } = req.body;
   try {
     // Validation of friend request
-    con.query(queryFetchFriendRequestSingle, [id], (err: any, results: any) => {
-      const sender = results[0].sender;
-      // Friend request exists
-      if (results.length > 0) {
-        const answ = results[0];
-        // Friend request status is pending
-        if (answ.accepted === 2) {
-          // User is the receiver
-          if (parseInt(answ.receiver) === parseInt(user.id)) {
-            con.query(
-              queryResponseFriendRequest,
-              [response, id],
-              (_: any, results: any) => {
-                if (results) {
-                  const msg: string =
-                    response === 1
-                      ? 'Friend Request Accepted'
-                      : 'Friend Request Rejected';
-                  // Add friend
-                  return res
-                    .status(200)
-                    .json({ ok: true, msg, response, friend: sender });
-                } else {
-                  return res
-                    .status(400)
-                    .json({ ok: false, msg: 'Error on request' });
+    con.query(
+      queryFetchFriendRequestSingle,
+      [id],
+      (err: any, results: any[]) => {
+        const sender = results[0].sender;
+        // Friend request exists
+        if (results.length > 0) {
+          const answ = results[0];
+          // Friend request status is pending
+          if (answ.accepted === 2) {
+            // User is the receiver
+            if (parseInt(answ.receiver) === parseInt(user.id)) {
+              con.query(
+                queryResponseFriendRequest,
+                [response, id],
+                (results: any[]) => {
+                  if (results) {
+                    const msg: string =
+                      response === 1
+                        ? 'Friend Request Accepted'
+                        : 'Friend Request Rejected';
+                    // Add friend
+                    return res
+                      .status(200)
+                      .json({ ok: true, msg, response, friend: sender });
+                  } else {
+                    return res
+                      .status(400)
+                      .json({ ok: false, msg: 'Error on request' });
+                  }
                 }
-              }
-            );
+              );
+            } else {
+              return res.status(400).json({
+                ok: false,
+                msg: 'You are not the receiver of this friend request.',
+              });
+            }
           } else {
-            return res.status(400).json({
-              ok: false,
-              msg: 'You are not the receiver of this friend request.',
-            });
+            return res
+              .status(400)
+              .json({ ok: false, msg: 'Friend request already answered.' });
           }
         } else {
           return res
-            .status(400)
-            .json({ ok: false, msg: 'Friend request already answered.' });
+            .status(200)
+            .json({ ok: false, msg: 'Friend request not found.', err });
         }
-      } else {
-        return res
-          .status(200)
-          .json({ ok: false, msg: 'Friend request not found.', err });
       }
-    });
+    );
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }
@@ -120,7 +137,7 @@ export const responseFriendRequest = (req: any, res: Response) => {
 export const fetchFriendRequestReceived = (req: any, res: Response) => {
   const { id } = req.user;
   try {
-    con.query(queryFetchFriendRequestReceived, [id], (_: any, results: any) => {
+    con.query(queryFetchFriendRequestReceived, [id], (results: any[]) => {
       return res.status(200).json({
         ok: true,
         friendRequestList: results.length > 0 ? flattenObject(results) : [],
@@ -134,7 +151,7 @@ export const fetchFriendRequestReceived = (req: any, res: Response) => {
 export const fetchAllFriend = (req: any, res: Response) => {
   const { id } = req.user;
   try {
-    con.query(queryGetFriendList, [id], (_: any, results: any) => {
+    con.query(queryGetFriendList, [id], (results: any[]) => {
       return res.status(200).json({
         ok: true,
         friendList: results.length > 0 ? flattenObject(results) : [],
@@ -149,19 +166,15 @@ export const addFriend = (req: any, res: Response) => {
   const { id } = req.user;
   const { user2 } = req.body;
   try {
-    con.query(
-      queryAddFriend,
-      [id, user2, user2, id],
-      (error: any, results: any) => {
-        if (results) {
-          return res
-            .status(200)
-            .json({ ok: true, msg: 'Friend added', friend: user2 });
-        } else {
-          return res.status(400).json({ ok: false, msg: 'Error on request' });
-        }
+    con.query(queryAddFriend, [id, user2, user2, id], (results: any[]) => {
+      if (results) {
+        return res
+          .status(200)
+          .json({ ok: true, msg: 'Friend added', friend: user2 });
+      } else {
+        return res.status(400).json({ ok: false, msg: 'Error on request' });
       }
-    );
+    });
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }
@@ -171,17 +184,13 @@ export const removeFriend = (req: any, res: Response) => {
   const { id } = req.user;
   const { user2 } = req.body;
   try {
-    con.query(
-      queryRemoveFriend,
-      [id, user2, user2, id],
-      (_: any, results: any) => {
-        if (results) {
-          return res.status(200).json({ ok: true, msg: 'Friend removed' });
-        } else {
-          return res.status(400).json({ ok: false, msg: 'Error on request' });
-        }
+    con.query(queryRemoveFriend, [id, user2, user2, id], (results: any[]) => {
+      if (results) {
+        return res.status(200).json({ ok: true, msg: 'Friend removed' });
+      } else {
+        return res.status(400).json({ ok: false, msg: 'Error on request' });
       }
-    );
+    });
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }
