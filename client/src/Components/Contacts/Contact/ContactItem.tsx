@@ -1,17 +1,17 @@
-import { FriendItemProps } from '../../../Interfaces/UserInterfaces';
+import { UserAtFriendList } from '../../../Interfaces/UserInterfaces';
 import { ChatButton } from '../../Buttons/ChatButton';
 import { UserHeader } from '../UserHeader';
 
 import './../contact.scss';
 
-export const ContactItem = ({ friend }: { friend: FriendItemProps }) => {
+export const ContactItem = ({ user }: { user: UserAtFriendList }) => {
   return (
     <div className='contact-item'>
       <UserHeader
-        user={friend}
-        label={`${friend.province}, ${friend.country.code}`}
+        user={user}
+        label={`${user.province}, ${user.country.code}`}
       />
-      <ChatButton id={friend.id.toString()} />
+      <ChatButton id={user.id.toString()} />
     </div>
   );
 };

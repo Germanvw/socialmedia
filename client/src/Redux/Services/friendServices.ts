@@ -36,8 +36,9 @@ const friendRequestResponse = async (resp: {
 const addFriend = async (user2: number) => {
   const req = await fetchToken('friend', { user2 }, 'POST');
   const answ = await req.json();
+  const user = await fetchToken(`users/${answ.friend}`, {});
   if (answ.ok) {
-    return answ;
+    return await user.json();
   } else {
     throw new Error(answ.msg);
   }

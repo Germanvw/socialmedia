@@ -1,7 +1,6 @@
 import { ContactItem } from './ContactItem';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../Hooks/useRedux';
-import { FriendItemProps } from '../../../Interfaces/UserInterfaces';
 
 export const ContactList = () => {
   const { friendList } = useAppSelector((state) => state.friend);
@@ -12,9 +11,7 @@ export const ContactList = () => {
       {friendList.length > 0 ? (
         friendList
           .slice(0, showAmount)
-          .map(({ user }: { user: FriendItemProps }) => (
-            <ContactItem key={user.id} friend={user} />
-          ))
+          .map(({ user }: any) => <ContactItem key={user.id} user={user} />)
       ) : (
         <></>
       )}

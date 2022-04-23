@@ -1,12 +1,13 @@
 import { Response } from 'express';
+import {
+  queryAuthLogin,
+  queryAuthRegister,
+  queryUserEmailExists,
+} from '../db/querys/queryAuth';
 import { createJWT } from '../helpers/createJWT';
 import { hashPassword, isMatch } from '../helpers/password';
 import { UserDataProps } from '../interfaces/interfaces';
-import {
-  queryAuthLogin,
-  queryUserEmailExists,
-  queryAuthRegister,
-} from './querys';
+
 const con = require('../db/db');
 
 export const authLogin = (req: any, res: Response) => {

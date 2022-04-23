@@ -1,23 +1,11 @@
-import { UserDataProps } from './UserInterfaces';
+import { BasicUser } from './UserInterfaces';
 
-interface PostCommentProps {
+export interface PostItemProps {
   id: number;
-  post_id: number;
-  user_id: number;
-  comment: string;
-}
-
-interface PostLikeProps {
-  id: number;
-  post_id: number;
-  user_id: number;
-}
-
-export interface PostProps {
-  id: number;
-  text: string;
+  user: BasicUser;
+  comments: number;
+  created_at: string;
   image?: string;
-  comments: PostCommentProps[];
-  likes: PostLikeProps[];
-  user: UserDataProps;
+  likes: number;
+  text: string;
 }

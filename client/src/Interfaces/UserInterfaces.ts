@@ -20,38 +20,37 @@ interface ActiveProps {
   name: 'INACTIVE' | 'ACTIVE';
 }
 
+export interface AcceptedProps {
+  id: 0 | 1 | 2;
+  name: 'CANCELLED' | 'ACCEPTED' | 'PENDING';
+}
+
 interface MetaDataProps {
   likes: number;
   posts: number;
   friends: number;
 }
 
-export interface FriendItemProps {
-  id: number;
+interface DisplayUser {
+  image: string;
   username: string;
-  email: string;
   firstname: string;
   lastname: string;
-  image: string;
-  age: number;
-  province: string;
-  metaData: MetaDataProps;
-  country: CountryProps;
-  gender: GenderProps;
 }
 
-export interface UserDataProps {
+export interface BasicUser extends DisplayUser {
   id: number;
-  username: string;
-  email: string;
-  firstname: string;
-  lastname: string;
-  image: string;
+}
+
+export interface UserAtFriendList extends BasicUser {
   age: number;
-  province: string;
-  metaData: MetaDataProps;
   country: CountryProps;
   gender: GenderProps;
+  metaData: MetaDataProps;
+  province: string;
+}
+
+export interface UserDataProps extends UserAtFriendList {
   active: ActiveProps;
 }
 

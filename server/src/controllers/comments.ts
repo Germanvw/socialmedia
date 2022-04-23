@@ -1,5 +1,11 @@
 import { Response } from 'express';
-import { queryInsertComment, queryFetchCommentsByPost } from './querys';
+import {
+  queryPostComment,
+  queryGetCommentsByPost,
+  getLastId,
+  queryGetCommentByPost,
+  queryDeleteComment,
+} from '../db/querys/queryComment';
 
 const con = require('../db/db');
 
@@ -9,11 +15,24 @@ export const createComment = (req: any, res: Response) => {
   const { comment } = req.body;
   try {
     con.query(
-      queryInsertComment,
-      [id, user, comment],
+      queryPostComment,
+      [parseInt(id), user.id, comment],
       (_: any, results: any) => {
         if (results) {
-          return res.status(201).json({ ok: true, msg: 'Comment posted' });
+          con.query(getLastId, (_: any, results: any) => {
+            const lastId = results[0].id;
+            con.query(
+              queryGetCommentByPost,
+              [lastId],
+              (_: any, results: any) => {
+                return res.status(201).json({
+                  ok: true,
+                  msg: 'Comment posted',
+                  comment: results[0],
+                });
+              }
+            );
+          });
         } else {
           return res
             .status(401)
@@ -29,11 +48,22 @@ export const createComment = (req: any, res: Response) => {
 export const fetchCommentsByPost = (req: any, res: Response) => {
   const { id } = req.params;
   try {
-    con.query(queryFetchCommentsByPost, [id], (_: any, results: any) => {
-      console.log(results);
+    con.query(queryGetCommentsByPost, [id], (_: any, results: any) => {
       return res
         .status(200)
         .json({ ok: true, comments: results.length > 0 ? results : [] });
+    });
+  } catch (error) {
+    return res.status(500).json({ ok: false, msg: 'Error on request' });
+  }
+};
+
+export const deleteComment = (req: any, res: Response) => {
+  const { id } = req.params;
+  const { user } = req;
+  try {
+    con.query(queryDeleteComment, [id, user.id], (_: any, __: any) => {
+      return res.status(200).json({ ok: true, msg: 'Comment deleted' });
     });
   } catch (error) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });

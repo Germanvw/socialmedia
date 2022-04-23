@@ -8,16 +8,19 @@ import { fetchToken } from '../../Hooks/useFetch';
 
 export const ProfileId = () => {
   const { id } = useParams();
+
   const [posts, setPosts] = useState<PostProp | []>([]);
+
+  const fetchPosts = async () => {
+    const req = await fetchToken(`posts/user/${id}`, {});
+    const answ = await req.json();
+    setPosts(answ.posts);
+  };
+
   useEffect(() => {
     fetchPosts();
   }, [id]);
 
-  const fetchPosts = async () => {
-    const req = await fetchToken(`posts/${id}`, {});
-    const answ = await req.json();
-    setPosts(answ.posts);
-  };
   return (
     <div className='main-site'>
       <Sidebar />

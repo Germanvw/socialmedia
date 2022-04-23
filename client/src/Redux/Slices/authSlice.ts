@@ -1,7 +1,15 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { RegisterUser } from '../../Interfaces/UserInterfaces';
+import { RegisterUser, UserDataProps } from '../../Interfaces/UserInterfaces';
 import { authServices } from '../Services/authServices';
-const initialState = {
+
+interface InitStateAuthProps {
+  loading: boolean;
+  error: string | null;
+  user: UserDataProps | null;
+  refreshing: boolean;
+}
+
+const initialState: InitStateAuthProps = {
   loading: false,
   refreshing: true,
   error: null,
@@ -27,11 +35,11 @@ export const authSlice = createSlice({
           startLogin.fulfilled,
           startRefreshToken.fulfilled
         ),
-        (state, action: any) => {
+        (state, { payload }) => {
           state.loading = false;
           state.error = null;
-          state.user = action.payload.user;
-          localStorage.setItem('x-token', action.payload.token);
+          state.user = payload.user;
+          localStorage.setItem('x-token', payload.token);
         }
       )
       .addMatcher(
@@ -40,9 +48,9 @@ export const authSlice = createSlice({
           startLogin.rejected,
           startRefreshToken.rejected
         ),
-        (state, action: any) => {
+        (state: any, { payload }) => {
           state.loading = false;
-          state.error = action.payload;
+          state.error = payload;
           state.user = null;
           localStorage.removeItem('x-token');
         }
@@ -53,7 +61,7 @@ export const authSlice = createSlice({
           startRegister.pending,
           startRefreshToken.pending
         ),
-        (state: any) => {
+        (state) => {
           state.loading = true;
         }
       );
@@ -61,36 +69,33 @@ export const authSlice = createSlice({
 });
 export const startRegister = createAsyncThunk(
   'auth/register',
-  async (user: RegisterUser, thunkAPI) => {
+  async (user: RegisterUser, { rejectWithValue }) => {
     try {
       return await authServices.register(user);
     } catch (err: any) {
-      const message = err.toString().split(': ')[1];
-      return thunkAPI.rejectWithValue(message);
+      return rejectWithValue(err.toString().split(': ')[1]);
     }
   }
 );
 
 export const startLogin = createAsyncThunk(
   'auth/login',
-  async (user: { email: string; password: string }, thunkAPI) => {
+  async (user: { email: string; password: string }, { rejectWithValue }) => {
     try {
       return await authServices.login(user);
     } catch (err: any) {
-      const message = err.toString().split(': ')[1];
-      return thunkAPI.rejectWithValue(message);
+      return rejectWithValue(err.toString().split(': ')[1]);
     }
   }
 );
 
 export const startRefreshToken = createAsyncThunk(
   'auth/refreshToken',
-  async (_, thunkAPI) => {
+  async (_, { rejectWithValue }) => {
     try {
       return await authServices.refreshToken();
     } catch (err: any) {
-      const message = err.toString().split(': ')[1];
-      return thunkAPI.rejectWithValue(message);
+      return rejectWithValue(err.toString().split(': ')[1]);
     }
   }
 );

@@ -12,14 +12,15 @@ export const Post = () => {
 
   const [post, setPost] = useState<PostProp | null>(null);
 
-  useEffect(() => {
-    fetchPosts();
-  }, [id]);
   const fetchPosts = async () => {
-    const req = await fetchToken(`posts/id/${id}`, {});
+    const req = await fetchToken(`posts/${id}`, {});
     const answ = await req.json();
     setPost(answ.post[0]);
   };
+
+  useEffect(() => {
+    fetchPosts();
+  }, [id]);
   if (post === null) return <></>;
   return (
     <div className='main-site'>

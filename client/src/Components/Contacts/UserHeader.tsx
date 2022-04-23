@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom';
-import { FriendItemProps } from '../../Interfaces/UserInterfaces';
+import { UserAtFriendList } from '../../Interfaces/UserInterfaces';
 
-export const UserHeader = ({
-  user,
-  label,
-}: {
-  user: FriendItemProps;
+interface HeaderProps {
+  user: UserAtFriendList;
   label: string;
-}) => {
+  date?: string;
+}
+
+export const UserHeader = ({ user, label, date }: HeaderProps) => {
   const { id, firstname, lastname } = user;
   return (
     <div className='contact-item'>
@@ -26,6 +26,9 @@ export const UserHeader = ({
           </Link>
         </div>
       </div>
+      {date && (
+        <div className='date'>{new Date(date).toLocaleDateString()}</div>
+      )}
     </div>
   );
 };

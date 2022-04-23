@@ -19,6 +19,7 @@ export const TextInput = ({ label, ...props }: Props) => {
           className={`${meta.error && 'has-error'}`}
           {...field}
           {...props}
+          placeholder={props.placeholder}
         />
       </div>
       <div className='svg'>

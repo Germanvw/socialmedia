@@ -8,7 +8,7 @@ import {
   queryRemoveFriend,
   queryResponseFriendRequest,
   querySendFriendRequest,
-} from './querys';
+} from '../db/querys/queryFriend';
 
 const con = require('../db/db');
 
@@ -66,6 +66,7 @@ export const responseFriendRequest = (req: any, res: Response) => {
   try {
     // Validation of friend request
     con.query(queryFetchFriendRequestSingle, [id], (err: any, results: any) => {
+      const sender = results[0].sender;
       // Friend request exists
       if (results.length > 0) {
         const answ = results[0];
@@ -85,7 +86,7 @@ export const responseFriendRequest = (req: any, res: Response) => {
                   // Add friend
                   return res
                     .status(200)
-                    .json({ ok: true, msg, response, friend: answ.id });
+                    .json({ ok: true, msg, response, friend: sender });
                 } else {
                   return res
                     .status(400)
@@ -149,7 +150,7 @@ export const addFriend = (req: any, res: Response) => {
     con.query(
       queryAddFriend,
       [id, user2, user2, id],
-      (_: any, results: any) => {
+      (error: any, results: any) => {
         if (results) {
           return res
             .status(200)

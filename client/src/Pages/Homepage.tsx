@@ -29,7 +29,7 @@ export const Homepage = () => {
         <div className='header'>
           <SearchUser />
           <div className='btn'>
-            <CreatePost />
+            <CreatePost title='Create Post' />
           </div>
         </div>
         <FeedList posts={postList} />

@@ -3,7 +3,12 @@ import { UserHeader } from '../Contacts/UserHeader';
 
 import './feed.scss';
 
-export const FeedItem = ({ feed }: { feed: any }) => {
+interface FeedItem {
+  feed: any;
+  commentAmmount?: number;
+}
+
+export const FeedItem = ({ feed, commentAmmount }: FeedItem) => {
   const { id, image, text, likes, comments, created_at } = feed;
   const sliceText = (text: string) => {
     if (text.length >= 197) {
@@ -23,14 +28,17 @@ export const FeedItem = ({ feed }: { feed: any }) => {
   return (
     <div className='feed-item'>
       <div className='header-feed-item'>
-        <UserHeader user={feed.user} label={feed.user.username} />
+        <UserHeader
+          user={feed.user}
+          label={feed.user.username}
+          date={created_at}
+        />
       </div>
       <div className='img-post'>
         {image && <img src={image} alt='post-img' />}
       </div>
       <Link to={`/post/${id}`}>
         <p className='post-text'>{sliceText(text)}</p>
-        <p className='date'>{new Date(created_at).toLocaleDateString()}</p>
       </Link>
       <div className='hashtags'>
         {/* {post.hashtags &&
@@ -72,7 +80,7 @@ export const FeedItem = ({ feed }: { feed: any }) => {
                   fill='#77757F'
                 />
               </svg>
-              <span>{comments}</span>
+              <span>{commentAmmount ? commentAmmount : comments}</span>
             </p>
           </Link>
         </div>

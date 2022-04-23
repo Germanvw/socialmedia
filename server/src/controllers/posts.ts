@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 import {
-  queryFetchAllPosts,
-  queryFetchAllPostsByUser,
+  queryFetchPostsAll,
+  queryFetchPostsByUser,
   queryFetchPostById,
-} from './querys';
+} from '../db/querys/queryPost';
 
 const con = require('../db/db');
 
 export const fetchAllPosts = (req: Request, res: Response) => {
   try {
-    con.query(queryFetchAllPosts, (_: any, results: any) => {
+    con.query(queryFetchPostsAll, (_: any, results: any) => {
       return res
         .status(200)
         .json({ ok: true, posts: results.length > 0 ? results : [] });
@@ -21,7 +21,7 @@ export const fetchAllPosts = (req: Request, res: Response) => {
 export const fetchAllPostUser = (req: Request, res: Response) => {
   try {
     con.query(
-      queryFetchAllPostsByUser,
+      queryFetchPostsByUser,
       [req.params.id],
       (_: any, results: any) => {
         return res

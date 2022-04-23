@@ -52,6 +52,8 @@
   color: var(--text);
 }
 .date {
+  font-size: 0.7rem;
+  font-weight: 700;
   margin-top: 0.5em;
   color: var(--text-blue);
 }
@@ -63,4 +65,13 @@
     margin: 1em 0 3em 0;
     max-width: 30em;
   }
+}
+
+.btn-delete-post {
+  margin-left: auto;
+  background: rgb(172, 39, 39);
+  color: var(--text-white);
+  padding: 0.2em 0.4em;
+  border-radius: 0.4em;
+  font-size: 0.8rem;
 }

@@ -1,36 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchToken } from '../../Hooks/useFetch';
 import { CommentItem } from './CommentItem';
 import { FeedItem } from './FeedItem';
+import { CommentPost } from './CommentPost';
+import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
+import { startFetchComments } from '../../Redux/Slices/commentSlice';
+import { CommentItemProp } from '../../Interfaces/CommentInterfaces';
 
 export const PostItem = ({ post }: any) => {
+  const { user } = useAppSelector((state) => state.auth);
+  const { commentList, ammount } = useAppSelector((state) => state.comment);
   const { id } = useParams();
-  const [comments, setComments] = useState([]);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetchComments();
+    if (id) dispatch(startFetchComments(id));
   }, [id]);
 
-  const fetchComments = async () => {
-    const req = await fetchToken(`comments/${id}`, {});
-    const answ = await req.json();
-    console.log(answ);
-    setComments(answ.comments);
-  };
+  if (!id || !user) return <></>;
   return (
     <div>
-      <FeedItem feed={post} />
+      <FeedItem feed={post} commentAmmount={ammount} />
       <p>Comments</p>
-      {comments.length > 0 ? (
-        comments.map((comment: any) => (
-          <CommentItem comment={comment} key={comment.id} />
+      <CommentPost id={id} />
+      {ammount > 0 ? (
+        commentList.map((item: CommentItemProp) => (
+          <CommentItem comment={item} key={item.id} userId={user.id} />
         ))
       ) : (
         <p>0</p>
       )}
-      <input type='text' />
-      <button>Add comment</button>
     </div>
   );
 };
