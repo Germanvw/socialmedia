@@ -40,7 +40,7 @@ export const createComment = (req: any, res: Response) => {
         }
       }
     );
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }
 };

@@ -1,9 +1,9 @@
 import { UserHeader } from '../UserHeader';
 import { useAppDispatch } from '../../../Hooks/useRedux';
-import { startFriendRequestResponse } from '../../../Redux/Slices/friendSlice';
 import { FriendRequestListProps } from '../../../Interfaces/FriendInterfaces';
 
 import './styles.scss';
+import { startFriendRequestResponse } from '../../../Redux/Slices/friendSlice';
 
 export const FriendRequestItem = ({
   user,

@@ -5,8 +5,8 @@ import { SearchUser } from '../Components/Nav/SearchUser';
 import { Sidebar } from '../Components/Nav/Sidebar/Sidebar';
 import { useEffect } from 'react';
 import {
-  startFetchFriendRequest,
-  startFetchFriends,
+  startFriendRequestFetch,
+  startFriendFetchAll,
 } from '../Redux/Slices/friendSlice';
 import { useAppDispatch, useAppSelector } from '../Hooks/useRedux';
 import { startFetchAllPosts } from '../Redux/Slices/postSlice';
@@ -17,8 +17,8 @@ export const Homepage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(startFetchFriends());
-    dispatch(startFetchFriendRequest());
+    dispatch(startFriendFetchAll());
+    dispatch(startFriendRequestFetch());
     dispatch(startFetchAllPosts());
   }, [dispatch]);
 

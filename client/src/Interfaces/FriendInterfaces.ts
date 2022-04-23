@@ -12,6 +12,7 @@ export interface FriendRequestListProps {
 
 export interface InitStateFriendProps {
   loading: boolean;
+  error: string | null;
   friendList: UserAtFriendList[];
   friendRequestList: FriendRequestListProps[];
 }

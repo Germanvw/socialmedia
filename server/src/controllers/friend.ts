@@ -29,7 +29,7 @@ export const createFriendRequest = (req: any, res: Response) => {
     con.query(
       queryCheckAlreadyYourFriend,
       [user.id, receiverID],
-      (results: any[]) => {
+      (_: any, results: any[]) => {
         if (results.length > 0) {
           return res.status(400).json({
             ok: false,
@@ -39,8 +39,7 @@ export const createFriendRequest = (req: any, res: Response) => {
         con.query(
           queryFetchFriendRequestAlreadyExistPending,
           [receiverID, user.id],
-          (results: any[]) => {
-            console.log(results);
+          (_: any, results: any[]) => {
             if (results.length > 0) {
               return res.status(400).json({
                 ok: false,
@@ -94,7 +93,7 @@ export const responseFriendRequest = (req: any, res: Response) => {
               con.query(
                 queryResponseFriendRequest,
                 [response, id],
-                (results: any[]) => {
+                (_: any, results: any[]) => {
                   if (results) {
                     const msg: string =
                       response === 1
@@ -137,12 +136,16 @@ export const responseFriendRequest = (req: any, res: Response) => {
 export const fetchFriendRequestReceived = (req: any, res: Response) => {
   const { id } = req.user;
   try {
-    con.query(queryFetchFriendRequestReceived, [id], (results: any[]) => {
-      return res.status(200).json({
-        ok: true,
-        friendRequestList: results.length > 0 ? flattenObject(results) : [],
-      });
-    });
+    con.query(
+      queryFetchFriendRequestReceived,
+      [id],
+      (_: any, results: any[]) => {
+        return res.status(200).json({
+          ok: true,
+          friendRequestList: results.length > 0 ? flattenObject(results) : [],
+        });
+      }
+    );
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }
@@ -151,7 +154,7 @@ export const fetchFriendRequestReceived = (req: any, res: Response) => {
 export const fetchAllFriend = (req: any, res: Response) => {
   const { id } = req.user;
   try {
-    con.query(queryGetFriendList, [id], (results: any[]) => {
+    con.query(queryGetFriendList, [id], (_: any, results: []) => {
       return res.status(200).json({
         ok: true,
         friendList: results.length > 0 ? flattenObject(results) : [],
@@ -166,15 +169,19 @@ export const addFriend = (req: any, res: Response) => {
   const { id } = req.user;
   const { user2 } = req.body;
   try {
-    con.query(queryAddFriend, [id, user2, user2, id], (results: any[]) => {
-      if (results) {
-        return res
-          .status(200)
-          .json({ ok: true, msg: 'Friend added', friend: user2 });
-      } else {
-        return res.status(400).json({ ok: false, msg: 'Error on request' });
+    con.query(
+      queryAddFriend,
+      [id, user2, user2, id],
+      (_: any, results: any[]) => {
+        if (results) {
+          return res
+            .status(200)
+            .json({ ok: true, msg: 'Friend added', friend: user2 });
+        } else {
+          return res.status(400).json({ ok: false, msg: 'Error on request' });
+        }
       }
-    });
+    );
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }
@@ -184,13 +191,17 @@ export const removeFriend = (req: any, res: Response) => {
   const { id } = req.user;
   const { user2 } = req.body;
   try {
-    con.query(queryRemoveFriend, [id, user2, user2, id], (results: any[]) => {
-      if (results) {
-        return res.status(200).json({ ok: true, msg: 'Friend removed' });
-      } else {
-        return res.status(400).json({ ok: false, msg: 'Error on request' });
+    con.query(
+      queryRemoveFriend,
+      [id, user2, user2, id],
+      (_: any, results: any[]) => {
+        if (results) {
+          return res.status(200).json({ ok: true, msg: 'Friend removed' });
+        } else {
+          return res.status(400).json({ ok: false, msg: 'Error on request' });
+        }
       }
-    });
+    );
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }

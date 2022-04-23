@@ -15,9 +15,7 @@ export const FeedList = ({ posts }: PostProp[] | any) => {
     <div className='feed-list'>
       <h1>Feeds</h1>
       {posts.length > 0 ? (
-        posts.map((post: PostProp) => {
-          return <FeedItem key={post.id} feed={post} />;
-        })
+        posts.map((post: PostProp) => <FeedItem key={post.id} feed={post} />)
       ) : (
         <p>No posts found</p>
       )}

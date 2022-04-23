@@ -1,15 +1,19 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { fetchToken } from '../../Hooks/useFetch';
 import { UserHeader } from '../Contacts/UserHeader';
 
 import './feed.scss';
 
-interface FeedItem {
+interface FeedItemProp {
   feed: any;
   commentAmmount?: number;
 }
 
-export const FeedItem = ({ feed, commentAmmount }: FeedItem) => {
+export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
   const { id, image, text, likes, comments, created_at } = feed;
+  const [liked, setLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(likes);
   const sliceText = (text: string) => {
     if (text.length >= 197) {
       return (
@@ -25,6 +29,34 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItem) => {
     }
     return text;
   };
+  const fetchLikeStatus = async () => {
+    const req = await fetchToken(`likes/${id}`, {});
+    const answ = await req.json();
+
+    if (answ.liked) {
+      setLiked(true);
+      getCurrentLikeCount();
+    }
+  };
+
+  const getCurrentLikeCount = async () => {
+    const req = await fetchToken(`likes/post/${id}`, {});
+    const answ = await req.json();
+    setLikesCount(answ.likes);
+  };
+
+  const handleChangeLike = async () => {
+    const req = await fetchToken(`likes/${id}`, {}, 'POST');
+    const answ = await req.json();
+    if (answ.ok) {
+      setLiked(!liked);
+    }
+  };
+
+  useEffect(() => {
+    fetchLikeStatus();
+    getCurrentLikeCount();
+  }, [handleChangeLike]);
   return (
     <div className='feed-item'>
       <div className='header-feed-item'>
@@ -51,26 +83,27 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItem) => {
       </div>
       <div className='post-meta'>
         <div className='labels'>
+          <button className='btn-delete' onClick={handleChangeLike}>
+            <svg
+              width='22'
+              height='22'
+              viewBox='0 0 22 22'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+              className={`${liked ? 'btn-liked' : ''} `}
+            >
+              <path
+                d='M11 18L10.4697 18.5303C10.6103 18.671 10.8011 18.75 11 18.75C11.1989 18.75 11.3897 18.671 11.5303 18.5303L11 18ZM3.04737 10.0474L2.51704 10.5777L2.51704 10.5777L3.04737 10.0474ZM9.71403 3.38071L9.1837 3.91104L9.1837 3.91104L9.71403 3.38071ZM11 4.66667L10.4697 5.197C10.7626 5.48989 11.2374 5.48989 11.5303 5.197L11 4.66667ZM12.2859 3.38071L11.7556 2.85038L11.7556 2.85038L12.2859 3.38071ZM11.5303 17.4697L3.5777 9.51705L2.51704 10.5777L10.4697 18.5303L11.5303 17.4697ZM18.4223 9.51705L10.4697 17.4697L11.5303 18.5303L19.4829 10.5777L18.4223 9.51705ZM9.1837 3.91104L10.4697 5.197L11.5303 4.13634L10.2444 2.85038L9.1837 3.91104ZM11.5303 5.197L12.8163 3.91104L11.7556 2.85038L10.4697 4.13634L11.5303 5.197ZM15.6193 1.25C14.1701 1.25 12.7803 1.82567 11.7556 2.85038L12.8163 3.91104C13.5597 3.16764 14.5679 2.75 15.6193 2.75V1.25ZM19.5833 6.71405C19.5833 7.76538 19.1657 8.77365 18.4223 9.51705L19.4829 10.5777C20.5076 9.553 21.0833 8.1632 21.0833 6.71405H19.5833ZM21.0833 6.71405C21.0833 3.69634 18.637 1.25 15.6193 1.25V2.75C17.8086 2.75 19.5833 4.52476 19.5833 6.71405H21.0833ZM6.3807 2.75C7.43203 2.75 8.4403 3.16764 9.1837 3.91104L10.2444 2.85038C9.21966 1.82567 7.82986 1.25 6.3807 1.25V2.75ZM2.41666 6.71405C2.41666 4.52476 4.19142 2.75 6.3807 2.75V1.25C3.36299 1.25 0.916656 3.69634 0.916656 6.71405H2.41666ZM3.5777 9.51705C2.83429 8.77364 2.41666 7.76538 2.41666 6.71405H0.916656C0.916656 8.1632 1.49233 9.553 2.51704 10.5777L3.5777 9.51705Z'
+                fill='#77757F'
+              />
+            </svg>
+            <span>{likesCount}</span>
+          </button>
           <Link to={`/post/${id}`}>
-            <p className='label'>
+            <button>
               <svg
-                width='22'
+                width='20'
                 height='20'
-                viewBox='0 0 22 20'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M11 18L10.4697 18.5303C10.6103 18.671 10.8011 18.75 11 18.75C11.1989 18.75 11.3897 18.671 11.5303 18.5303L11 18ZM3.04737 10.0474L2.51704 10.5777L2.51704 10.5777L3.04737 10.0474ZM9.71403 3.38071L9.1837 3.91104L9.1837 3.91104L9.71403 3.38071ZM11 4.66667L10.4697 5.197C10.7626 5.48989 11.2374 5.48989 11.5303 5.197L11 4.66667ZM12.2859 3.38071L11.7556 2.85038L11.7556 2.85038L12.2859 3.38071ZM11.5303 17.4697L3.5777 9.51705L2.51704 10.5777L10.4697 18.5303L11.5303 17.4697ZM18.4223 9.51705L10.4697 17.4697L11.5303 18.5303L19.4829 10.5777L18.4223 9.51705ZM9.1837 3.91104L10.4697 5.197L11.5303 4.13634L10.2444 2.85038L9.1837 3.91104ZM11.5303 5.197L12.8163 3.91104L11.7556 2.85038L10.4697 4.13634L11.5303 5.197ZM15.6193 1.25C14.1701 1.25 12.7803 1.82567 11.7556 2.85038L12.8163 3.91104C13.5597 3.16764 14.5679 2.75 15.6193 2.75V1.25ZM19.5833 6.71405C19.5833 7.76538 19.1657 8.77365 18.4223 9.51705L19.4829 10.5777C20.5076 9.553 21.0833 8.1632 21.0833 6.71405H19.5833ZM21.0833 6.71405C21.0833 3.69634 18.637 1.25 15.6193 1.25V2.75C17.8086 2.75 19.5833 4.52476 19.5833 6.71405H21.0833ZM6.3807 2.75C7.43203 2.75 8.4403 3.16764 9.1837 3.91104L10.2444 2.85038C9.21966 1.82567 7.82986 1.25 6.3807 1.25V2.75ZM2.41666 6.71405C2.41666 4.52476 4.19142 2.75 6.3807 2.75V1.25C3.36299 1.25 0.916656 3.69634 0.916656 6.71405H2.41666ZM3.5777 9.51705C2.83429 8.77364 2.41666 7.76538 2.41666 6.71405H0.916656C0.916656 8.1632 1.49233 9.553 2.51704 10.5777L3.5777 9.51705Z'
-                  fill='#77757F'
-                />
-              </svg>
-              <span>{likes}</span>
-            </p>
-            <p className='label'>
-              <svg
-                width='22'
-                height='22'
                 viewBox='0 0 22 22'
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
@@ -81,7 +114,7 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItem) => {
                 />
               </svg>
               <span>{commentAmmount ? commentAmmount : comments}</span>
-            </p>
+            </button>
           </Link>
         </div>
         <button>

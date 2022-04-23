@@ -13,6 +13,7 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/friend', require('./routes/friend'));
 app.use('/api/posts', require('./routes/posts'));
 app.use('/api/comments', require('./routes/comments'));
+app.use('/api/likes', require('./routes/likes'));
 
 const PORT = process.env.PORT || 4001;
 

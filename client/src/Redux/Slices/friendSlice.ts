@@ -3,10 +3,12 @@ import {
   FriendRequestListProps,
   InitStateFriendProps,
 } from '../../Interfaces/FriendInterfaces';
+import { UserAtFriendList } from '../../Interfaces/UserInterfaces';
 import { friendServices } from '../Services/friendServices';
 
 const initialState: InitStateFriendProps = {
   loading: false,
+  error: null,
   friendList: [],
   friendRequestList: [],
 };
@@ -18,36 +20,41 @@ export const friendSlice = createSlice({
     builder
       .addMatcher(
         isAnyOf(
-          startAddFriend.pending,
-          startRemoveFriend.pending,
-          startFetchFriends.pending,
-          startFetchFriendRequest.pending
+          startFriendRequestFetch.pending,
+          startFriendRequestSend.pending,
+          startFriendRequestResponse.pending,
+          startFriendFetchAll.pending,
+          startFriendAdd.pending,
+          startFriendRemove.pending
         ),
         (state) => {
           state.loading = true;
         }
       )
       .addMatcher(
-        isAnyOf(startFetchFriends.fulfilled),
+        isAnyOf(startFriendFetchAll.fulfilled),
         (state, { payload }) => {
           state.friendList = payload.friendList;
           state.loading = false;
         }
       )
       .addMatcher(
-        isAnyOf(startFetchFriendRequest.fulfilled),
+        isAnyOf(startFriendRequestFetch.fulfilled),
         (state, { payload }) => {
           state.friendRequestList = payload.friendRequestList;
           state.loading = false;
         }
       )
       .addMatcher(
-        isAnyOf(startAddFriend.fulfilled),
+        isAnyOf(startFriendAdd.fulfilled),
         (state: any, { payload }) => {
           state.loading = false;
           state.friendList.push(payload.user);
         }
       )
+      .addMatcher(isAnyOf(startFriendRequestSend.fulfilled), (state) => {
+        state.loading = false;
+      })
       .addMatcher(
         isAnyOf(startFriendRequestResponse.fulfilled),
         (state, { payload }) => {
@@ -60,23 +67,46 @@ export const friendSlice = createSlice({
       )
       .addMatcher(
         isAnyOf(
-          startFetchFriends.rejected,
-          startFetchFriendRequest.rejected,
-          startAddFriend.rejected,
-          startRemoveFriend.rejected
+          startFriendRequestFetch.rejected,
+          startFriendRequestSend.rejected,
+          startFriendRequestResponse.rejected,
+          startFriendFetchAll.rejected,
+          startFriendAdd.rejected,
+          startFriendRemove.rejected
         ),
-        (state) => {
+        (state: any, { payload }) => {
           state.loading = false;
+          state.error = payload;
+        }
+      )
+      .addMatcher(
+        isAnyOf(startFriendRemove.fulfilled),
+        (state, { payload }) => {
+          state.loading = false;
+          state.friendList = state.friendList.filter(
+            (friend: UserAtFriendList) => friend.id !== payload.id
+          );
         }
       );
   },
 });
 
-export const startFetchFriendRequest = createAsyncThunk(
-  'friend/startFetchFriendRequest',
+export const startFriendRequestFetch = createAsyncThunk(
+  'friend/startFriendRequestFetch',
   async (_, { rejectWithValue }) => {
     try {
-      return await friendServices.fetchFriendRequest();
+      return await friendServices.friendRequestFetch();
+    } catch (err: any) {
+      return rejectWithValue(err.toString().split(': ')[1]);
+    }
+  }
+);
+
+export const startFriendRequestSend = createAsyncThunk(
+  'friend/startFriendRequestSend',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      return await friendServices.friendRequestSend(id);
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);
     }
@@ -91,41 +121,40 @@ export const startFriendRequestResponse = createAsyncThunk(
   ) => {
     try {
       const answ = await friendServices.friendRequestResponse(response);
-      if (answ.response === 1) dispatch(startAddFriend(answ.friend));
+      if (answ.response === 1) dispatch(startFriendAdd(answ.friend));
       return answ;
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);
     }
   }
 );
-
-export const startAddFriend = createAsyncThunk(
-  'friend/startAddFriend',
-  async (id: number, { rejectWithValue }) => {
-    try {
-      return await friendServices.addFriend(id);
-    } catch (err: any) {
-      return rejectWithValue(err.toString().split(': ')[1]);
-    }
-  }
-);
-
-export const startRemoveFriend = createAsyncThunk(
-  'friend/startRemoveFriend',
-  async (id: number, { rejectWithValue }) => {
-    try {
-      // return await friendServices.removeFriend(id);
-    } catch (err: any) {
-      return rejectWithValue(err.toString().split(': ')[1]);
-    }
-  }
-);
-
-export const startFetchFriends = createAsyncThunk(
-  'friend/fetchFriends',
+export const startFriendFetchAll = createAsyncThunk(
+  'friend/startFriendFetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      return await friendServices.fetchFriends();
+      return await friendServices.friendFetchAll();
+    } catch (err: any) {
+      return rejectWithValue(err.toString().split(': ')[1]);
+    }
+  }
+);
+
+export const startFriendAdd = createAsyncThunk(
+  'friend/startFriendAdd',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      return await friendServices.friendAdd(id);
+    } catch (err: any) {
+      return rejectWithValue(err.toString().split(': ')[1]);
+    }
+  }
+);
+
+export const startFriendRemove = createAsyncThunk(
+  'friend/startFriendRemove',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      return await friendServices.friendRemove(id);
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);
     }

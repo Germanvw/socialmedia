@@ -1,6 +1,6 @@
 import { fetchToken } from '../../Hooks/useFetch';
 
-const fetchFriendRequest = async () => {
+const friendRequestFetch = async () => {
   const req = await fetchToken('friend/req', {});
   const answ = await req.json();
   if (answ.ok) {
@@ -10,8 +10,8 @@ const fetchFriendRequest = async () => {
   }
 };
 
-const fetchFriends = async () => {
-  const req = await fetchToken('friend', {});
+const friendRequestSend = async (id: number) => {
+  const req = await fetchToken('friend/req', { receiverID: id }, 'POST');
   const answ = await req.json();
   if (answ.ok) {
     return answ;
@@ -19,6 +19,7 @@ const fetchFriends = async () => {
     throw new Error(answ.msg);
   }
 };
+
 const friendRequestResponse = async (resp: {
   id: number;
   response: number;
@@ -33,7 +34,17 @@ const friendRequestResponse = async (resp: {
   }
 };
 
-const addFriend = async (user2: number) => {
+const friendFetchAll = async () => {
+  const req = await fetchToken('friend', {});
+  const answ = await req.json();
+  if (answ.ok) {
+    return answ;
+  } else {
+    throw new Error(answ.msg);
+  }
+};
+
+const friendAdd = async (user2: number) => {
   const req = await fetchToken('friend', { user2 }, 'POST');
   const answ = await req.json();
   const user = await fetchToken(`users/${answ.friend}`, {});
@@ -44,20 +55,21 @@ const addFriend = async (user2: number) => {
   }
 };
 
-const removeFriend = async (user2: number) => {
+const friendRemove = async (user2: number) => {
   const req = await fetchToken('friend', { user2 }, 'PUT');
   const answ = await req.json();
   if (answ.ok) {
-    return answ;
+    return { answ, id: user2 };
   } else {
     throw new Error(answ.msg);
   }
 };
 
 export const friendServices = {
-  fetchFriendRequest,
-  fetchFriends,
-  addFriend,
-  removeFriend,
+  friendRequestFetch,
+  friendRequestSend,
   friendRequestResponse,
+  friendFetchAll,
+  friendAdd,
+  friendRemove,
 };
