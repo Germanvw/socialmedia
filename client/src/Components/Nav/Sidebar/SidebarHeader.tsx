@@ -16,7 +16,6 @@ export const SidebarHeader = () => {
   const { code } = country;
   const { posts, friends, likes } = metaData!;
   const profileLink = `/profile/${id}`;
-
   if (!user) return <></>;
   return (
     <div className='profile-info'>

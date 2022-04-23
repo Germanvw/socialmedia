@@ -46,7 +46,11 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
   };
 
   const handleChangeLike = async () => {
-    const req = await fetchToken(`likes/${id}`, {}, 'POST');
+    const req = await fetchToken(
+      `likes/${id}`,
+      { post_author: feed.user.id },
+      'POST'
+    );
     const answ = await req.json();
     if (answ.ok) {
       setLiked(!liked);

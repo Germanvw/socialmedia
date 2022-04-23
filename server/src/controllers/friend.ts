@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { resourceLimits } from 'worker_threads';
+import { flattenObject } from '../helpers/flattenObject';
 import {
   queryAddFriend,
   queryCheckAlreadyYourFriend,
@@ -11,7 +11,6 @@ import {
   queryResponseFriendRequest,
   querySendFriendRequest,
 } from '../db/querys/queryFriend';
-import { flattenObject } from '../helpers/flattenObject';
 
 const con = require('../db/db');
 
@@ -40,6 +39,7 @@ export const createFriendRequest = (req: any, res: Response) => {
           queryFetchFriendRequestAlreadyExistPending,
           [receiverID, user.id],
           (_: any, results: any[]) => {
+            // Already have a pending friend req from user
             if (results.length > 0) {
               return res.status(400).json({
                 ok: false,

@@ -11,6 +11,7 @@ const con = require('../db/db');
 export const handleLike = (req: any, res: Response) => {
   const { user } = req;
   const { id } = req.params;
+  const { post_author } = req.body;
   try {
     con.query(
       queryGetUserLikeByPost,
@@ -37,7 +38,7 @@ export const handleLike = (req: any, res: Response) => {
         } else {
           con.query(
             queryLikePost,
-            [user.id, id],
+            [user.id, id, post_author],
             (_: any, { affectedRows }: any) => {
               if (affectedRows > 0) {
                 // Success like

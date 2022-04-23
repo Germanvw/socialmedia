@@ -4,10 +4,10 @@ export const queryGetUserLikeByPost: string =
 
 // get all likes by post
 export const queryGetLikesByPost: string =
-  'SELECT * FROM LIKE_COMMENT AS LC WHERE POST_id = (?) ';
+  'SELECT id FROM LIKE_COMMENT AS LC WHERE POST_id = (?)';
 
 export const queryLikePost: string =
-  'INSERT INTO LIKE_COMMENT (user_id,post_id) VALUES (?,?)';
+  'INSERT INTO LIKE_COMMENT (user_id,post_id,post_author) VALUES (?,?,?)';
 
 export const queryDislikePost: string =
   'DELETE FROM LIKE_COMMENT AS LC WHERE LC.user_id = (?) AND LC.post_id = (?)';

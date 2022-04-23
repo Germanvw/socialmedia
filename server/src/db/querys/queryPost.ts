@@ -7,5 +7,12 @@ export const queryFetchPostsAll: string =
 export const queryFetchPostsByUser: string =
   queryGlobalPost + ' AND P.user = (?) ORDER BY p.created_at DESC';
 
-export const queryFetchPostById: string =
-  queryGlobalPost + ' AND P.id = (?) ORDER BY p.created_at DESC';
+export const queryFetchPostById: string = queryGlobalPost + ' AND P.id = (?)';
+
+export const queryCreatePost: string =
+  'INSERT INTO POST (text,image,user) VALUES (?,?,?)';
+
+export const queryDeletePost: string =
+  'DELETE FROM POST WHERE id=(?) AND user=(?)';
+
+export const queryLastInsertId: string = 'SELECT LAST_INSERT_ID() AS id';
