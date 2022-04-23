@@ -1,22 +1,16 @@
-import { FriendItemProps } from '../../../Interfaces/UserInterfaces';
 import { UserHeader } from '../UserHeader';
 import { useAppDispatch } from '../../../Hooks/useRedux';
 import { startFriendRequestResponse } from '../../../Redux/Slices/friendSlice';
-import { RequestDataProps } from '../../../Interfaces/FriendInterfaces';
+import { FriendRequestListProps } from '../../../Interfaces/FriendInterfaces';
 
 import './styles.scss';
 
 export const FriendRequestItem = ({
   user,
   requestData,
-}: {
-  user: FriendItemProps;
-  requestData: RequestDataProps;
-}) => {
+}: FriendRequestListProps) => {
   const { id } = requestData;
   const dispatch = useAppDispatch();
-  // Friend request id.
-  console.log(id);
   return (
     <div className='friend-request-item'>
       <UserHeader user={user} label='Friend Request Recived' />

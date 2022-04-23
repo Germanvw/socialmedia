@@ -9,6 +9,7 @@ import {
   queryResponseFriendRequest,
   querySendFriendRequest,
 } from '../db/querys/queryFriend';
+import { flattenObject } from '../helpers/flattenObject';
 
 const con = require('../db/db');
 
@@ -122,7 +123,7 @@ export const fetchFriendRequestReceived = (req: any, res: Response) => {
     con.query(queryFetchFriendRequestReceived, [id], (_: any, results: any) => {
       return res.status(200).json({
         ok: true,
-        friendRequestList: results.length > 0 ? results : [],
+        friendRequestList: results.length > 0 ? flattenObject(results) : [],
       });
     });
   } catch (err) {
@@ -134,9 +135,10 @@ export const fetchAllFriend = (req: any, res: Response) => {
   const { id } = req.user;
   try {
     con.query(queryGetFriendList, [id], (_: any, results: any) => {
-      return res
-        .status(200)
-        .json({ ok: true, friendList: results.length > 0 ? results : [] });
+      return res.status(200).json({
+        ok: true,
+        friendList: results.length > 0 ? flattenObject(results) : [],
+      });
     });
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });

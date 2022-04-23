@@ -5,7 +5,6 @@ import { FriendRequestItem } from './FriendRequestItem';
 
 export const FriendRequestList = () => {
   const { friendRequestList } = useAppSelector((state) => state.friend);
-
   const showAmount = 3;
   return (
     <div className='friend-request-list'>

@@ -45,7 +45,7 @@ export const friendSlice = createSlice({
         isAnyOf(startAddFriend.fulfilled),
         (state: any, { payload }) => {
           state.loading = false;
-          state.friendList.push({ user: payload.user });
+          state.friendList.push(payload.user);
         }
       )
       .addMatcher(
