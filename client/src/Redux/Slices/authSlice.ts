@@ -26,6 +26,12 @@ export const authSlice = createSlice({
       state.user = null;
       localStorage.removeItem('x-token');
     },
+    handlePostQuantity: (state, { payload }) => {
+      state.user!.metaData.posts += payload;
+    },
+    handleLikeQuantity: (state, { payload }) => {
+      state.user!.metaData.likes += payload;
+    },
   },
   extraReducers: (builder) => {
     builder

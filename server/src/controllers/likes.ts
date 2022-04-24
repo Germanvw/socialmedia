@@ -4,6 +4,7 @@ import {
   queryLikePost,
   queryDislikePost,
   queryGetLikesByPost,
+  queryGetLikesByUser,
 } from '../db/querys/queryLike.ts';
 
 const con = require('../db/db');
@@ -87,13 +88,20 @@ export const getLikeStatus = (req: any, res: Response) => {
 export const getTotalLikesPost = (req: any, res: Response) => {
   con.query(queryGetLikesByPost, [req.params.id], (_: any, results: any[]) => {
     try {
-      if (results.length > 0)
-        return res.status(200).json({
-          likes: results.length,
-        });
-
       return res.status(200).json({
-        likes: 0,
+        likes: results.length > 0 ? results.length : 0,
+      });
+    } catch (err) {
+      return res.status(500).json({ ok: false, msg: 'Error on request' });
+    }
+  });
+};
+
+export const getTotalLikesUser = (req: any, res: Response) => {
+  con.query(queryGetLikesByUser, [req.params.id], (_: any, results: any[]) => {
+    try {
+      return res.status(200).json({
+        likes: results.length > 0 ? results.length : 0,
       });
     } catch (err) {
       return res.status(500).json({ ok: false, msg: 'Error on request' });

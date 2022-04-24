@@ -29,6 +29,21 @@ export const formCreateCommentFields = {
   placeholder: 'Comment...',
 };
 
+export const formPostCreateFields = [
+  {
+    label: 'Post body',
+    name: 'text',
+    type: 'text',
+    placeholder: 'Post body...',
+  },
+  {
+    label: 'Image',
+    name: 'image',
+    type: 'text',
+    placeholder: 'URL..',
+  },
+];
+
 export const validationLoginForm = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required'),
   password: Yup.string().required('Required').min(6, 'Minimum 6 characters'),
@@ -41,4 +56,12 @@ export const validationCreateCommentForm = Yup.object({
     .required('Required')
     .min(1, 'Minimum 1 character')
     .max(150, 'Maximum 150 characters'),
+});
+
+export const validationCreatePostForm = Yup.object({
+  text: Yup.string()
+    .required('Required')
+    .min(1, 'Minimum 1 character')
+    .max(256, 'Maximum 256 characters'),
+  image: Yup.string().url('Invalid url').max(256, 'Maximum 256 characters'),
 });

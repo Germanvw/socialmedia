@@ -87,6 +87,7 @@ export const deletePost = (req: any, res: Response) => {
       queryDeletePost,
       [id, user.id],
       (_: any, { affectedRows }: any) => {
+        console.log(affectedRows);
         if (affectedRows > 0) {
           return res.status(200).json({ ok: true, msg: 'Post deleted', id });
         } else {

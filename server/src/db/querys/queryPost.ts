@@ -13,6 +13,6 @@ export const queryCreatePost: string =
   'INSERT INTO POST (text,image,user) VALUES (?,?,?)';
 
 export const queryDeletePost: string =
-  'DELETE FROM POST WHERE id=(?) AND user=(?)';
+  'UPDATE POST SET active = 0 WHERE id=(?) AND user=(?)';
 
 export const queryLastInsertId: string = 'SELECT LAST_INSERT_ID() AS id';

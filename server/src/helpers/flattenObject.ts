@@ -3,7 +3,6 @@ export const flattenObject = (array: any[]) => {
 
   array.map((obj: any) => {
     const newItem = Object.values(obj).flat();
-    console.log(newItem[0]);
     if (newItem[1] !== undefined) {
       const obj = { user: newItem[0], requestData: newItem[1] };
       newArray.push(obj);

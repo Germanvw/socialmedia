@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchToken } from '../../Hooks/useFetch';
+import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
 import { UserHeader } from '../Contacts/UserHeader';
+import { startPostDelete } from '../../Redux/Slices/postSlice';
 
 import './feed.scss';
 
@@ -12,6 +14,9 @@ interface FeedItemProp {
 
 export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
   const { id, image, text, likes, comments, created_at } = feed;
+  const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(likes);
   const sliceText = (text: string) => {
@@ -61,6 +66,7 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
     fetchLikeStatus();
     getCurrentLikeCount();
   }, [handleChangeLike]);
+
   return (
     <div className='feed-item'>
       <div className='header-feed-item'>
@@ -121,20 +127,27 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
             </button>
           </Link>
         </div>
-        <button>
-          <svg
-            width='20'
-            height='20'
-            viewBox='0 0 20 20'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              d='M17.3334 1.54972e-05L2.66669 0V19.3333C2.66669 19.5896 2.81358 19.8232 3.04456 19.9342C3.27554 20.0452 3.5497 20.014 3.74982 19.8539L10 14.8538L16.2502 19.8539C16.4503 20.014 16.7245 20.0452 16.9555 19.9342C17.1865 19.8232 17.3334 19.5896 17.3334 19.3333V1.54972e-05Z'
-              fill='#4D77FF'
-            />
-          </svg>
-        </button>
+        <div>
+          {feed.user.id === user!.id && (
+            <button onClick={() => dispatch(startPostDelete(id))}>
+              Delete
+            </button>
+          )}
+          <button>
+            <svg
+              width='20'
+              height='20'
+              viewBox='0 0 20 20'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M17.3334 1.54972e-05L2.66669 0V19.3333C2.66669 19.5896 2.81358 19.8232 3.04456 19.9342C3.27554 20.0452 3.5497 20.014 3.74982 19.8539L10 14.8538L16.2502 19.8539C16.4503 20.014 16.7245 20.0452 16.9555 19.9342C17.1865 19.8232 17.3334 19.5896 17.3334 19.3333V1.54972e-05Z'
+                fill='#4D77FF'
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

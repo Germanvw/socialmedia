@@ -1,6 +1,6 @@
 import { fetchToken } from '../../Hooks/useFetch';
 
-const fetchPostsAll = async () => {
+const postFetchAll = async () => {
   const req = await fetchToken('posts', {});
   const answ = await req.json();
   if (answ.ok) {
@@ -10,7 +10,7 @@ const fetchPostsAll = async () => {
   }
 };
 
-const fetchPostByUser = async (id: number) => {
+const postFetchByUser = async (id: number) => {
   const req = await fetchToken(`posts${id}`, {});
   const answ = await req.json();
   if (answ.ok) {
@@ -20,7 +20,28 @@ const fetchPostByUser = async (id: number) => {
   }
 };
 
+const postCreate = async ({ text, image }: { text: string; image: string }) => {
+  const req = await fetchToken('posts', { text, image }, 'POST');
+  const answ = await req.json();
+  if (answ.ok) {
+    return answ;
+  } else {
+    throw new Error(answ.msg);
+  }
+};
+const postDelete = async (id: number) => {
+  const req = await fetchToken(`posts/${id}`, {}, 'DELETE');
+  const answ = await req.json();
+  if (answ.ok) {
+    return answ;
+  } else {
+    throw new Error(answ.msg);
+  }
+};
+
 export const postServices = {
-  fetchPostsAll,
-  fetchPostByUser,
+  postFetchAll,
+  postFetchByUser,
+  postCreate,
+  postDelete,
 };

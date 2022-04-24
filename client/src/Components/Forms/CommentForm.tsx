@@ -6,9 +6,9 @@ import {
 import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
 import { startCreateComment } from '../../Redux/Slices/commentSlice';
 import { CreatePost } from '../Buttons/CreatePost';
-import { TextInput } from '../Forms/TextInput';
+import { TextInput } from './TextInput';
 
-export const CommentPost = ({ id }: { id: string }) => {
+export const CommentForm = ({ id }: { id: string }) => {
   const { error } = useAppSelector((state) => state.comment);
   const dispatch = useAppDispatch();
 

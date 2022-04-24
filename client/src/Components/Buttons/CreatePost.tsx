@@ -1,6 +1,6 @@
 export const CreatePost = ({ title }: { title: string }) => {
   return (
-    <button className='btn-create-post submit-form' type='submit'>
+    <button className='btn-create-post submit-form margin-left' type='submit'>
       <svg
         width='32'
         height='32'

@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../Hooks/useRedux';
 
@@ -16,6 +17,9 @@ export const SidebarHeader = () => {
   const { code } = country;
   const { posts, friends, likes } = metaData!;
   const profileLink = `/profile/${id}`;
+
+  useEffect(() => {}, []);
+
   if (!user) return <></>;
   return (
     <div className='profile-info'>

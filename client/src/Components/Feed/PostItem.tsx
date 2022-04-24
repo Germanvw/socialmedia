@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { CommentItem } from './CommentItem';
 import { FeedItem } from './FeedItem';
-import { CommentPost } from './CommentPost';
 import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
 import { startFetchComments } from '../../Redux/Slices/commentSlice';
 import { CommentItemProp } from '../../Interfaces/CommentInterfaces';
+import { CommentItem } from './CommentItem';
+import { CommentForm } from '../Forms/CommentForm';
 
 export const PostItem = ({ post }: any) => {
   const { user } = useAppSelector((state) => state.auth);
@@ -22,7 +22,7 @@ export const PostItem = ({ post }: any) => {
     <div>
       <FeedItem feed={post} commentAmmount={ammount} />
       <p>Comments</p>
-      <CommentPost id={id} />
+      <CommentForm id={id} />
       {ammount > 0 ? (
         commentList.map((item: CommentItemProp) => (
           <CommentItem comment={item} key={item.id} userId={user.id} />

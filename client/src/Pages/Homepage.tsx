@@ -9,8 +9,9 @@ import {
   startFriendFetchAll,
 } from '../Redux/Slices/friendSlice';
 import { useAppDispatch, useAppSelector } from '../Hooks/useRedux';
-import { startFetchAllPosts } from '../Redux/Slices/postSlice';
+import { startPostFetchAll } from '../Redux/Slices/postSlice';
 import './homepage.scss';
+import { PostCreateForm } from '../Components/Forms/PostCreateForm';
 
 export const Homepage = () => {
   const { postList } = useAppSelector((state) => state.posts);
@@ -19,7 +20,7 @@ export const Homepage = () => {
   useEffect(() => {
     dispatch(startFriendFetchAll());
     dispatch(startFriendRequestFetch());
-    dispatch(startFetchAllPosts());
+    dispatch(startPostFetchAll());
   }, [dispatch]);
 
   return (
@@ -28,9 +29,9 @@ export const Homepage = () => {
       <div className='body'>
         <div className='header'>
           <SearchUser />
-          <div className='btn'>
-            <CreatePost title='Create Post' />
-          </div>
+        </div>
+        <div className='create-post'>
+          <PostCreateForm />
         </div>
         <FeedList posts={postList} />
       </div>
