@@ -4,6 +4,7 @@ import {
   queryAuthRegister,
   queryUserEmailExists,
 } from '../db/querys/queryAuth';
+import { queryFetchUserSingle } from '../db/querys/queryUser';
 import { createJWT } from '../helpers/createJWT';
 import { hashPassword, isMatch } from '../helpers/password';
 import { UserDataProps } from '../interfaces/interfaces';
@@ -62,7 +63,7 @@ export const authRegister = (req: any, res: Response) => {
   } = req.body;
   try {
     // Email unique
-    con.query(queryUserEmailExists, [email], async (err: any, results: any) => {
+    con.query(queryUserEmailExists, [email], async (_: any, results: any) => {
       if (results.length > 0) {
         return res
           .status(400)
@@ -104,8 +105,19 @@ export const authRegister = (req: any, res: Response) => {
 export const renewToken = async (req: any, res: any) => {
   const { user } = req;
   try {
-    const token = await createJWT(user);
-    return res.json({ ok: true, user, token });
+    con.query(queryFetchUserSingle, [user.id], async (_: any, results: any) => {
+      if (results.length > 0) {
+        const refreshedUser = results[0];
+        const token = await createJWT(refreshedUser);
+        return res.status(200).json({
+          ok: true,
+          user: { ...refreshedUser },
+          token,
+        });
+      } else {
+        return res.status(400).json({ ok: false, msg: 'User not found.' });
+      }
+    });
   } catch (err) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }

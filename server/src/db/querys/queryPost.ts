@@ -16,3 +16,6 @@ export const queryDeletePost: string =
   'UPDATE POST SET active = 0 WHERE id=(?) AND user=(?)';
 
 export const queryLastInsertId: string = 'SELECT LAST_INSERT_ID() AS id';
+
+export const queryPostAmountDicrement: string =
+  'UPDATE USER SET posts = COALESCE(posts, 0) - 1 WHERE User.id = (?)';

@@ -6,11 +6,12 @@ import {
   queryCreatePost,
   queryDeletePost,
   queryLastInsertId,
+  queryPostAmountDicrement,
 } from '../db/querys/queryPost';
 
 const con = require('../db/db');
 
-export const fetchAllPosts = (req: Request, res: Response) => {
+export const fetchAllPosts = (_: Request, res: Response) => {
   try {
     con.query(queryFetchPostsAll, (_: any, results: any) => {
       return res
@@ -87,9 +88,10 @@ export const deletePost = (req: any, res: Response) => {
       queryDeletePost,
       [id, user.id],
       (_: any, { affectedRows }: any) => {
-        console.log(affectedRows);
         if (affectedRows > 0) {
-          return res.status(200).json({ ok: true, msg: 'Post deleted', id });
+          con.query(queryPostAmountDicrement, [user.id], (_: any) => {
+            return res.status(200).json({ ok: true, msg: 'Post deleted', id });
+          });
         } else {
           return res.status(400).json({ ok: false, msg: 'Error on request' });
         }

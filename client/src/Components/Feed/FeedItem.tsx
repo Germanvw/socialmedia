@@ -6,6 +6,7 @@ import { UserHeader } from '../Contacts/UserHeader';
 import { startPostDelete } from '../../Redux/Slices/postSlice';
 
 import './feed.scss';
+import { authActions } from '../../Redux/Slices/authSlice';
 
 interface FeedItemProp {
   feed: any;
@@ -16,7 +17,6 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
   const { id, image, text, likes, comments, created_at } = feed;
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(likes);
   const sliceText = (text: string) => {
@@ -56,8 +56,13 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
       { post_author: feed.user.id },
       'POST'
     );
-    const answ = await req.json();
-    if (answ.ok) {
+    const { author, ok, type } = await req.json();
+    if (ok) {
+      if (type === 'like' && author === user!.id) {
+        dispatch(authActions.handleLikeQuantity(1));
+      } else {
+        dispatch(authActions.handleLikeQuantity(-1));
+      }
       setLiked(!liked);
     }
   };
@@ -127,9 +132,12 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
             </button>
           </Link>
         </div>
-        <div>
+        <div className='margin-left d-flex'>
           {feed.user.id === user!.id && (
-            <button onClick={() => dispatch(startPostDelete(id))}>
+            <button
+              onClick={() => dispatch(startPostDelete({ id, likesCount }))}
+              className='btn-delete'
+            >
               Delete
             </button>
           )}

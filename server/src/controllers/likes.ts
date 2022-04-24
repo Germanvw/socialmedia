@@ -28,6 +28,8 @@ export const handleLike = (req: any, res: Response) => {
               if (affectedRows > 0)
                 return res.status(200).json({
                   message: 'Post disliked',
+                  type: 'dislike',
+                  author: post_author,
                   ok: true,
                 });
 
@@ -46,6 +48,8 @@ export const handleLike = (req: any, res: Response) => {
                 if (affectedRows > 0)
                   return res.status(200).json({
                     message: 'Post liked',
+                    type: 'like',
+                    author: post_author,
                     ok: true,
                   });
                 return res

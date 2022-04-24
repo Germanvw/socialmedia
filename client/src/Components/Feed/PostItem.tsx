@@ -28,7 +28,7 @@ export const PostItem = ({ post }: any) => {
           <CommentItem comment={item} key={item.id} userId={user.id} />
         ))
       ) : (
-        <p>0</p>
+        <p>No comments submited.</p>
       )}
     </div>
   );

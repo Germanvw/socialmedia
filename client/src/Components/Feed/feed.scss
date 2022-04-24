@@ -81,3 +81,17 @@
   border-radius: 0.4em;
   font-size: 0.8rem;
 }
+
+.d-flex {
+  display: flex;
+  .btn-delete {
+    margin: 0 0.5em;
+    background: rgb(197, 40, 40);
+    color: var(--text-white);
+    padding: 0 0.5em;
+    border-radius: 0.5em;
+    &:hover {
+      background: rgb(158, 32, 32);
+    }
+  }
+}

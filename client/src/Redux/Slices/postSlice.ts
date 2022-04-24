@@ -16,7 +16,15 @@ const initialState: InitStatePostProps = {
 export const postSlice = createSlice({
   name: 'post',
   initialState,
-  reducers: {},
+  reducers: {
+    handlePostCommentQuantity: (state, { payload }) => {
+      state.postList = state.postList.map((post: PostItemProps) => {
+        if (post.id === parseInt(payload.id)) post.comments += payload.quantity;
+
+        return post;
+      });
+    },
+  },
   extraReducers: (builder) => {
     builder.addMatcher(
       isAnyOf(
@@ -57,7 +65,6 @@ export const postSlice = createSlice({
     builder.addMatcher(
       isAnyOf(startPostDelete.fulfilled),
       (state, { payload }: any) => {
-        console.log(payload.id, parseInt(payload.id));
         state.postList = state.postList.filter(
           (post) => post.id !== parseInt(payload.id)
         );
@@ -102,7 +109,6 @@ export const startPostCreate = createAsyncThunk(
         return answ;
       }
     } catch (err: any) {
-      console.log(err);
       return rejectWithValue(err.toString().split(': ')[1]);
     }
   }
@@ -110,11 +116,15 @@ export const startPostCreate = createAsyncThunk(
 
 export const startPostDelete = createAsyncThunk(
   'post/deletePost',
-  async (id: number, { rejectWithValue, dispatch }) => {
+  async (
+    data: { id: number; likesCount: number },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
-      const answ = await postServices.postDelete(id);
+      const answ = await postServices.postDelete(data.id);
       if (answ.ok) {
         dispatch(authActions.handlePostQuantity(-1));
+        dispatch(authActions.handleLikeQuantity(-data.likesCount));
         return answ;
       }
     } catch (err: any) {
@@ -122,3 +132,4 @@ export const startPostDelete = createAsyncThunk(
     }
   }
 );
+export const postActions = postSlice.actions;

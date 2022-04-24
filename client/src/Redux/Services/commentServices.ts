@@ -8,6 +8,7 @@ interface CreateCommentProps {
 const createComment = async ({ id, comment }: CreateCommentProps) => {
   const req = await fetchToken(`comments/${id}`, { id, comment }, 'POST');
   const answ = await req.json();
+  console.log(answ);
   if (answ.ok) {
     return answ;
   } else {

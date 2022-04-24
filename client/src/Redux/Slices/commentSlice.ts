@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { commentServices } from '../Services/commentServices';
 import { CommentItemProp } from '../../Interfaces/CommentInterfaces';
+import { postActions } from './postSlice';
 
 const initialState = {
   loading: false,
@@ -60,9 +61,17 @@ export const commentSlice = createSlice({
 
 export const startCreateComment = createAsyncThunk(
   'comment/createComment',
-  async (data: { id: string; comment: string }, { rejectWithValue }) => {
+  async (
+    data: { id: string; comment: string },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
-      return await commentServices.createComment(data);
+      const answ = await commentServices.createComment(data);
+      // Increment the ammount of comments of post
+      dispatch(
+        postActions.handlePostCommentQuantity({ id: data.id, quantity: 1 })
+      );
+      return answ;
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);
     }
@@ -71,9 +80,12 @@ export const startCreateComment = createAsyncThunk(
 
 export const startDeleteComment = createAsyncThunk(
   'comment/deleteComment',
-  async (id: number, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue, dispatch }) => {
     try {
-      return await commentServices.deleteComment(id);
+      const answ = await commentServices.deleteComment(id);
+      // Dicrement the ammount of comments of post
+      dispatch(postActions.handlePostCommentQuantity({ id: id, quantity: -1 }));
+      return answ;
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);
     }
