@@ -33,7 +33,4 @@ for each row
   update user set posts = COALESCE(posts, 0) + 1 
   where id = NEW.user;
   
-create trigger downPostCountUserOnCreate after update on POST
-for each row 
-  update user set posts = COALESCE(posts, 0) - 1 
-  where id = OLD.user;
+

@@ -60,7 +60,7 @@ export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
     if (ok) {
       if (type === 'like' && author === user!.id) {
         dispatch(authActions.handleLikeQuantity(1));
-      } else {
+      } else if (author === user!.id) {
         dispatch(authActions.handleLikeQuantity(-1));
       }
       setLiked(!liked);

@@ -6,6 +6,7 @@ import {
   queryFetchFriendRequestAlreadyExistPending,
   queryFetchFriendRequestReceived,
   queryFetchFriendRequestSingle,
+  queryFriendHandleQuantity,
   queryGetFriendList,
   queryRemoveFriend,
   queryResponseFriendRequest,
@@ -174,9 +175,12 @@ export const addFriend = (req: any, res: Response) => {
       [id, user2, user2, id],
       (_: any, results: any[]) => {
         if (results) {
-          return res
-            .status(200)
-            .json({ ok: true, msg: 'Friend added', friend: user2 });
+          // Increase friend count
+          con.query(queryFriendHandleQuantity, [1, id, user2], (_: any) => {
+            return res
+              .status(200)
+              .json({ ok: true, msg: 'Friend added', friend: user2 });
+          });
         } else {
           return res.status(400).json({ ok: false, msg: 'Error on request' });
         }
@@ -196,7 +200,10 @@ export const removeFriend = (req: any, res: Response) => {
       [id, user2, user2, id],
       (_: any, results: any[]) => {
         if (results) {
-          return res.status(200).json({ ok: true, msg: 'Friend removed' });
+          con.query(queryFriendHandleQuantity, [-1, id, user2], (_: any) => {
+            // Decrease friend count
+            return res.status(200).json({ ok: true, msg: 'Friend removed' });
+          });
         } else {
           return res.status(400).json({ ok: false, msg: 'Error on request' });
         }

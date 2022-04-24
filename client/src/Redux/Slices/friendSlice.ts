@@ -5,6 +5,7 @@ import {
 } from '../../Interfaces/FriendInterfaces';
 import { UserAtFriendList } from '../../Interfaces/UserInterfaces';
 import { friendServices } from '../Services/friendServices';
+import { authActions } from './authSlice';
 
 const initialState: InitStateFriendProps = {
   loading: false,
@@ -141,9 +142,12 @@ export const startFriendFetchAll = createAsyncThunk(
 
 export const startFriendAdd = createAsyncThunk(
   'friend/startFriendAdd',
-  async (id: number, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue, dispatch }) => {
     try {
-      return await friendServices.friendAdd(id);
+      const answ = await friendServices.friendAdd(id);
+      // Icrement friend count
+      dispatch(authActions.handleFriendsQuantity(1));
+      return answ;
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);
     }
@@ -152,9 +156,12 @@ export const startFriendAdd = createAsyncThunk(
 
 export const startFriendRemove = createAsyncThunk(
   'friend/startFriendRemove',
-  async (id: number, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue, dispatch }) => {
     try {
-      return await friendServices.friendRemove(id);
+      const answ = await friendServices.friendRemove(id);
+      // Dicrement friend count
+      dispatch(authActions.handleFriendsQuantity(-1));
+      return answ;
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);
     }

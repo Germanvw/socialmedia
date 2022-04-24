@@ -32,6 +32,10 @@ export const authSlice = createSlice({
     handleLikeQuantity: (state, { payload }) => {
       state.user!.metaData.likes += payload;
     },
+    handleFriendsQuantity: (state, { payload }) => {
+      state.user!.metaData.friends += payload;
+      console.log(payload);
+    },
   },
   extraReducers: (builder) => {
     builder

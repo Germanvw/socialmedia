@@ -37,3 +37,6 @@ export const queryAddFriend: string =
 
 export const queryRemoveFriend: string =
   'UPDATE FRIEND_LIST AS FL SET FL.active = 0 WHERE ((FL.user1 = (?) and FL.user2 = (?)) or (FL.user1= (?) and FL.user2= (?)))';
+
+export const queryFriendHandleQuantity: string =
+  'UPDATE USER SET friends = friends + (?) WHERE id = (?) OR id = (?)';
