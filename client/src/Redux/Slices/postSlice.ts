@@ -64,7 +64,6 @@ export const postSlice = createSlice({
     builder.addMatcher(
       isAnyOf(startPostDelete.fulfilled),
       (state, { payload }: any) => {
-        console.log(payload);
         state.postList = state.postList.filter(
           (post) => post.id !== parseInt(payload.answ.id)
         );
@@ -124,7 +123,6 @@ export const startPostDelete = createAsyncThunk(
     try {
       const answ = await postServices.postDelete(data.id);
       if (answ.ok) {
-        console.log(answ);
         dispatch(authActions.handlePostQuantity(-1));
         dispatch(authActions.handleLikeQuantity(-data.likesCount));
         return { answ, redirect: data.redirect };

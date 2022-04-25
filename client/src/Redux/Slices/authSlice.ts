@@ -34,7 +34,6 @@ export const authSlice = createSlice({
     },
     handleFriendsQuantity: (state, { payload }) => {
       state.user!.metaData.friends += payload;
-      console.log(payload);
     },
   },
   extraReducers: (builder) => {

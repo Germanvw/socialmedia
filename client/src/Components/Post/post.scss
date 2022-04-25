@@ -5,60 +5,61 @@
   justify-content: center;
   padding-top: 3em;
   color: var(--text);
-  .post-item {
-    background: var(--bg-secondary);
-    width: 100%;
-    padding: 1em 4em;
-    border-radius: 1em;
-    padding: 1em;
-    margin: 1em 0;
-    .post-text {
-      padding: 1em 0.3em;
-      font-weight: 400;
-      color: var(--text);
-      font-weight: 600;
-    }
-    .post-meta {
+}
+.post-item,
+.comment-item {
+  background: var(--bg-secondary);
+  width: 100%;
+  padding: 1em 4em;
+  border-radius: 1em;
+  padding: 1em;
+  margin: 1em 0;
+  .post-text {
+    padding: 1em 0.3em;
+    font-weight: 400;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .post-meta {
+    display: flex;
+    flex-direction: row;
+    .post-options {
       display: flex;
-      flex-direction: row;
-      .post-options {
+      align-items: center;
+      justify-content: center;
+      a {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        a {
-          display: flex;
-          flex-direction: row;
-          width: 100%;
-          button {
-            font-size: 1.1rem;
-          }
-        }
+        flex-direction: row;
+        width: 100%;
         button {
-          font-size: 1.5rem;
-          background: none;
-          margin: 0 0.3em;
-          .btn-liked {
-            path {
-              fill: var(--text-blue);
-            }
-          }
-          p {
-            font-size: 1rem;
-            padding-left: 0.5em;
-            display: flex;
-            align-items: center;
-            color: var(--text-grey3);
-          }
+          font-size: 1.1rem;
         }
       }
       button {
-        margin-left: auto;
+        font-size: 1.5rem;
+        background: none;
+        margin: 0 0.3em;
+        .btn-liked {
+          path {
+            fill: var(--text-blue);
+          }
+        }
+        p {
+          font-size: 1rem;
+          padding-left: 0.5em;
+          display: flex;
+          align-items: center;
+          color: var(--text-grey3);
+        }
       }
     }
+    button {
+      margin-left: auto;
+    }
   }
-  button:hover {
-    color: var(--text-blue);
-  }
+}
+button:hover {
+  color: var(--text-blue);
 }
 
 .bold {
@@ -83,17 +84,30 @@
   }
 }
 
+.btn-delete {
+  color: var(--text);
+}
 .btn-liked {
   color: var(--text-blue);
+  // &:hover {
+  //   color: red;
+  // }
 }
 
-.btn-delete-post {
-  margin-left: auto;
-  background: rgb(172, 39, 39);
-  color: var(--text-white);
-  padding: 0.2em 0.4em;
-  border-radius: 0.4em;
-  font-size: 0.8rem;
+.right {
+  .btn-delete-comment {
+    margin-left: auto;
+    height: 1.9em;
+    width: 2em;
+    background: rgb(197, 40, 40);
+    color: white;
+    padding: 0 0.5em;
+    border-radius: 0.5em;
+    &:hover {
+      background: rgb(158, 32, 32);
+      color: white;
+    }
+  }
 }
 
 .d-flex {

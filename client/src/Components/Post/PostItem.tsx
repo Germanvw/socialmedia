@@ -85,7 +85,6 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
     fetchLikeStatus();
     getCurrentLikeCount();
   }, [handleChangeLike]);
-
   return (
     <div className='post-item'>
       <UserHeader
@@ -109,7 +108,7 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
             <p>{likesCount}</p>
           </button>
           <Link to={`/post/${id}`}>
-            <button>
+            <button className='btn-delete'>
               <FaRegCommentAlt />
               <p>{commentAmmount ? commentAmmount : comments}</p>
             </button>
