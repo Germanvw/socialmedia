@@ -1,6 +1,7 @@
 import { IoHomeOutline, IoChatboxOutline } from 'react-icons/io5';
 import { ImProfile } from 'react-icons/im';
 import { CgProfile } from 'react-icons/cg';
+
 export const navigationOptions = [
   {
     name: 'Home',

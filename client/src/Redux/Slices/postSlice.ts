@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { PostItemProps } from '../../Interfaces/PostInterfaces';
+import { history } from '../../Router/AppRouter';
 import { postServices } from '../Services/postServices';
 import { authActions } from './authSlice';
-
 interface InitStatePostProps {
   loading: boolean;
   postList: PostItemProps[];
@@ -12,7 +12,6 @@ const initialState: InitStatePostProps = {
   loading: false,
   postList: [],
 };
-
 export const postSlice = createSlice({
   name: 'post',
   initialState,
@@ -49,7 +48,7 @@ export const postSlice = createSlice({
       }
     );
     builder.addMatcher(
-      isAnyOf(startPostFetchAll.fulfilled),
+      isAnyOf(startPostFetchAll.fulfilled, startPostFetchByUser.fulfilled),
       (state, { payload }) => {
         state.postList = payload.posts;
         state.loading = false;
@@ -65,10 +64,12 @@ export const postSlice = createSlice({
     builder.addMatcher(
       isAnyOf(startPostDelete.fulfilled),
       (state, { payload }: any) => {
+        console.log(payload);
         state.postList = state.postList.filter(
-          (post) => post.id !== parseInt(payload.id)
+          (post) => post.id !== parseInt(payload.answ.id)
         );
         state.loading = false;
+        if (payload.redirect) history.push('/');
       }
     );
   },
@@ -117,15 +118,16 @@ export const startPostCreate = createAsyncThunk(
 export const startPostDelete = createAsyncThunk(
   'post/deletePost',
   async (
-    data: { id: number; likesCount: number },
+    data: { id: number; likesCount: number; redirect: boolean },
     { rejectWithValue, dispatch }
   ) => {
     try {
       const answ = await postServices.postDelete(data.id);
       if (answ.ok) {
+        console.log(answ);
         dispatch(authActions.handlePostQuantity(-1));
         dispatch(authActions.handleLikeQuantity(-data.likesCount));
-        return answ;
+        return { answ, redirect: data.redirect };
       }
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);

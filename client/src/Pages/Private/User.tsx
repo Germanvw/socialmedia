@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchToken } from '../../Hooks/useFetch';
 import { SearchUser } from '../../Components/Search/SearchUser';
 import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
 import {
@@ -8,21 +7,15 @@ import {
   startFriendRequestSend,
 } from '../../Redux/Slices/friendSlice';
 import { TemplateBody } from '../../Components/Template/TemplateBody';
-import { PostList, PostProp } from '../../Components/Post/PostList';
+import { PostList } from '../../Components/Post/PostList';
 
 export const User = () => {
   const { id } = useParams();
   const { friendList, error } = useAppSelector((state) => state.friend);
+  const { postList } = useAppSelector((state) => state.posts);
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-  const [posts, setPosts] = useState<PostProp | []>([]);
   const [isMe, setIsMe] = useState(false);
-
-  const fetchPosts = async () => {
-    const req = await fetchToken(`posts/user/${id}`, {});
-    const answ = await req.json();
-    setPosts(answ.posts);
-  };
 
   const isFriend = (id: string) => {
     return friendList.some((friend) => friend.id === parseInt(id));
@@ -39,8 +32,10 @@ export const User = () => {
   };
 
   useEffect(() => {
-    fetchPosts();
-    handleDisplay();
+    if (id) {
+      dispatch(startFriendRequestSend(parseInt(id)));
+      handleDisplay();
+    }
   }, [id]);
   return (
     <TemplateBody
@@ -67,7 +62,7 @@ export const User = () => {
               </button>
             ))}
           {error && <p>{error}</p>}
-          <PostList posts={posts} />
+          <PostList posts={postList} />
         </>
       }
     />

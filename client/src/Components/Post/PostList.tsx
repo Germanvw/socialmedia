@@ -12,8 +12,8 @@ export interface PostProp {
 
 export const PostList = ({ posts }: PostProp[] | any) => {
   return (
-    <div className='feed-list'>
-      <h1>Feeds</h1>
+    <div className='post-list'>
+      <h1>Posts</h1>
       {posts.length > 0 ? (
         posts.map((post: PostProp) => <PostItem key={post.id} feed={post} />)
       ) : (

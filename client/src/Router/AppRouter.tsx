@@ -1,4 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import { PrivateRoutes } from './PrivateRoutes';
 import { PublicRoutes } from './PublicRoutes';
 import { noTokenRoutes, tokenRoutes } from './routes';
@@ -6,6 +7,8 @@ import { useAppSelector, useAppDispatch } from '../Hooks/useRedux';
 import { useEffect } from 'react';
 import { startRefreshToken } from '../Redux/Slices/authSlice';
 import { uiActions } from '../Redux/Slices/uiSlice';
+import { createBrowserHistory } from 'history';
+export const history = createBrowserHistory({ window });
 
 export const AppRouter = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -25,7 +28,7 @@ export const AppRouter = () => {
     }
   }, []);
   return (
-    <BrowserRouter>
+    <HistoryRouter history={history}>
       <div className='app' data-theme={darkTheme ? 'dark' : 'light'}>
         <Routes>
           <Route element={<PrivateRoutes user={user} />}>
@@ -40,6 +43,6 @@ export const AppRouter = () => {
           </Route>
         </Routes>
       </div>
-    </BrowserRouter>
+    </HistoryRouter>
   );
 };
