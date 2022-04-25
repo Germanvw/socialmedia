@@ -1,4 +1,15 @@
+.contacts-sidebar {
+  padding-top: 3em;
+  .header {
+    color: var(--text);
+    margin-bottom: 1em;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+}
+
 .contact-item {
+  margin: 0.4em 0;
   width: 100%;
   display: flex;
   flex-direction: row;

@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../Hooks/useRedux';
 import { FriendRequestListProps } from '../../../Interfaces/FriendInterfaces';
 import { FriendRequestItem } from './FriendRequestItem';
+import './friend.scss';
 
 export const FriendRequestList = () => {
   const { friendRequestList } = useAppSelector((state) => state.friend);

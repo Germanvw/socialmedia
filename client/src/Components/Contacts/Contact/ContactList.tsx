@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../Hooks/useRedux';
 import { UserAtFriendList } from '../../../Interfaces/UserInterfaces';
 
+import './contact.scss';
+
 export const ContactList = () => {
   const { friendList } = useAppSelector((state) => state.friend);
 

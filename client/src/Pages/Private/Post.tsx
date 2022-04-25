@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { PostProp } from '../../Components/Feed/FeedList';
-import { PostItem } from '../../Components/Feed/PostItem';
-import { NotificationBar } from '../../Components/Nav/NotificationBar/NotificationBar';
-import { SearchUser } from '../../Components/Nav/SearchUser';
-import { Sidebar } from '../../Components/Nav/Sidebar/Sidebar';
+import { PostProp } from '../../Components/Post/PostList';
+import { PostWithComments } from '../../Components/Post/PostWithComments';
+import { SearchUser } from '../../Components/Search/SearchUser';
+import { TemplateBody } from '../../Components/Template/TemplateBody';
 import { fetchToken } from '../../Hooks/useFetch';
 
 export const Post = () => {
@@ -23,15 +22,15 @@ export const Post = () => {
   }, [id]);
   if (post === null) return <></>;
   return (
-    <div className='main-site'>
-      <Sidebar />
-      <div className='body'>
-        <div className='header'>
-          <SearchUser />
-        </div>
-        <PostItem post={post} />
-      </div>
-      <NotificationBar />
-    </div>
+    <TemplateBody
+      Component={
+        <>
+          <div className='header'>
+            <SearchUser />
+          </div>
+          <PostWithComments post={post} />
+        </>
+      }
+    />
   );
 };

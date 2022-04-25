@@ -1,5 +1,5 @@
-import { FeedItem } from './FeedItem';
-import './feed.scss';
+import { PostItem } from './PostItem';
+import './post.scss';
 
 export interface PostProp {
   id: number;
@@ -10,12 +10,12 @@ export interface PostProp {
   comments: number;
 }
 
-export const FeedList = ({ posts }: PostProp[] | any) => {
+export const PostList = ({ posts }: PostProp[] | any) => {
   return (
     <div className='feed-list'>
       <h1>Feeds</h1>
       {posts.length > 0 ? (
-        posts.map((post: PostProp) => <FeedItem key={post.id} feed={post} />)
+        posts.map((post: PostProp) => <PostItem key={post.id} feed={post} />)
       ) : (
         <p>No posts found</p>
       )}

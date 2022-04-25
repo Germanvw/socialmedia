@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import './search.scss';
+
 export const SearchUser = () => {
   const [query, setQuery] = useState('');
 

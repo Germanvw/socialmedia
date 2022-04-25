@@ -1,0 +1,216 @@
+.sidebar {
+  background-color: var(--bg-secondary);
+  display: flex;
+  svg {
+    color: var(--text);
+  }
+  button {
+    background: none;
+  }
+  .sidebar-open,
+  .sidebar-close {
+    transition: 650ms;
+  }
+  .sidebar-open {
+    width: 18em;
+  }
+  .sidebar-close {
+    width: 6em;
+  }
+  .sidebar-header {
+    height: 16em;
+    .icon {
+      height: 2em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      svg:hover {
+        cursor: pointer;
+        path {
+          fill: var(--text-blue);
+        }
+      }
+    }
+  }
+  .navbar-sb {
+    padding: 2.5em 0;
+    height: calc(100vh - 16em);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .nav-items {
+      display: flex;
+      flex-direction: column;
+      .nav-item {
+        font-size: 1.2rem;
+        list-style: none;
+        padding: 0 0.2em;
+        p {
+          color: var(--text);
+        }
+        svg {
+          color: var(--text-grey);
+          width: 1.5em;
+          height: 1.5em;
+          &:hover {
+            fill {
+              color: var(--text-blue);
+            }
+          }
+        }
+        a,
+        button {
+          cursor: pointer;
+          color: var(--text);
+          border-radius: 1em;
+          margin: 0.2em 0;
+          padding: 0.8em 1.2em;
+          font-size: 1.2rem;
+          display: flex;
+          align-items: center;
+          &:hover {
+            path {
+              fill: var(--text-blue);
+            }
+          }
+        }
+        // Active
+        .active {
+          background-color: var(--text-blue);
+          p {
+            color: white;
+          }
+          svg {
+            color: var(--text-blue);
+            path {
+              fill: white;
+            }
+          }
+          &:hover {
+            background-color: var(--text-nav-hover);
+            p {
+              color: var(--text-blue);
+            }
+            svg {
+              path {
+                fill: var(--text-blue);
+              }
+            }
+          }
+        }
+        a,
+        button {
+          &:hover {
+            width: 100%;
+            background-color: var(--text-nav-hover);
+          }
+
+          p {
+            margin-left: 1em;
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+  .center {
+    margin: 1em 0 0 0;
+    padding-left: 1em;
+  }
+}
+
+.sidebar-close {
+  .navbar-sb {
+    padding: 2.5em 1em;
+  }
+  .nav-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .nav-item {
+      p {
+        display: none;
+      }
+      .active {
+        color: var(--text-blue);
+        svg {
+          path {
+            fill: var(--text-blue);
+          }
+        }
+      }
+    }
+  }
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  .profile-info-name {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+    a {
+      margin: 0em;
+    }
+    .username {
+      margin-top: 0.5em;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--text);
+    }
+    .adress,
+    .username-profile {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-grey);
+    }
+    .username-profile {
+      font-size: 1em;
+      margin-bottom: 0.3em;
+    }
+    .center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .profile-info-meta {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 1em 0em;
+    .meta-counter {
+      padding: 0 1.1em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      p {
+        font-size: 1.1em;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .label {
+        font-size: 0.8em;
+        font-weight: 600;
+        color: var(--text-grey);
+      }
+    }
+  }
+}

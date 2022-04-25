@@ -1,14 +1,15 @@
 import { Formik, Form } from 'formik';
-import {
-  formLoginFields,
-  initialFormLogin,
-  validationLoginForm,
-} from '../../constants/formsSchema';
+
 import { startLogin } from '../../Redux/Slices/authSlice';
 import { TextInput } from '../../Components/Forms/TextInput';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Hooks/useRedux';
 import './styles.scss';
+import {
+  formLoginFields,
+  initialFormLogin,
+  validationLoginForm,
+} from '../../constants/formsSchema';
 
 export const Login = () => {
   const { error } = useAppSelector((state) => state.auth);

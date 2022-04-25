@@ -6,9 +6,10 @@
   --text-grey2: #e8e8ea;
   --text-grey3: #4a494b;
   --text-blue: #4d77ff;
+  --text-nav-hover: #e8e8ea;
 
   // Background
-  --bg-primary: #f9f9f9;
+  --bg-primary: #f7f7f7;
   --bg-secondary: #ffffff;
 
   // Button
@@ -18,10 +19,13 @@
   --btn-secondary: var(--text);
 }
 
-:root [data-theme="dark"] {
+:root [data-theme='dark'] {
+  --text: #fff;
+  --text-nav: #000000;
+  --text-nav-hover: #242324;
   // Background
-  --bg-primary: #f9f9f9;
-  --bg-secondary: #ffffff;
+  --bg-primary: #242324;
+  --bg-secondary: #131214;
 
   // Button
   --btn-bg-primary: #4d77ff;

@@ -6,10 +6,9 @@ import {
   Profile,
   Chat,
   Favorites,
-  Settings,
+  Post,
+  User,
 } from '../Pages';
-import { ProfileId } from '../Pages/Private/ProfileId';
-import { Post } from '../Pages/Private/Post';
 interface Route {
   path: string;
   name: string;
@@ -34,9 +33,9 @@ export const tokenRoutes: Route[] = [
     Component: Profile,
   },
   {
-    name: 'Profile',
-    path: '/profile/:id',
-    Component: ProfileId,
+    name: 'User',
+    path: '/User/:id',
+    Component: User,
   },
   {
     name: 'Favorites',
@@ -48,11 +47,7 @@ export const tokenRoutes: Route[] = [
     path: '/chat',
     Component: Chat,
   },
-  {
-    name: 'Settings',
-    path: '/settings',
-    Component: Settings,
-  },
+
   { name: 'Homepage', path: '/', Component: Homepage },
 ];
 

@@ -3,6 +3,7 @@ import { authSlice } from './Slices/authSlice';
 import { commentSlice } from './Slices/commentSlice';
 import { friendSlice } from './Slices/friendSlice';
 import { postSlice } from './Slices/postSlice';
+import { uiSlice } from './Slices/uiSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     friend: friendSlice.reducer,
     posts: postSlice.reducer,
     comment: commentSlice.reducer,
+    ui: uiSlice.reducer,
   },
 });
 

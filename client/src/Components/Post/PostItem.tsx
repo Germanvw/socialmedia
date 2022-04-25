@@ -5,15 +5,15 @@ import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
 import { UserHeader } from '../Contacts/UserHeader';
 import { startPostDelete } from '../../Redux/Slices/postSlice';
 
-import './feed.scss';
 import { authActions } from '../../Redux/Slices/authSlice';
+import './post.scss';
 
 interface FeedItemProp {
   feed: any;
   commentAmmount?: number;
 }
 
-export const FeedItem = ({ feed, commentAmmount }: FeedItemProp) => {
+export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
   const { id, image, text, likes, comments, created_at } = feed;
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();

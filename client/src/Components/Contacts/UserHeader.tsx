@@ -12,16 +12,16 @@ export const UserHeader = ({ user, label, date }: HeaderProps) => {
   return (
     <div className='contact-item'>
       <div className='profile-pic'>
-        <Link to={`/profile/${id}`}>
+        <Link to={`/user/${id}`}>
           <img src={user.image} alt='profile-pic' />
         </Link>
       </div>
       <div className='profile-info'>
         <div className='info'>
-          <Link to={`/profile/${id}`}>
+          <Link to={`/user/${id}`}>
             {firstname} {lastname}
           </Link>
-          <Link to={`/profile/${id}`} className='label'>
+          <Link to={`/user/${id}`} className='label'>
             {label}
           </Link>
         </div>

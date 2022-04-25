@@ -1,17 +1,16 @@
-import { FeedList, PostProp } from '../../Components/Feed/FeedList';
-import { NotificationBar } from '../../Components/Nav/NotificationBar/NotificationBar';
-import { SearchUser } from '../../Components/Nav/SearchUser';
-import { Sidebar } from '../../Components/Nav/Sidebar/Sidebar';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchToken } from '../../Hooks/useFetch';
+import { SearchUser } from '../../Components/Search/SearchUser';
 import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
 import {
   startFriendRemove,
   startFriendRequestSend,
 } from '../../Redux/Slices/friendSlice';
+import { TemplateBody } from '../../Components/Template/TemplateBody';
+import { PostList, PostProp } from '../../Components/Post/PostList';
 
-export const ProfileId = () => {
+export const User = () => {
   const { id } = useParams();
   const { friendList, error } = useAppSelector((state) => state.friend);
   const { user } = useAppSelector((state) => state.auth);
@@ -44,33 +43,33 @@ export const ProfileId = () => {
     handleDisplay();
   }, [id]);
   return (
-    <div className='main-site'>
-      <Sidebar />
-      <div className='body'>
-        <div className='header'>
-          <SearchUser />
-        </div>
-        {id &&
-          !isMe &&
-          (isFriend(id) ? (
-            <button
-              className='delete-friend'
-              onClick={() => dispatch(startFriendRemove(parseInt(id)))}
-            >
-              Remove Friend
-            </button>
-          ) : (
-            <button
-              className='send-request'
-              onClick={() => dispatch(startFriendRequestSend(parseInt(id)))}
-            >
-              Send Friend Request
-            </button>
-          ))}
-        {error && <p>{error}</p>}
-        <FeedList posts={posts} />
-      </div>
-      <NotificationBar />
-    </div>
+    <TemplateBody
+      Component={
+        <>
+          <div className='header'>
+            <SearchUser />
+          </div>
+          {id &&
+            !isMe &&
+            (isFriend(id) ? (
+              <button
+                className='delete-friend'
+                onClick={() => dispatch(startFriendRemove(parseInt(id)))}
+              >
+                Remove Friend
+              </button>
+            ) : (
+              <button
+                className='send-request'
+                onClick={() => dispatch(startFriendRequestSend(parseInt(id)))}
+              >
+                Send Friend Request
+              </button>
+            ))}
+          {error && <p>{error}</p>}
+          <PostList posts={posts} />
+        </>
+      }
+    />
   );
 };

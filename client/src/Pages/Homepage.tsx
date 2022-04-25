@@ -1,8 +1,3 @@
-import { CreatePost } from '../Components/Buttons/CreatePost';
-import { FeedList } from '../Components/Feed/FeedList';
-import { NotificationBar } from '../Components/Nav/NotificationBar/NotificationBar';
-import { SearchUser } from '../Components/Nav/SearchUser';
-import { Sidebar } from '../Components/Nav/Sidebar/Sidebar';
 import { useEffect } from 'react';
 import {
   startFriendRequestFetch,
@@ -12,6 +7,9 @@ import { useAppDispatch, useAppSelector } from '../Hooks/useRedux';
 import { startPostFetchAll } from '../Redux/Slices/postSlice';
 import './homepage.scss';
 import { PostCreateForm } from '../Components/Forms/PostCreateForm';
+import { TemplateBody } from '../Components/Template/TemplateBody';
+import { PostList } from '../Components/Post/PostList';
+import { SearchUser } from '../Components/Search/SearchUser';
 
 export const Homepage = () => {
   const { postList } = useAppSelector((state) => state.posts);
@@ -24,18 +22,18 @@ export const Homepage = () => {
   }, [dispatch]);
 
   return (
-    <div className='main-site'>
-      <Sidebar />
-      <div className='body'>
-        <div className='header'>
-          <SearchUser />
-        </div>
-        <div className='create-post'>
-          <PostCreateForm />
-        </div>
-        <FeedList posts={postList} />
-      </div>
-      <NotificationBar />
-    </div>
+    <TemplateBody
+      Component={
+        <>
+          <div className='header'>
+            <SearchUser />
+          </div>
+          <div className='create-post'>
+            <PostCreateForm />
+          </div>
+          <PostList posts={postList} />
+        </>
+      }
+    />
   );
 };

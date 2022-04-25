@@ -2,7 +2,7 @@ import { UserAtFriendList } from '../../../Interfaces/UserInterfaces';
 import { ChatButton } from '../../Buttons/ChatButton';
 import { UserHeader } from '../UserHeader';
 
-import './../contact.scss';
+import './contact.scss';
 
 export const ContactItem = ({ user }: { user: UserAtFriendList }) => {
   return (
