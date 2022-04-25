@@ -114,3 +114,13 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.btn-open-modal-post {
+  svg {
+    font-size: 5em;
+    fill: var(--text-blue);
+    &:hover {
+      fill: var(--text-blue-dark);
+    }
+  }
+}

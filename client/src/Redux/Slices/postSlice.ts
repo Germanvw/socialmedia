@@ -6,11 +6,13 @@ import { authActions } from './authSlice';
 interface InitStatePostProps {
   loading: boolean;
   postList: PostItemProps[];
+  postListFav: PostItemProps[];
 }
 
 const initialState: InitStatePostProps = {
   loading: false,
   postList: [],
+  postListFav: [],
 };
 export const postSlice = createSlice({
   name: 'post',
@@ -30,7 +32,9 @@ export const postSlice = createSlice({
         startPostFetchAll.pending,
         startPostFetchByUser.pending,
         startPostCreate.pending,
-        startPostDelete.pending
+        startPostDelete.pending,
+        startPostFetchFavorite.pending,
+        startPostChangeFavorite.pending
       ),
       (state) => {
         state.loading = true;
@@ -41,7 +45,9 @@ export const postSlice = createSlice({
         startPostFetchAll.rejected,
         startPostFetchByUser.rejected,
         startPostCreate.rejected,
-        startPostDelete.rejected
+        startPostDelete.rejected,
+        startPostFetchFavorite.rejected,
+        startPostChangeFavorite.rejected
       ),
       (state) => {
         state.loading = false;
@@ -69,6 +75,26 @@ export const postSlice = createSlice({
         );
         state.loading = false;
         if (payload.redirect) history.push('/');
+      }
+    );
+    builder.addMatcher(
+      isAnyOf(startPostFetchFavorite.fulfilled),
+      (state, { payload }) => {
+        state.postListFav = payload;
+        state.loading = false;
+      }
+    );
+    builder.addMatcher(
+      isAnyOf(startPostChangeFavorite.fulfilled),
+      (state, { payload }: any) => {
+        if (payload.favorite) {
+          state.postListFav = [payload.post, ...state.postListFav];
+        } else {
+          state.postListFav = state.postListFav.filter(
+            (post) => post.id !== parseInt(payload.id)
+          );
+        }
+        state.loading = false;
       }
     );
   },
@@ -132,4 +158,32 @@ export const startPostDelete = createAsyncThunk(
     }
   }
 );
+
+export const startPostFetchFavorite = createAsyncThunk(
+  'post/fetchFavoritePosts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { ok, posts } = await postServices.postFetchFavorite();
+      if (ok) {
+        return posts;
+      }
+    } catch (err: any) {
+      return rejectWithValue(err.toString().split(': ')[1]);
+    }
+  }
+);
+export const startPostChangeFavorite = createAsyncThunk(
+  'post/changeFavorite',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { favorite, ok, post } = await postServices.postChangeFavorite(id);
+      if (ok) {
+        return { id, favorite, post };
+      }
+    } catch (err: any) {
+      return rejectWithValue(err.toString().split(': ')[1]);
+    }
+  }
+);
+
 export const postActions = postSlice.actions;

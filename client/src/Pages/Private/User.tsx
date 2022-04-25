@@ -8,13 +8,15 @@ import {
 } from '../../Redux/Slices/friendSlice';
 import { TemplateBody } from '../../Components/Template/TemplateBody';
 import { PostList } from '../../Components/Post/PostList';
+import { startPostFetchByUser } from '../../Redux/Slices/postSlice';
 
 export const User = () => {
-  const { id } = useParams();
   const { friendList, error } = useAppSelector((state) => state.friend);
   const { postList } = useAppSelector((state) => state.posts);
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
+  const { id } = useParams();
   const [isMe, setIsMe] = useState(false);
 
   const isFriend = (id: string) => {
@@ -34,6 +36,7 @@ export const User = () => {
   useEffect(() => {
     if (id) {
       dispatch(startFriendRequestSend(parseInt(id)));
+      dispatch(startPostFetchByUser(parseInt(id)));
       handleDisplay();
     }
   }, [id]);

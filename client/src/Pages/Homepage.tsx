@@ -4,12 +4,15 @@ import {
   startFriendFetchAll,
 } from '../Redux/Slices/friendSlice';
 import { useAppDispatch, useAppSelector } from '../Hooks/useRedux';
-import { startPostFetchAll } from '../Redux/Slices/postSlice';
+import {
+  startPostFetchAll,
+  startPostFetchFavorite,
+} from '../Redux/Slices/postSlice';
 import './homepage.scss';
-import { PostCreateForm } from '../Components/Forms/PostCreateForm';
 import { TemplateBody } from '../Components/Template/TemplateBody';
 import { PostList } from '../Components/Post/PostList';
 import { SearchUser } from '../Components/Search/SearchUser';
+import { AddPostBtn } from '../Components/Buttons/AddPostBtn';
 
 export const Homepage = () => {
   const { postList } = useAppSelector((state) => state.posts);
@@ -19,6 +22,7 @@ export const Homepage = () => {
     dispatch(startFriendFetchAll());
     dispatch(startFriendRequestFetch());
     dispatch(startPostFetchAll());
+    dispatch(startPostFetchFavorite());
   }, [dispatch]);
 
   return (
@@ -27,9 +31,7 @@ export const Homepage = () => {
         <>
           <div className='header'>
             <SearchUser />
-          </div>
-          <div className='create-post'>
-            <PostCreateForm />
+            <AddPostBtn />
           </div>
           <PostList posts={postList} />
         </>

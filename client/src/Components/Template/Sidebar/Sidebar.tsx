@@ -8,9 +8,9 @@ import { useAppDispatch, useAppSelector } from '../../../Hooks/useRedux';
 import { authActions } from '../../../Redux/Slices/authSlice';
 import { uiActions } from '../../../Redux/Slices/uiSlice';
 import { SidebarHeader } from './SidebarHeader';
-
-import './sidebar.scss';
 import { Switch } from '../../Buttons/Switch';
+import { AddPostBtn } from '../../Buttons/AddPostBtn';
+import './sidebar.scss';
 
 export const Sidebar = () => {
   const { sidebarOpen, darkTheme } = useAppSelector((state) => state.ui);
@@ -63,6 +63,7 @@ export const Sidebar = () => {
               </li>
             ))}
           </ul>
+          <AddPostBtn />
           <ul className='nav-items'>
             <li className='nav-item'>
               <button onClick={() => dispatch(authActions.logout())}>

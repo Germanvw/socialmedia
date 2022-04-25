@@ -120,9 +120,20 @@
   }
 }
 
+.sidebar-open {
+  button {
+    margin-left: 1.5em;
+  }
+}
+
 .sidebar-close {
   .navbar-sb {
     padding: 2.5em 1em;
+  }
+  .sidebar-header {
+    .icon {
+      margin-bottom: 2em;
+    }
   }
   .nav-items {
     display: flex;

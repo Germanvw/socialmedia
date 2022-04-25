@@ -1,15 +1,13 @@
-.text-input {
+.input-global {
+  padding: 0.4em 0.8em;
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 2em;
-  background: var(--text-grey2);
   margin: 1em 0;
-  padding: 0.4em 0.8em;
   .input {
     width: 100%;
     input {
-      background: var(--text-grey2);
       min-width: 18em;
       height: 2.8em;
       border-radius: 0.5em;
@@ -23,6 +21,23 @@
     min-width: 1em;
   }
 }
+
+.text-input-light {
+  background: var(--text-grey2);
+  input {
+    background: var(--text-grey2);
+  }
+}
+
+.text-input-dark {
+  background: #242324;
+
+  input {
+    color: #fff;
+    background: #242324;
+  }
+}
+
 .has-error {
   &::placeholder {
     color: red;

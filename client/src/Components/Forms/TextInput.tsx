@@ -1,4 +1,5 @@
 import { useField } from 'formik';
+import { useAppSelector } from '../../Hooks/useRedux';
 
 import './styles.scss';
 
@@ -11,10 +12,11 @@ interface Props {
 }
 
 export const TextInput = ({ label, ...props }: Props) => {
+  const { darkTheme } = useAppSelector((state) => state.ui);
   const [field, meta] = useField(props);
   return (
-    <div className='text-input'>
-      <div className='input'>
+    <div className={`input-global text-input-${darkTheme ? 'dark' : 'light'}`}>
+      <div className={`input`}>
         <input
           className={`${meta.error && 'has-error'}`}
           {...field}

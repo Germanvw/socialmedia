@@ -8,7 +8,7 @@ import { startPostCreate } from '../../Redux/Slices/postSlice';
 import { CreatePost } from '../Buttons/CreatePost';
 import { TextInput } from './TextInput';
 
-export const PostCreateForm = () => {
+export const PostCreateForm = ({ setOpen }: any) => {
   const dispatch = useAppDispatch();
 
   const handleCreateComment = (text: string, image: string) => {
@@ -21,12 +21,12 @@ export const PostCreateForm = () => {
         onSubmit={({ text, image }, { resetForm }) => {
           handleCreateComment(text, image);
           resetForm();
+          setOpen(false);
         }}
         validationSchema={validationCreatePostForm}
       >
-        {({ resetForm }) => (
+        {() => (
           <Form className='formik-form' noValidate>
-            <div className='error-auth'>{/* <p>{error}</p> */}</div>
             {formPostCreateFields.map((item, index) => (
               <TextInput key={index} {...item} />
             ))}

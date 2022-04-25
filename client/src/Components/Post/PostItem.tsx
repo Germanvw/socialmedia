@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { fetchToken } from '../../Hooks/useFetch';
 import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
 import { UserHeader } from '../Contacts/UserHeader';
-import { startPostDelete } from '../../Redux/Slices/postSlice';
+import {
+  startPostChangeFavorite,
+  startPostDelete,
+} from '../../Redux/Slices/postSlice';
 import { authActions } from '../../Redux/Slices/authSlice';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import { FaRegCommentAlt, FaTrashAlt } from 'react-icons/fa';
@@ -20,7 +23,7 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const [liked, setLiked] = useState(false);
-  const [favorite] = useState(false);
+  const [favorite, setFavorite] = useState(false);
   const [likesCount, setLikesCount] = useState(likes);
   const location = useLocation();
 
@@ -58,10 +61,24 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
     }
   };
 
+  const fetchFavoriteStatus = async () => {
+    const req = await fetchToken(`posts/favoritebyuser/${id}`, {});
+    const { isFavorite } = await req.json();
+    if (isFavorite) {
+      setFavorite(true);
+    }
+  };
+
   const getCurrentLikeCount = async () => {
     const req = await fetchToken(`likes/post/${id}`, {});
     const answ = await req.json();
     setLikesCount(answ.likes);
+  };
+
+  const handleChangeFavorite = () => {
+    dispatch(startPostChangeFavorite(id));
+    if (favorite) setFavorite(false);
+    if (!favorite) setFavorite(true);
   };
 
   const handleChangeLike = async () => {
@@ -84,6 +101,7 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
   useEffect(() => {
     fetchLikeStatus();
     getCurrentLikeCount();
+    fetchFavoriteStatus();
   }, [handleChangeLike]);
   return (
     <div className='post-item'>
@@ -123,7 +141,10 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
               <FaTrashAlt />
             </button>
           )}
-          <button className={`btn-favorite ${favorite ? 'is-favorite' : ''}`}>
+          <button
+            className={`btn-favorite ${favorite ? 'is-favorite' : ''}`}
+            onClick={handleChangeFavorite}
+          >
             <svg
               width='20'
               height='20'
