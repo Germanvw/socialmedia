@@ -9,7 +9,7 @@ import {
   startPostFetchFavorite,
 } from '../Redux/Slices/postSlice';
 import './homepage.scss';
-import { TemplateBody } from '../Components/Template/TemplateBody';
+import { Template } from '../Components/Template/Template';
 import { PostList } from '../Components/Post/PostList';
 import { SearchUser } from '../Components/Search/SearchUser';
 import { AddPostBtn } from '../Components/Buttons/AddPostBtn';
@@ -26,7 +26,7 @@ export const Homepage = () => {
   }, [dispatch]);
 
   return (
-    <TemplateBody
+    <Template
       Component={
         <>
           <div className='header'>

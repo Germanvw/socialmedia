@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { PostProp } from '../../Components/Post/PostList';
 import { PostWithComments } from '../../Components/Post/PostWithComments';
 import { SearchUser } from '../../Components/Search/SearchUser';
-import { TemplateBody } from '../../Components/Template/TemplateBody';
+import { Template } from '../../Components/Template/Template';
 import { fetchToken } from '../../Hooks/useFetch';
 
 export const Post = () => {
@@ -22,7 +22,7 @@ export const Post = () => {
   }, [id]);
   if (post === null) return <></>;
   return (
-    <TemplateBody
+    <Template
       Component={
         <>
           <div className='header'>

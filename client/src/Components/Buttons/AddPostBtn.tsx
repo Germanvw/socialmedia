@@ -28,7 +28,6 @@ export const AddPostBtn = () => {
       >
         <Box
           width={400}
-          height={280}
           bgcolor={darkTheme ? '#000' : '#ffffff'}
           p={3}
           color={darkTheme ? '#fff' : '#000'}
@@ -36,15 +35,14 @@ export const AddPostBtn = () => {
         >
           <Typography
             id='modal-modal-title'
+            color={darkTheme ? '#fff' : '#000'}
             variant='h6'
             component='h2'
             textAlign='center'
           >
             Create Post
           </Typography>
-          <Box width={340} height={250}>
-            <PostCreateForm setOpen={setOpen} />
-          </Box>
+          <PostCreateForm setOpen={setOpen} />
         </Box>
       </StyledModal>
     </>

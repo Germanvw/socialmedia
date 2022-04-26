@@ -28,10 +28,10 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
   const [likesCount, setLikesCount] = useState(likes);
 
   const sliceText = (text: string) => {
-    if (text.length >= 197) {
+    if (text.length >= 200 && !location.pathname.includes('/post')) {
       return (
         <>
-          {text.slice(0, 194)} ...{' '}
+          {text.slice(0, 197)} ...{' '}
           {
             <Link to={`/post/${id}`} className='bold'>
               read more

@@ -21,14 +21,14 @@ export const PostWithComments = ({ post }: any) => {
   return (
     <div>
       <PostItem feed={post} commentAmmount={ammount} />
-      <p>Comments</p>
       <CommentForm id={id} />
+      <h2>Comments</h2>
       {ammount > 0 ? (
         commentList.map((item: CommentItemProp) => (
           <CommentItem comment={item} key={item.id} userId={user.id} />
         ))
       ) : (
-        <p>No comments submited.</p>
+        <p className='not-found-label'>No comments submited.</p>
       )}
     </div>
   );

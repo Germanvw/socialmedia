@@ -3,13 +3,12 @@ import {
   formCreateCommentFields,
   validationCreateCommentForm,
 } from '../../constants/formsSchema';
-import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
+import { useAppDispatch } from '../../Hooks/useRedux';
 import { startCreateComment } from '../../Redux/Slices/commentSlice';
 import { CreatePost } from '../Buttons/CreatePost';
 import { TextInput } from './TextInput';
 
 export const CommentForm = ({ id }: { id: string }) => {
-  const { error } = useAppSelector((state) => state.comment);
   const dispatch = useAppDispatch();
 
   const handleCreateComment = ({ comment }: { comment: string }) => {
@@ -25,11 +24,8 @@ export const CommentForm = ({ id }: { id: string }) => {
         }}
         validationSchema={validationCreateCommentForm}
       >
-        {({ resetForm }) => (
+        {() => (
           <Form className='formik-form' noValidate>
-            <div className='error-auth'>
-              <p>{error}</p>
-            </div>
             <TextInput {...formCreateCommentFields} />
             <CreatePost title='Comment' />
           </Form>

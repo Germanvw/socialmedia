@@ -4,7 +4,7 @@ import { BiLogOut } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { navigationOptions } from '../../../constants/navigation';
 import { NavLink } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../Hooks/useRedux';
+import { useAppDispatch } from '../../../Hooks/useRedux';
 import { authActions } from '../../../Redux/Slices/authSlice';
 import { uiActions } from '../../../Redux/Slices/uiSlice';
 import { SidebarHeader } from './SidebarHeader';
@@ -12,8 +12,13 @@ import { Switch } from '../../Buttons/Switch';
 import { AddPostBtn } from '../../Buttons/AddPostBtn';
 import './sidebar.scss';
 
-export const Sidebar = () => {
-  const { sidebarOpen, darkTheme } = useAppSelector((state) => state.ui);
+export const Sidebar = ({
+  sidebarOpen,
+  darkTheme,
+}: {
+  sidebarOpen: boolean;
+  darkTheme: boolean;
+}) => {
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -45,7 +50,9 @@ export const Sidebar = () => {
               <FaBars onClick={handleOpen} />
             )}
           </div>
-          <SidebarHeader isOpen={sidebarOpen} />
+          <div className='sidebar-header-show'>
+            <SidebarHeader isOpen={sidebarOpen} />
+          </div>
         </div>
         <nav className='navbar-sb'>
           <ul className='nav-items'>

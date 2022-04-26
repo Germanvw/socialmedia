@@ -1,5 +1,5 @@
-import { TemplateBody } from '../../Components/Template/TemplateBody';
+import { Template } from '../../Components/Template/Template';
 
 export const Profile = () => {
-  return <TemplateBody Component={<p>Profile</p>} />;
+  return <Template Component={<p>Profile</p>} />;
 };

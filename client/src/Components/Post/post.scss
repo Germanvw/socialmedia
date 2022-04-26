@@ -8,6 +8,7 @@
 }
 .post-item,
 .comment-item {
+  color: var(--text);
   background: var(--bg-secondary);
   width: 100%;
   padding: 1em 4em;
@@ -39,11 +40,6 @@
         font-size: 1.5rem;
         background: none;
         margin: 0 0.3em;
-        .btn-liked {
-          path {
-            fill: var(--text-blue);
-          }
-        }
         p {
           font-size: 1rem;
           padding-left: 0.5em;
@@ -62,11 +58,18 @@ button:hover {
   color: var(--text-blue);
 }
 
+.btn-liked {
+  color: var(--text-blue) !important;
+}
+
 .bold {
   font-size: 0.9rem;
   font-weight: bold;
   text-decoration: none;
   color: var(--text);
+  &:hover {
+    color: var(--text-blue);
+  }
 }
 .date {
   font-size: 0.7rem;
@@ -80,7 +83,9 @@ button:hover {
   justify-content: center;
   img {
     margin: 1em 0 3em 0;
+    height: 100%;
     max-width: 30em;
+    width: auto;
   }
 }
 
@@ -140,5 +145,28 @@ button:hover {
         fill: var(--text-blue-dark);
       }
     }
+  }
+}
+
+.add-comment {
+  background-color: var(--bg-secondary);
+  border-radius: 0.5em;
+  padding: 1em;
+  margin-bottom: 2em;
+  button {
+    width: 100%;
+  }
+}
+h2 {
+  color: var(--text);
+}
+.not-found-label {
+  color: var(--text);
+  margin-top: 2em;
+}
+
+.error-text {
+  p {
+    color: red;
   }
 }

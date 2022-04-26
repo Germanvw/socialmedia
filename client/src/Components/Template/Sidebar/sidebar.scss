@@ -225,3 +225,16 @@
     }
   }
 }
+
+@media screen and (max-width: 800px) {
+  .sidebar-close {
+    height: 5em;
+
+    .sidebar-header-show {
+      display: none;
+    }
+    .navbar-sb {
+      display: none;
+    }
+  }
+}

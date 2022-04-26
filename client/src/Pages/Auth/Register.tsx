@@ -46,7 +46,7 @@ export const Register = () => {
                 <TextInput {...input} key={input.name} />
               ))}
 
-              <Link to='/register' className='redirect'>
+              <Link to='/login' className='redirect'>
                 Already have an account?
               </Link>
               <div className='error-auth'>

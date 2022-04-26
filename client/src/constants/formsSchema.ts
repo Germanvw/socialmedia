@@ -110,8 +110,11 @@ export const validationRegisterForm = Yup.object({
   username: Yup.string()
     .required('Required')
     .min(3, 'Minimum 3 characters')
-    .max(20, 'Maximum 20 characters'),
-  email: Yup.string().email('Invalid email address').required('Required'),
+    .max(30, 'Maximum 30 characters'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Required')
+    .max(35, 'Maximum 35 characters'),
   firstname: Yup.string()
     .required('Required')
     .min(3, 'Minimum 3 characters')
@@ -124,6 +127,7 @@ export const validationRegisterForm = Yup.object({
     .required('Required')
     .min(3, 'Minimum 3 characters')
     .max(30, 'Maximum 30 characters'),
+  age: Yup.number().required('Required').max(120, 'Maximum 120 years old'),
   password: Yup.string()
     .required('Required')
     .min(6, 'Minimum 6 characters')
@@ -145,6 +149,6 @@ export const validationCreatePostForm = Yup.object({
   text: Yup.string()
     .required('Required')
     .min(1, 'Minimum 1 character')
-    .max(256, 'Maximum 256 characters'),
+    .max(500, 'Maximum 500 characters'),
   image: Yup.string().url('Invalid url').max(256, 'Maximum 256 characters'),
 });

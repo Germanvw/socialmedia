@@ -49,3 +49,66 @@
     }
   }
 }
+
+.contact-header-body {
+  margin-top: 2em;
+  color: var(--text);
+  border-radius: 0.5em;
+  background: var(--bg-secondary);
+  padding: 1em 2em;
+  display: flex;
+  .contact-image {
+    width: 130px;
+    img {
+      width: 8em;
+      height: 8em;
+      border-radius: 50%;
+    }
+  }
+  .contact-info {
+    width: 100%;
+    padding: 0 2em;
+    display: flex;
+    flex-direction: row;
+    div {
+      padding: 1em;
+    }
+    p {
+      font-weight: 700;
+      margin-bottom: 0.3em;
+      span {
+        font-weight: 500;
+      }
+    }
+  }
+  .contact-meta {
+    width: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .profile-info-meta {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 1em 0em;
+      .meta-counter {
+        padding: 0 1.1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        p {
+          font-size: 1.1em;
+          font-weight: 700;
+          color: var(--text);
+        }
+        .label {
+          font-size: 0.8em;
+          font-weight: 600;
+          color: var(--text-grey);
+        }
+      }
+    }
+  }
+}

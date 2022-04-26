@@ -1,5 +1,5 @@
-import { TemplateBody } from '../../Components/Template/TemplateBody';
+import { Template } from '../../Components/Template/Template';
 
 export const Chat = () => {
-  return <TemplateBody Component={<p>Chat</p>} />;
+  return <Template Component={<p>Chat</p>} />;
 };

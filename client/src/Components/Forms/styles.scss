@@ -8,6 +8,7 @@
   .input {
     width: 100%;
     input {
+      width: calc(100% - 1em);
       min-width: 18em;
       height: 2.8em;
       border-radius: 0.5em;

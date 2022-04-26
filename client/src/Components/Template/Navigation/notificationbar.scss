@@ -1,5 +1,21 @@
 .notification-nav {
   background-color: var(--bg-secondary);
-  width: 22em;
+  min-width: 22em;
+  height: 100%;
   padding: 0 1em 0 3em;
+}
+
+@media screen and (max-width: 1100px) {
+  .notification-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .notification-nav {
+    display: flex;
+    flex-direction: column;
+  }
 }

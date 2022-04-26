@@ -15,25 +15,25 @@ export const PostCreateForm = ({ setOpen }: any) => {
     dispatch(startPostCreate({ text, image }));
   };
   return (
-    <div className='add-comment'>
-      <Formik
-        initialValues={{ text: '', image: '' }}
-        onSubmit={({ text, image }, { resetForm }) => {
-          handleCreateComment(text, image);
-          resetForm();
-          setOpen(false);
-        }}
-        validationSchema={validationCreatePostForm}
-      >
-        {() => (
-          <Form className='formik-form' noValidate>
-            {formPostCreateFields.map((item, index) => (
-              <TextInput key={index} {...item} />
-            ))}
-            <CreatePost title='Create Post' />
-          </Form>
-        )}
-      </Formik>
-    </div>
+    <Formik
+      initialValues={{ text: '', image: '' }}
+      onSubmit={({ text, image }, { resetForm }) => {
+        handleCreateComment(text, image);
+        resetForm();
+        setOpen(false);
+      }}
+      validationSchema={validationCreatePostForm}
+    >
+      {() => (
+        <Form className='formik-form' noValidate>
+          {formPostCreateFields.map((item, index) => (
+            <>
+              <TextInput key={index} {...item} showError={true} />
+            </>
+          ))}
+          <CreatePost title='Create Post' />
+        </Form>
+      )}
+    </Formik>
   );
 };
