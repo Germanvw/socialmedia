@@ -7,11 +7,12 @@ import './contact.scss';
 
 export const ContactList = () => {
   const { friendList } = useAppSelector((state) => state.friend);
-
   const showAmount = 5;
   return (
     <div className='contacts-sidebar'>
-      <p className='header'>Contacts</p>
+      <p className='header'>
+        Contacts<span>{friendList ? friendList.length : '0'}</span>
+      </p>
       {friendList.length > 0 ? (
         friendList
           .slice(0, showAmount)
