@@ -20,6 +20,9 @@
     align-items: center;
     min-width: 1em;
   }
+  &::placeholder {
+    font-weight: 700;
+  }
 }
 
 .text-input-light {
@@ -40,6 +43,6 @@
 
 .has-error {
   &::placeholder {
-    color: red;
+    color: rgb(255, 0, 0);
   }
 }

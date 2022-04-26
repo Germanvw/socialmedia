@@ -4,14 +4,16 @@ import { startLogin } from '../../Redux/Slices/authSlice';
 import { TextInput } from '../../Components/Forms/TextInput';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Hooks/useRedux';
-import './styles.scss';
 import {
   formLoginFields,
   initialFormLogin,
   validationLoginForm,
 } from '../../constants/formsSchema';
+import { Switch } from '../../Components/Buttons/Switch';
+import './auth.scss';
 
 export const Login = () => {
+  const { darkTheme } = useAppSelector((state) => state.ui);
   const { error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
@@ -21,6 +23,9 @@ export const Login = () => {
   return (
     <div className='login-page'>
       <div className='login-container'>
+        <button>
+          <Switch darkTheme={darkTheme} />
+        </button>
         <h1>Login</h1>
         <Formik
           initialValues={initialFormLogin}

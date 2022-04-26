@@ -5,6 +5,18 @@ export const initialFormLogin = {
   password: '',
 };
 
+export const initialFormRegister = {
+  username: '',
+  email: '',
+  firstname: '',
+  lastname: '',
+  age: 18,
+  country: '',
+  province: '',
+  password: '',
+  confirmPassword: '',
+};
+
 export const formLoginFields = [
   {
     label: 'Email',
@@ -20,8 +32,53 @@ export const formLoginFields = [
   },
 ];
 
-export const formRegisterFields = [];
+export const formRegisterFieldsFirst = [
+  {
+    label: 'Username',
+    name: 'username',
+    type: 'text',
+    placeholder: 'Username',
+  },
+  {
+    label: 'Email',
+    name: 'email',
+    type: 'email',
+    placeholder: 'Email',
+  },
+  {
+    label: 'First Name',
+    name: 'firstname',
+    type: 'text',
+    placeholder: 'First name',
+  },
+  {
+    label: 'Last Name',
+    name: 'lastname',
+    type: 'text',
+    placeholder: 'Last Name',
+  },
+];
 
+export const formRegisterFieldSecond = [
+  {
+    label: 'Province',
+    name: 'province',
+    type: 'text',
+    placeholder: 'Provincia',
+  },
+  {
+    label: 'Password',
+    name: 'password',
+    type: 'password',
+    placeholder: 'Password',
+  },
+  {
+    label: 'Confirm Password',
+    name: 'confirmPassword',
+    type: 'password',
+    placeholder: 'Confirm Password',
+  },
+];
 export const formCreateCommentFields = {
   label: 'Comment',
   name: 'comment',
@@ -49,7 +106,33 @@ export const validationLoginForm = Yup.object({
   password: Yup.string().required('Required').min(6, 'Minimum 6 characters'),
 });
 
-export const validationRegisterForm = Yup.object({});
+export const validationRegisterForm = Yup.object({
+  username: Yup.string()
+    .required('Required')
+    .min(3, 'Minimum 3 characters')
+    .max(20, 'Maximum 20 characters'),
+  email: Yup.string().email('Invalid email address').required('Required'),
+  firstname: Yup.string()
+    .required('Required')
+    .min(3, 'Minimum 3 characters')
+    .max(20, 'Maximum 20 characters'),
+  lastname: Yup.string()
+    .required('Required')
+    .min(3, 'Minimum 3 characters')
+    .max(20, 'Maximum 20 characters'),
+  province: Yup.string()
+    .required('Required')
+    .min(3, 'Minimum 3 characters')
+    .max(30, 'Maximum 30 characters'),
+  password: Yup.string()
+    .required('Required')
+    .min(6, 'Minimum 6 characters')
+    .max(25, 'Maximum 25 characters'),
+  confirmPassword: Yup.string()
+    .required('Required')
+    .min(6, 'Minimum 6 characters')
+    .max(25, 'Maximum 25 characters'),
+});
 
 export const validationCreateCommentForm = Yup.object({
   comment: Yup.string()
