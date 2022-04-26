@@ -6,13 +6,13 @@ import {
   queryCreatePost,
   queryDeletePost,
   queryLastInsertId,
-  queryPostAmountDicrement,
-  queryGetFavoriteUser,
   queryGetUserFavoriteByPost,
   queryDeleteFavorite,
   queryAddFavorite,
   queryGetFavorite,
   queryGetFavoriteSingle,
+  queryHandlePostAmountFromUser,
+  queryHandleLikesAmountFromUser,
 } from '../db/querys/queryPost';
 
 const con = require('../db/db');
@@ -70,11 +70,25 @@ export const createPost = (req: any, res: Response) => {
               queryFetchPostById,
               [results[0].id],
               (_: any, results: any) => {
-                //returns the post created
-                return res.status(200).json({
-                  ok: true,
-                  post: results[0],
-                });
+                // Increment user's post amount
+                con.query(
+                  queryHandlePostAmountFromUser,
+                  [1, id],
+                  (_: any, { affectedRows }: any) => {
+                    if (affectedRows > 0) {
+                      //returns the post created
+                      return res.status(200).json({
+                        ok: true,
+                        post: results[0],
+                      });
+                    } else {
+                      return res.status(400).json({
+                        ok: false,
+                        msg: 'Error updating users total post count',
+                      });
+                    }
+                  }
+                );
               }
             );
           });
@@ -90,19 +104,57 @@ export const deletePost = (req: any, res: Response) => {
   const { id } = req.params;
   const { user } = req;
   try {
-    con.query(
-      queryDeletePost,
-      [id, user.id],
-      (_: any, { affectedRows }: any) => {
-        if (affectedRows > 0) {
-          con.query(queryPostAmountDicrement, [user.id], (_: any) => {
-            return res.status(200).json({ ok: true, msg: 'Post deleted', id });
-          });
-        } else {
-          return res.status(400).json({ ok: false, msg: 'Error on request' });
-        }
+    // get current post to delete.
+    con.query(queryFetchPostById, [id], (_: any, results: any) => {
+      if (results.length > 0) {
+        const currentPost = results[0];
+        con.query(
+          queryDeletePost,
+          [id, user.id],
+          (_: any, { affectedRows }: any) => {
+            if (affectedRows > 0) {
+              // Deleted successfully
+              con.query(
+                queryHandlePostAmountFromUser,
+                [-1, user.id],
+                (_: any, { affectedRows }: any) => {
+                  // Remove like count from user.
+                  if (affectedRows > 0) {
+                    con.query(
+                      queryHandleLikesAmountFromUser,
+                      [-currentPost.likes, user.id],
+                      (_: any, { affectedRows }: any) => {
+                        if (affectedRows > 0) {
+                          return res
+                            .status(200)
+                            .json({ ok: true, msg: 'Post deleted', id });
+                        } else {
+                          return res.status(400).json({
+                            ok: false,
+                            msg: 'Error updating users total like count',
+                          });
+                        }
+                      }
+                    );
+                  } else {
+                    return res.status(400).json({
+                      ok: false,
+                      msg: 'Error updating users total post count',
+                    });
+                  }
+                }
+              );
+            } else {
+              return res
+                .status(400)
+                .json({ ok: false, msg: 'Error on request' });
+            }
+          }
+        );
+      } else {
+        return res.status(400).json({ ok: false, msg: 'Post not found' });
       }
-    );
+    });
   } catch (error) {
     return res.status(500).json({ ok: false, msg: 'Error on request' });
   }

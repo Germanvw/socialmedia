@@ -14,3 +14,6 @@ export const queryLikePost: string =
 
 export const queryDislikePost: string =
   'DELETE FROM LIKE_COMMENT AS LC WHERE LC.user_id = (?) AND LC.post_id = (?)';
+
+export const queryChangeLikeCount: string =
+  'UPDATE POST AS P SET likes = likes + (?) WHERE P.ID = (?)';

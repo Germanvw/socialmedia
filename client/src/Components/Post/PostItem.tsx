@@ -19,13 +19,13 @@ interface FeedItemProp {
 }
 
 export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
-  const { id, image, text, likes, comments, created_at } = feed;
   const { user } = useAppSelector((state) => state.auth);
+  const { id, image, text, likes, comments, created_at } = feed;
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const [liked, setLiked] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [likesCount, setLikesCount] = useState(likes);
-  const location = useLocation();
 
   const sliceText = (text: string) => {
     if (text.length >= 197) {
@@ -44,7 +44,10 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
   };
 
   const handleDeleteWithRedirection = () => {
-    if (location.pathname.includes('/post')) {
+    if (
+      location.pathname.includes('/post') ||
+      location.pathname.includes('/favorites')
+    ) {
       dispatch(startPostDelete({ id, likesCount, redirect: true }));
     } else {
       dispatch(startPostDelete({ id, likesCount, redirect: false }));
@@ -52,6 +55,7 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
   };
 
   const fetchLikeStatus = async () => {
+    // Busca si el usuario ya le dio like a la publicacion
     const req = await fetchToken(`likes/${id}`, {});
     const answ = await req.json();
 
@@ -103,6 +107,10 @@ export const PostItem = ({ feed, commentAmmount }: FeedItemProp) => {
     getCurrentLikeCount();
     fetchFavoriteStatus();
   }, [handleChangeLike]);
+
+  useEffect(() => {
+    fetchFavoriteStatus();
+  }, []);
   return (
     <div className='post-item'>
       <UserHeader

@@ -5,6 +5,7 @@ import {
   queryDislikePost,
   queryGetLikesByPost,
   queryGetLikesByUser,
+  queryChangeLikeCount,
 } from '../db/querys/queryLike.ts';
 
 const con = require('../db/db');
@@ -25,17 +26,21 @@ export const handleLike = (req: any, res: Response) => {
             [user.id, id],
             (_: any, { affectedRows }: any) => {
               // Success Dislike
-              if (affectedRows > 0)
-                return res.status(200).json({
-                  message: 'Post disliked',
-                  type: 'dislike',
-                  author: post_author,
-                  ok: true,
+              if (affectedRows > 0) {
+                // Remove 1 like from post
+                con.query(queryChangeLikeCount, [-1, id], (_: any) => {
+                  return res.status(200).json({
+                    message: 'Post disliked',
+                    type: 'dislike',
+                    author: post_author,
+                    ok: true,
+                  });
                 });
-
-              return res
-                .status(400)
-                .json({ ok: false, msg: 'Error on request' });
+              } else {
+                return res
+                  .status(400)
+                  .json({ ok: false, msg: 'Error on request' });
+              }
             }
           );
         } else {
@@ -45,16 +50,30 @@ export const handleLike = (req: any, res: Response) => {
             (_: any, { affectedRows }: any) => {
               if (affectedRows > 0) {
                 // Success like
-                if (affectedRows > 0)
-                  return res.status(200).json({
-                    message: 'Post liked',
-                    type: 'like',
-                    author: post_author,
-                    ok: true,
-                  });
+                con.query(
+                  queryChangeLikeCount,
+                  [1, id],
+                  (_: any, { affectedRows }: any) => {
+                    if (affectedRows > 0) {
+                      // Add 1 like to post
+                      return res.status(200).json({
+                        message: 'Post liked',
+                        type: 'like',
+                        author: post_author,
+                        ok: true,
+                      });
+                    } else {
+                      return res.status(400).json({
+                        ok: false,
+                        msg: 'Error adding like count to the post.',
+                      });
+                    }
+                  }
+                );
+              } else {
                 return res
                   .status(400)
-                  .json({ ok: false, msg: 'Error on request' });
+                  .json({ ok: false, msg: 'Cannot dislike post' });
               }
             }
           );
