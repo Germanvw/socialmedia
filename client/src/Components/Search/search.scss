@@ -1,19 +1,48 @@
 .navigation-user {
-  background: var(--bg-secondary);
+  position: relative;
+  margin: 1em 0 2em 0;
+  max-width: 30em;
+  height: 4em;
   display: flex;
   align-items: center;
   border-radius: 1.1em;
-  border: 1px solid var(--text-grey2);
-  svg {
-    margin: 1em 1em;
-  }
+  background: var(--bg-secondary);
   input {
-    padding: 1em 0.7em;
+    background-color: transparent;
+    width: calc(100% - 2em);
+    padding: 1em 2em;
     border: none;
     outline: none;
     margin-right: 1em;
-    height: 2em;
     width: 100%;
-    color: var(--text-grey3);
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--text);
+  }
+  svg {
+    font-size: 2em;
+    margin-right: 0.5em;
+    color: var(--text-blue-dark);
+  }
+  .results {
+    margin-top: 0.5em;
+    border-radius: 0.5em;
+    width: 30em;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 6em;
+    background: var(--bg-secondary);
+    color: var(--text);
+    .result-item {
+      width: 100%;
+      padding: 1em 2em;
+      a {
+        color: var(--text);
+        &:hover {
+          color: var(--text-blue);
+        }
+      }
+    }
   }
 }

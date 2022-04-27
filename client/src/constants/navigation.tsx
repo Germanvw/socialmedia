@@ -1,6 +1,7 @@
 import { IoHomeOutline, IoChatboxOutline } from 'react-icons/io5';
 import { ImProfile } from 'react-icons/im';
 import { CgProfile } from 'react-icons/cg';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 export const navigationOptions = [
   {
@@ -9,8 +10,13 @@ export const navigationOptions = [
     icon: <IoHomeOutline />,
   },
   {
+    name: 'Navigate',
+    link: '/users',
+    icon: <AiOutlineSearch />,
+  },
+  {
     name: 'Profile',
-    link: '/user/1',
+    link: '/user/',
     icon: <CgProfile />,
   },
   {

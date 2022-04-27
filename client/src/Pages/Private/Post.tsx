@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { PostProp } from '../../Components/Post/PostList';
 import { PostWithComments } from '../../Components/Post/PostWithComments';
-import { SearchUser } from '../../Components/Search/SearchUser';
+import { SearchUserWithResult } from '../../Components/Search/SearchUserWithResult';
 import { Template } from '../../Components/Template/Template';
 import { fetchToken } from '../../Hooks/useFetch';
 
@@ -26,7 +26,7 @@ export const Post = () => {
       Component={
         <>
           <div className='header'>
-            <SearchUser />
+            <SearchUserWithResult />
           </div>
           <PostWithComments post={post} />
         </>

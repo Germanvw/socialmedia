@@ -11,7 +11,7 @@ import {
 import './homepage.scss';
 import { Template } from '../Components/Template/Template';
 import { PostList } from '../Components/Post/PostList';
-import { SearchUser } from '../Components/Search/SearchUser';
+import { SearchUserWithResult } from '../Components/Search/SearchUserWithResult';
 import { AddPostBtn } from '../Components/Buttons/AddPostBtn';
 
 export const Homepage = () => {
@@ -30,7 +30,7 @@ export const Homepage = () => {
       Component={
         <>
           <div className='header'>
-            <SearchUser />
+            <SearchUserWithResult />
             <AddPostBtn />
           </div>
           <PostList posts={postList} />

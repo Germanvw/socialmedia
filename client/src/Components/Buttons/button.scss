@@ -124,3 +124,26 @@ input:checked + .slider:before {
     }
   }
 }
+
+.pagination-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  button {
+    font-size: 1.5em;
+    background-color: var(--text-blue);
+    padding: 0.2em 0.4em;
+    margin: 0 1em;
+    color: var(--text);
+    &:hover {
+      color: var(--text);
+
+      background-color: var(--text-blue-dark);
+    }
+  }
+}
+
+.disabled {
+  background-color: #113199 !important;
+  color: var(--text-white) !important;
+}

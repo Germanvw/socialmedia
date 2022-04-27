@@ -52,14 +52,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--bg-primary);
+  background-color: var(--bg-4);
   width: 100%;
   label {
     margin: 0.5em 0;
   }
   .select-item {
     width: calc(100% - 1em);
-    background-color: var(--bg-primary);
+    background-color: var(--bg-4);
     border: none;
     height: 4em;
     color: var(--text);
@@ -68,4 +68,12 @@
   .svg {
     margin: 0 1em;
   }
+}
+.dropdownPagination {
+  width: 5em;
+  background-color: var(--bg-secondary);
+  color: var(--text);
+  padding: 0.5em 2em;
+  border: none;
+  border-radius: 0.5em;
 }

@@ -1,6 +1,6 @@
 import { ContactList } from '../../Contacts/Contact/ContactList';
 import { FriendRequestList } from '../../Contacts/FriendRequest/FriendRequestList';
-import './notificationbar.scss';
+import './navigation.scss';
 
 export const NotificationBar = () => {
   return (

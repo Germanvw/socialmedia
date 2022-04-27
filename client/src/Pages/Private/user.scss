@@ -9,3 +9,21 @@
     background: var(--text-blue-dark);
   }
 }
+
+.user-list {
+  padding: 2em 6em;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 900px) {
+  .user-list {
+    padding: 1em 3em;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .user-list {
+    padding: 1em 1em;
+  }
+}

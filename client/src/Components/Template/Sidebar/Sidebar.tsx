@@ -4,7 +4,7 @@ import { BiLogOut } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { navigationOptions } from '../../../constants/navigation';
 import { NavLink } from 'react-router-dom';
-import { useAppDispatch } from '../../../Hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../Hooks/useRedux';
 import { authActions } from '../../../Redux/Slices/authSlice';
 import { uiActions } from '../../../Redux/Slices/uiSlice';
 import { SidebarHeader } from './SidebarHeader';
@@ -19,6 +19,8 @@ export const Sidebar = ({
   sidebarOpen: boolean;
   darkTheme: boolean;
 }) => {
+  const { user } = useAppSelector((state) => state.auth);
+
   const dispatch = useAppDispatch();
 
   const handleClose = () => {
@@ -59,7 +61,7 @@ export const Sidebar = ({
             {navigationOptions.map(({ link, name, icon }) => (
               <li key={link} className='nav-item'>
                 <NavLink
-                  to={link}
+                  to={name === 'Profile' ? link + user!.id : link}
                   className={({ isActive }) =>
                     isActive ? 'active' : 'inactive'
                   }

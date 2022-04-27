@@ -9,6 +9,7 @@ import {
   Post,
   User,
 } from '../Pages';
+import { UserNavigation } from '../Pages/Private/UserNavigation';
 interface Route {
   path: string;
   name: string;
@@ -31,6 +32,11 @@ export const tokenRoutes: Route[] = [
     name: 'Profile',
     path: '/profile',
     Component: Profile,
+  },
+  {
+    name: 'Users',
+    path: '/Users',
+    Component: UserNavigation,
   },
   {
     name: 'User',

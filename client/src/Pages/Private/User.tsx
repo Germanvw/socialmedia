@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { SearchUser } from '../../Components/Search/SearchUser';
 import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
 import { Template } from '../../Components/Template/Template';
 import { PostList } from '../../Components/Post/PostList';
@@ -9,6 +8,8 @@ import { startPostFetchByUser } from '../../Redux/Slices/postSlice';
 import './user.scss';
 import { ContactHeader } from '../../Components/Contacts/Contact/ContactHeader';
 import { fetchToken } from '../../Hooks/useFetch';
+import { isFriend } from '../../Helpers/isFriend';
+import { SearchUserWithResult } from '../../Components/Search/SearchUserWithResult';
 
 export const User = () => {
   const { friendList } = useAppSelector((state) => state.friend);
@@ -20,11 +21,6 @@ export const User = () => {
   const [contact, setContact] = useState(null);
   const [isMe, setIsMe] = useState(false);
 
-  const isFriend = (id: string) => {
-    const answ = friendList.some((friend) => friend.id === parseInt(id));
-    return answ;
-  };
-
   const handleDisplay = (): void => {
     if (id && user && !isMe) {
       if (parseInt(id) === user.id) {
@@ -35,7 +31,6 @@ export const User = () => {
       }
     }
   };
-
   const fetchContact = async () => {
     const req = await fetchToken(`users/${id}`, {});
     const { user } = await req.json();
@@ -53,10 +48,13 @@ export const User = () => {
       Component={
         <>
           <div className='header'>
-            <SearchUser />
+            <SearchUserWithResult />
           </div>
           {id && contact && (
-            <ContactHeader user={contact} isFriend={isFriend(id)} />
+            <ContactHeader
+              user={contact}
+              isFriend={isFriend(parseInt(id), friendList)}
+            />
           )}
           <PostList posts={postList} />
         </>

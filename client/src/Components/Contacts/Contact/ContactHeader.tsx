@@ -1,8 +1,4 @@
-import { useAppDispatch } from '../../../Hooks/useRedux';
-import {
-  startFriendRemove,
-  startFriendRequestSend,
-} from '../../../Redux/Slices/friendSlice';
+import { AddOrRemoveFriend } from '../../Buttons/AddOrRemoveFriend';
 
 export const ContactHeader = ({
   user,
@@ -23,7 +19,6 @@ export const ContactHeader = ({
     metaData,
   } = user;
   const { posts, likes, friends } = metaData;
-  const dispatch = useAppDispatch();
   return (
     <div className='contact-header-body'>
       <div className='contact-image'>
@@ -65,21 +60,7 @@ export const ContactHeader = ({
             </div>
           </div>
           <div className='btn-action'>
-            {isFriend ? (
-              <button
-                className='delete-friend'
-                onClick={() => dispatch(startFriendRemove(parseInt(id)))}
-              >
-                Remove Friend
-              </button>
-            ) : (
-              <button
-                className='send-request'
-                onClick={() => dispatch(startFriendRequestSend(parseInt(id)))}
-              >
-                Send Friend Request
-              </button>
-            )}
+            <AddOrRemoveFriend id={id} isFriend={isFriend} />
           </div>
         </div>
       </div>

@@ -156,7 +156,7 @@ export const startFriendAdd = createAsyncThunk(
 
 export const startFriendRemove = createAsyncThunk(
   'friend/startFriendRemove',
-  async (id: number, { rejectWithValue, dispatch }) => {
+  async (id: any, { rejectWithValue, dispatch }) => {
     try {
       const answ = await friendServices.friendRemove(id);
       // Dicrement friend count
