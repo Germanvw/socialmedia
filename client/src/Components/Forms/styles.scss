@@ -16,14 +16,15 @@
       outline: none;
     }
   }
-  .svg {
-    display: flex;
-    align-items: center;
-    min-width: 1em;
-  }
   &::placeholder {
     font-weight: 700;
   }
+}
+
+.svg {
+  display: flex;
+  align-items: center;
+  min-width: 1em;
 }
 
 .text-input-light {
@@ -45,5 +46,26 @@
 .has-error {
   &::placeholder {
     color: rgb(255, 0, 0);
+  }
+}
+.select-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-primary);
+  width: 100%;
+  label {
+    margin: 0.5em 0;
+  }
+  .select-item {
+    width: calc(100% - 1em);
+    background-color: var(--bg-primary);
+    border: none;
+    height: 4em;
+    color: var(--text);
+    padding: 1em;
+  }
+  .svg {
+    margin: 0 1em;
   }
 }

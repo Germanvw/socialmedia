@@ -11,16 +11,36 @@ import {
   validationRegisterForm,
 } from '../../constants/formsSchema';
 import { Switch } from '../../Components/Buttons/Switch';
+import { useState, useEffect } from 'react';
+import { fetchNoToken } from '../../Hooks/useFetch';
+import { SelectListInput } from '../../Components/Forms/SelectListInput';
 import './auth.scss';
 
 export const Register = () => {
   const { darkTheme } = useAppSelector((state) => state.ui);
   const { error } = useAppSelector((state) => state.auth);
+  const [genders, setGenders] = useState([]);
+  const [countries, setCountries] = useState([]);
   const dispatch = useAppDispatch();
 
+  const fetchGenders = async () => {
+    const req = await fetchNoToken('global/gender', {});
+    const { genderList } = await req.json();
+    setGenders(genderList);
+  };
+
+  const fetchCountries = async () => {
+    const req = await fetchNoToken('global/country', {});
+    const { countryList } = await req.json();
+    setCountries(countryList);
+  };
   const handleRegister = (values: any) => {
     dispatch(startRegister(values));
   };
+  useEffect(() => {
+    fetchCountries();
+    fetchGenders();
+  }, []);
   return (
     <div className='login-page'>
       <div className='login-container'>
@@ -33,25 +53,32 @@ export const Register = () => {
           onSubmit={(values) => handleRegister(values)}
           validationSchema={validationRegisterForm}
         >
-          {() => (
+          {(props) => (
             <Form className='formik-form' noValidate>
               {formRegisterFieldsFirst.map((input) => (
                 <TextInput {...input} key={input.name} />
               ))}
-              <div className='divided'>
-                {/* <TextInput />
-                <SelectInput /> */}
+              <div className='select'>
+                <SelectListInput
+                  list={genders}
+                  label='Gender'
+                  onChange={props.handleChange}
+                />
+                <SelectListInput
+                  list={countries}
+                  label='Country'
+                  onChange={props.handleChange}
+                />
               </div>
               {formRegisterFieldSecond.map((input) => (
                 <TextInput {...input} key={input.name} />
               ))}
-
-              <Link to='/login' className='redirect'>
-                Already have an account?
-              </Link>
               <div className='error-auth'>
                 <p>{error}</p>
               </div>
+              <Link to='/login' className='redirect'>
+                Already have an account?
+              </Link>
               <button type='submit' className='submit-form'>
                 Register
               </button>

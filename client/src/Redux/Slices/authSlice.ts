@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { RegisterUser, UserDataProps } from '../../Interfaces/UserInterfaces';
+import { history } from '../../Router/AppRouter';
 import { authServices } from '../Services/authServices';
 
 interface InitStateAuthProps {
@@ -39,11 +40,7 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        isAnyOf(
-          startRegister.fulfilled,
-          startLogin.fulfilled,
-          startRefreshToken.fulfilled
-        ),
+        isAnyOf(startLogin.fulfilled, startRefreshToken.fulfilled),
         (state, { payload }) => {
           state.loading = false;
           state.error = null;
@@ -51,6 +48,11 @@ export const authSlice = createSlice({
           localStorage.setItem('x-token', payload.token);
         }
       )
+      .addMatcher(isAnyOf(startRegister.fulfilled), (state) => {
+        state.loading = false;
+        state.error = null;
+        history.push('/login');
+      })
       .addMatcher(
         isAnyOf(
           startRegister.rejected,
