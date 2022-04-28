@@ -6,6 +6,7 @@
   min-height: 100vh;
   display: flex;
   justify-content: space-between;
+  z-index: 3;
   .template-sidebar {
     position: fixed;
     height: 100vh;

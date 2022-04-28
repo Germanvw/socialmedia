@@ -23,13 +23,13 @@ export const formLoginFields = [
     label: 'Email',
     name: 'email',
     type: 'email',
-    placeholder: 'Email...',
+    placeholder: 'Email',
   },
   {
     label: 'Password',
     name: 'password',
     type: 'password',
-    placeholder: '******',
+    placeholder: 'Password',
   },
 ];
 
@@ -50,7 +50,7 @@ export const formRegisterFieldsFirst = [
     label: 'First Name',
     name: 'firstname',
     type: 'text',
-    placeholder: 'First name',
+    placeholder: 'First Name',
   },
   {
     label: 'Last Name',
@@ -62,7 +62,7 @@ export const formRegisterFieldsFirst = [
     label: 'Age',
     name: 'age',
     type: 'number',
-    placeholder: 'Age...',
+    placeholder: 'Age',
   },
 ];
 
@@ -71,7 +71,7 @@ export const formRegisterFieldSecond = [
     label: 'Province',
     name: 'province',
     type: 'text',
-    placeholder: 'Provincia',
+    placeholder: 'Province',
   },
   {
     label: 'Password',
@@ -83,14 +83,14 @@ export const formRegisterFieldSecond = [
     label: 'Confirm Password',
     name: 'confirmPassword',
     type: 'password',
-    placeholder: 'Confirm Password',
+    placeholder: 'Repeat Pass',
   },
 ];
 export const formCreateCommentFields = {
   label: 'Comment',
   name: 'comment',
   type: 'text',
-  placeholder: 'Comment...',
+  placeholder: 'Comment',
 };
 
 export const formPostCreateFields = [
@@ -98,13 +98,13 @@ export const formPostCreateFields = [
     label: 'Post body',
     name: 'text',
     type: 'text',
-    placeholder: 'Post body...',
+    placeholder: 'Post body',
   },
   {
     label: 'Image',
     name: 'image',
     type: 'text',
-    placeholder: 'URL..',
+    placeholder: 'URL...',
   },
 ];
 

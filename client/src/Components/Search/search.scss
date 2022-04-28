@@ -1,5 +1,4 @@
 .navigation-user {
-  position: relative;
   margin: 1em 0 2em 0;
   max-width: 30em;
   height: 4em;
@@ -37,6 +36,7 @@
     .result-item {
       width: 100%;
       padding: 1em 2em;
+      button,
       a {
         color: var(--text);
         &:hover {

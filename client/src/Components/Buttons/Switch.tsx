@@ -1,7 +1,8 @@
-import { useAppDispatch } from '../../Hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../Hooks/useRedux';
 import { uiActions } from '../../Redux/Slices/uiSlice';
 
-export const Switch = ({ darkTheme }: { darkTheme: boolean }) => {
+export const Switch = () => {
+  const { darkTheme } = useAppSelector((state) => state.ui);
   const dispatch = useAppDispatch();
   const handleClick = (e: any) => {
     if (e.target.checked) {

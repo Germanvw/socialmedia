@@ -7,15 +7,17 @@ import {
 export const AddOrRemoveFriend = ({
   isFriend,
   id,
+  isMe,
 }: {
   isFriend: boolean;
   id: number;
+  isMe: boolean;
 }) => {
   const dispatch = useAppDispatch();
 
   return (
     <>
-      {isFriend ? (
+      {isFriend && !isMe ? (
         <button
           className='delete-friend'
           onClick={() => dispatch(startFriendRemove(id))}
@@ -23,12 +25,15 @@ export const AddOrRemoveFriend = ({
           Remove Friend
         </button>
       ) : (
-        <button
-          className='send-request'
-          onClick={() => dispatch(startFriendRequestSend(id))}
-        >
-          Send Friend Request
-        </button>
+        !isFriend &&
+        !isMe && (
+          <button
+            className='send-request'
+            onClick={() => dispatch(startFriendRequestSend(id))}
+          >
+            Send Friend Request
+          </button>
+        )
       )}
     </>
   );

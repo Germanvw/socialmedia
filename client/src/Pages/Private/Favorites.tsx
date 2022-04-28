@@ -7,8 +7,7 @@ export const Favorites = () => {
     <Template
       Component={
         <>
-          <h1>Favorite List</h1>
-          <PostList posts={postListFav} />
+          <PostList posts={postListFav} title={'Favorite Posts'} />
         </>
       }
     />

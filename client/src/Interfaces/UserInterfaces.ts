@@ -53,6 +53,9 @@ export interface UserAtFriendList extends BasicUser {
 export interface UserDataProps extends UserAtFriendList {
   active: ActiveProps;
 }
+export interface UserDataWithEmail extends UserDataProps {
+  email: string;
+}
 
 export interface FriendItemProps extends Omit<UserDataProps, 'active'> {}
 

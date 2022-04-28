@@ -3,7 +3,6 @@ export const handleFilter = (
   filterInput: string,
   withResults: boolean
 ) => {
-  console.log(list, filterInput);
   if (filterInput === '') {
     return withResults ? [] : list;
   } else {

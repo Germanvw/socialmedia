@@ -3,9 +3,11 @@ import { AddOrRemoveFriend } from '../../Buttons/AddOrRemoveFriend';
 export const ContactHeader = ({
   user,
   isFriend,
+  isMe,
 }: {
   user: any;
   isFriend: boolean;
+  isMe: boolean;
 }) => {
   const {
     id,
@@ -14,6 +16,7 @@ export const ContactHeader = ({
     firstname,
     lastname,
     age,
+    gender,
     country,
     province,
     metaData,
@@ -30,6 +33,9 @@ export const ContactHeader = ({
             <p>{username}</p>
             <p>
               {firstname} {lastname}
+            </p>
+            <p>
+              Gender: <span>{gender.name}</span>
             </p>
           </div>
           <div className='location'>
@@ -60,7 +66,7 @@ export const ContactHeader = ({
             </div>
           </div>
           <div className='btn-action'>
-            <AddOrRemoveFriend id={id} isFriend={isFriend} />
+            <AddOrRemoveFriend id={id} isFriend={isFriend} isMe={isMe} />
           </div>
         </div>
       </div>

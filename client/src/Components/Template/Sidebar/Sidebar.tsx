@@ -14,7 +14,6 @@ import './sidebar.scss';
 
 export const Sidebar = ({
   sidebarOpen,
-  darkTheme,
 }: {
   sidebarOpen: boolean;
   darkTheme: boolean;
@@ -80,7 +79,7 @@ export const Sidebar = ({
                 <p>Sign Out</p>
               </button>
               <div className='center'>
-                <Switch darkTheme={darkTheme} />
+                <Switch />
               </div>
             </li>
           </ul>

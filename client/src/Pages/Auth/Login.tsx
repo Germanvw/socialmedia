@@ -13,23 +13,18 @@ import { Switch } from '../../Components/Buttons/Switch';
 import './auth.scss';
 
 export const Login = () => {
-  const { darkTheme } = useAppSelector((state) => state.ui);
   const { error } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
-
-  const handleLogin = (values: any) => {
-    dispatch(startLogin(values));
-  };
   return (
     <div className='login-page'>
       <div className='login-container'>
         <button>
-          <Switch darkTheme={darkTheme} />
+          <Switch />
         </button>
         <h1>Login</h1>
         <Formik
           initialValues={initialFormLogin}
-          onSubmit={(values) => handleLogin(values)}
+          onSubmit={(values) => dispatch(startLogin(values))}
           validationSchema={validationLoginForm}
         >
           {() => (

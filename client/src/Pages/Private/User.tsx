@@ -10,6 +10,7 @@ import { ContactHeader } from '../../Components/Contacts/Contact/ContactHeader';
 import { fetchToken } from '../../Hooks/useFetch';
 import { isFriend } from '../../Helpers/isFriend';
 import { SearchUserWithResult } from '../../Components/Search/SearchUserWithResult';
+import { FriendItemProps } from '../../Interfaces/UserInterfaces';
 
 export const User = () => {
   const { friendList } = useAppSelector((state) => state.friend);
@@ -18,13 +19,14 @@ export const User = () => {
   const dispatch = useAppDispatch();
 
   const { id } = useParams();
-  const [contact, setContact] = useState(null);
+  const [contact, setContact] = useState<FriendItemProps | null>(null);
   const [isMe, setIsMe] = useState(false);
 
   const handleDisplay = (): void => {
-    if (id && user && !isMe) {
+    if (id && user) {
       if (parseInt(id) === user.id) {
         setIsMe(true);
+        setContact(user);
       } else {
         setIsMe(false);
         fetchContact();
@@ -43,6 +45,7 @@ export const User = () => {
       handleDisplay();
     }
   }, [id]);
+  if (!contact) return <></>;
   return (
     <Template
       Component={
@@ -54,9 +57,10 @@ export const User = () => {
             <ContactHeader
               user={contact}
               isFriend={isFriend(parseInt(id), friendList)}
+              isMe={isMe}
             />
           )}
-          <PostList posts={postList} />
+          <PostList posts={postList} title={`@${contact!.username} posts`} />
         </>
       }
     />

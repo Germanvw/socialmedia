@@ -17,7 +17,6 @@ import { SelectListInput } from '../../Components/Forms/SelectListInput';
 import './auth.scss';
 
 export const Register = () => {
-  const { darkTheme } = useAppSelector((state) => state.ui);
   const { error } = useAppSelector((state) => state.auth);
   const [genders, setGenders] = useState([]);
   const [countries, setCountries] = useState([]);
@@ -45,7 +44,7 @@ export const Register = () => {
     <div className='login-page'>
       <div className='login-container'>
         <button>
-          <Switch darkTheme={darkTheme} />
+          <Switch />
         </button>
         <h1>Register</h1>
         <Formik
@@ -79,7 +78,11 @@ export const Register = () => {
               <Link to='/login' className='redirect'>
                 Already have an account?
               </Link>
-              <button type='submit' className='submit-form'>
+              <button
+                data-testid='submit-button'
+                type='submit'
+                className='submit-form'
+              >
                 Register
               </button>
             </Form>

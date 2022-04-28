@@ -10,10 +10,15 @@ export interface PostProp {
   comments: number;
 }
 
-export const PostList = ({ posts }: PostProp[] | any) => {
+interface PostListProps {
+  posts: PostProp[];
+  title?: string;
+}
+
+export const PostList = ({ posts, title = 'Posts' }: PostListProps | any) => {
   return (
     <div className='post-list'>
-      <h1>Posts</h1>
+      <h1>{title}</h1>
       {posts.length > 0 ? (
         posts.map((post: PostProp) => <PostItem key={post.id} feed={post} />)
       ) : (

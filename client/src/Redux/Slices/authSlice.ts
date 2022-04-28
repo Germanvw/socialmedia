@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { RegisterUser, UserDataProps } from '../../Interfaces/UserInterfaces';
+import {
+  RegisterUser,
+  UserDataWithEmail,
+} from '../../Interfaces/UserInterfaces';
 import { history } from '../../Router/AppRouter';
 import { authServices } from '../Services/authServices';
 
 interface InitStateAuthProps {
   loading: boolean;
   error: string | null;
-  user: UserDataProps | null;
+  user: UserDataWithEmail | null;
   refreshing: boolean;
 }
 
