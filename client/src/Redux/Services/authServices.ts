@@ -1,5 +1,5 @@
 import { fetchNoToken, fetchToken } from '../../Hooks/useFetch';
-import { RegisterUser } from '../../Interfaces/UserInterfaces';
+import { RegisterUser, UpdateUser } from '../../Interfaces/UserInterfaces';
 
 const register = async (user: RegisterUser) => {
   const req = await fetchNoToken('auth/register', user, 'POST');
@@ -13,6 +13,16 @@ const register = async (user: RegisterUser) => {
 
 const login = async (user: { email: string; password: string }) => {
   const req = await fetchNoToken('auth', user, 'POST');
+  const answ = await req.json();
+  if (answ.ok) {
+    return answ;
+  } else {
+    throw new Error(answ.msg);
+  }
+};
+
+const userUpdate = async (user: UpdateUser) => {
+  const req = await fetchToken('auth/user', user, 'POST');
   const answ = await req.json();
   if (answ.ok) {
     return answ;
@@ -35,4 +45,5 @@ export const authServices = {
   login,
   register,
   refreshToken,
+  userUpdate,
 };

@@ -113,6 +113,35 @@ export const validationLoginForm = Yup.object({
   password: Yup.string().required('Required').min(6, 'Minimum 6 characters'),
 });
 
+export const validationUserUpdateForm = Yup.object({
+  username: Yup.string()
+    .required('Required')
+    .min(3, 'Minimum 3 characters')
+    .max(30, 'Maximum 30 characters'),
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Required')
+    .max(35, 'Maximum 35 characters'),
+  firstname: Yup.string()
+    .required('Required')
+    .min(3, 'Minimum 3 characters')
+    .max(20, 'Maximum 20 characters'),
+  lastname: Yup.string()
+    .required('Required')
+    .min(3, 'Minimum 3 characters')
+    .max(20, 'Maximum 20 characters'),
+  gender: Yup.number().min(1, 'Select an option'),
+  country: Yup.number().min(1, 'Select an option'),
+  province: Yup.string()
+    .required('Required')
+    .min(3, 'Minimum 3 characters')
+    .max(30, 'Maximum 30 characters'),
+  age: Yup.number()
+    .required('Required')
+    .min(16, 'Minimum 16 years old')
+    .max(120, 'Maximum 120 years old'),
+});
+
 export const validationRegisterForm = Yup.object({
   username: Yup.string()
     .required('Required')

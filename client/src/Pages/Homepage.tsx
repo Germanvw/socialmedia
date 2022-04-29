@@ -12,7 +12,8 @@ import './homepage.scss';
 import { Template } from '../Components/Template/Template';
 import { PostList } from '../Components/Post/PostList';
 import { SearchUserWithResult } from '../Components/Search/SearchUserWithResult';
-import { AddPostBtn } from '../Components/Buttons/AddPostBtn';
+import { DynamicModal } from '../Components/Modal/DynamicModal';
+import { IoIosAddCircle } from 'react-icons/io';
 
 export const Homepage = () => {
   const { postList } = useAppSelector((state) => state.posts);
@@ -31,7 +32,12 @@ export const Homepage = () => {
         <>
           <div className='header'>
             <SearchUserWithResult />
-            <AddPostBtn />
+            <DynamicModal
+              title='Change Password'
+              type='Post'
+              classN='btn-open-modal-post'
+              svg={<IoIosAddCircle />}
+            />
           </div>
           <PostList posts={postList} />
         </>

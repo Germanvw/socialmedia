@@ -70,3 +70,5 @@ export interface RegisterUser {
   country: number;
   gender: number;
 }
+
+export interface UpdateUser extends Omit<RegisterUser, 'password'> {}

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, isAnyOf } from '@reduxjs/toolkit';
 import {
   RegisterUser,
+  UpdateUser,
   UserDataWithEmail,
 } from '../../Interfaces/UserInterfaces';
 import { history } from '../../Router/AppRouter';
@@ -30,6 +31,9 @@ export const authSlice = createSlice({
       state.user = null;
       localStorage.removeItem('x-token');
     },
+    removeError: (state) => {
+      state.error = null;
+    },
     handlePostQuantity: (state, { payload }) => {
       state.user!.metaData.posts += payload;
     },
@@ -43,7 +47,11 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addMatcher(
-        isAnyOf(startLogin.fulfilled, startRefreshToken.fulfilled),
+        isAnyOf(
+          startLogin.fulfilled,
+          startUserUpdate.fulfilled,
+          startRefreshToken.fulfilled
+        ),
         (state, { payload }) => {
           state.loading = false;
           state.error = null;
@@ -70,10 +78,18 @@ export const authSlice = createSlice({
         }
       )
       .addMatcher(
+        isAnyOf(startUserUpdate.rejected),
+        (state: any, { payload }) => {
+          state.loading = false;
+          state.error = payload;
+        }
+      )
+      .addMatcher(
         isAnyOf(
           startLogin.pending,
           startRegister.pending,
-          startRefreshToken.pending
+          startRefreshToken.pending,
+          startUserUpdate.pending
         ),
         (state) => {
           state.loading = true;
@@ -97,6 +113,17 @@ export const startLogin = createAsyncThunk(
   async (user: { email: string; password: string }, { rejectWithValue }) => {
     try {
       return await authServices.login(user);
+    } catch (err: any) {
+      return rejectWithValue(err.toString().split(': ')[1]);
+    }
+  }
+);
+
+export const startUserUpdate = createAsyncThunk(
+  'auth/update',
+  async (user: UpdateUser, { rejectWithValue }) => {
+    try {
+      return await authServices.userUpdate(user);
     } catch (err: any) {
       return rejectWithValue(err.toString().split(': ')[1]);
     }

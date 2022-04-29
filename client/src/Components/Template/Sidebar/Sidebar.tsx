@@ -9,7 +9,8 @@ import { authActions } from '../../../Redux/Slices/authSlice';
 import { uiActions } from '../../../Redux/Slices/uiSlice';
 import { SidebarHeader } from './SidebarHeader';
 import { Switch } from '../../Buttons/Switch';
-import { AddPostBtn } from '../../Buttons/AddPostBtn';
+import { DynamicModal } from '../../Modal/DynamicModal';
+import { IoIosAddCircle } from 'react-icons/io';
 import './sidebar.scss';
 
 export const Sidebar = ({
@@ -71,7 +72,12 @@ export const Sidebar = ({
               </li>
             ))}
           </ul>
-          <AddPostBtn />
+          <DynamicModal
+            title='Change Password'
+            type='Post'
+            classN='btn-open-modal-post'
+            svg={<IoIosAddCircle />}
+          />
           <ul className='nav-items'>
             <li className='nav-item'>
               <button onClick={() => dispatch(authActions.logout())}>

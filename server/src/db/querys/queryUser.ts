@@ -9,3 +9,6 @@ export const queryFetchUserAllWithPassword =
 
 export const queryFetchUserSingle: string =
   queryFetchUserAllWithoutPassword + ' AND U.id = ?';
+
+export const queryUserEmailUnique: string =
+  'SELECT id FROM USER WHERE email = ?';

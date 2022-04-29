@@ -2,14 +2,80 @@ import { Response } from 'express';
 import {
   queryAuthLogin,
   queryAuthRegister,
+  queryAuthUserUpdate,
   queryUserEmailExists,
 } from '../db/querys/queryAuth';
-import { queryFetchUserSingle } from '../db/querys/queryUser';
+import {
+  queryFetchUserSingle,
+  queryUserEmailUnique,
+} from '../db/querys/queryUser';
 import { createJWT } from '../helpers/createJWT';
 import { hashPassword, isMatch } from '../helpers/password';
 import { UserDataProps } from '../interfaces/interfaces';
 
 const con = require('../db/db');
+
+export const authUserUpdate = (req: any, res: Response) => {
+  const { id } = req.user;
+  const {
+    username,
+    email,
+    firstname,
+    lastname,
+    age,
+    gender,
+    country,
+    province,
+  } = req.body;
+  try {
+    con.query(queryUserEmailUnique, [email], async (_: any, results: any[]) => {
+      if (results.length === 0 || results[0].id === id) {
+        con.query(
+          queryAuthUserUpdate,
+          [
+            username,
+            email,
+            firstname,
+            lastname,
+            age,
+            gender,
+            country,
+            province,
+            id,
+          ],
+          async (_: any, { affectedRows }: any) => {
+            if (affectedRows > 0) {
+              // User updated
+              con.query(
+                queryFetchUserSingle,
+                [id],
+                async (_: any, results: any) => {
+                  // Create token
+                  const userUpdated = results[0];
+                  const token = await createJWT(userUpdated);
+                  return res.status(200).json({
+                    ok: true,
+                    user: userUpdated,
+                    token,
+                  });
+                }
+              );
+            } else {
+              return res
+                .status(400)
+                .json({ ok: false, msg: 'Error updating user information' });
+            }
+          }
+        );
+      } else {
+        // email already exists
+        return res.status(400).json({ ok: false, msg: 'Email already exists' });
+      }
+    });
+  } catch (err) {
+    return res.status(500).json({ ok: false, msg: 'Error on request' });
+  }
+};
 
 export const authLogin = (req: any, res: Response) => {
   const { email, password } = req.body;

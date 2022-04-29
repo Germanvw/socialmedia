@@ -1,8 +1,10 @@
 import { Modal, styled, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useState } from 'react';
-import { IoIosAddCircle } from 'react-icons/io';
-import { useAppSelector } from '../../Hooks/useRedux';
+import { useAppSelector, useAppDispatch } from '../../Hooks/useRedux';
+import { authActions } from '../../Redux/Slices/authSlice';
+import { ChangePasswordForm } from '../Forms/ChangePasswordForm';
+import { ChangeProfileForm } from '../Forms/ChangeProfileForm';
 import { PostCreateForm } from '../Forms/PostCreateForm';
 
 const StyledModal = styled(Modal)({
@@ -11,18 +13,32 @@ const StyledModal = styled(Modal)({
   justifyContent: 'center',
 });
 
-export const AddPostBtn = () => {
+export const DynamicModal = ({
+  title,
+  type,
+  classN,
+  svg = null,
+}: {
+  title: string;
+  type: string;
+  classN: string;
+  svg?: any;
+}) => {
   const { darkTheme } = useAppSelector((state) => state.ui);
-
+  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button className='btn-open-modal-post' onClick={() => setOpen(true)}>
-        <IoIosAddCircle />
+      <button className={`${classN}`} onClick={() => setOpen(true)}>
+        {svg && svg}
+        {!svg && title}
       </button>
       <StyledModal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          dispatch(authActions.removeError());
+          setOpen(false);
+        }}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
@@ -40,9 +56,15 @@ export const AddPostBtn = () => {
             component='h2'
             textAlign='center'
           >
-            Create Post
+            {title}
           </Typography>
-          <PostCreateForm setOpen={setOpen} />
+          {type === 'Profile' ? (
+            <ChangeProfileForm setOpen={setOpen} />
+          ) : type === 'Password' ? (
+            <ChangePasswordForm setOpen={setOpen} />
+          ) : (
+            type === 'Post' && <PostCreateForm setOpen={setOpen} />
+          )}
         </Box>
       </StyledModal>
     </>

@@ -1,3 +1,4 @@
+import { DynamicModal } from '../../Components/Modal/DynamicModal';
 import { Template } from '../../Components/Template/Template';
 import { useAppSelector } from '../../Hooks/useRedux';
 
@@ -19,7 +20,6 @@ export const Profile = () => {
     <Template
       Component={
         <div className='profile-body'>
-          <h1>Profile</h1>
           <div className='contact-header-body'>
             <div className='contact-image'>
               <img src={image} alt='profile-pic' />
@@ -58,8 +58,16 @@ export const Profile = () => {
             </div>
           </div>
           <div className='change-profile-div'>
-            <button className='change-profile-btn'>Change Profile</button>
-            <button className='change-profile-btn'>Change Password</button>
+            <DynamicModal
+              title='Change Profile'
+              type='Profile'
+              classN='change-profile-btn'
+            />
+            <DynamicModal
+              title='Change Password'
+              type='Password'
+              classN='change-profile-btn'
+            />
           </div>
         </div>
       }
